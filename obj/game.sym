@@ -1,0 +1,63 @@
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 1.
+Hexadecimal [16-Bits]
+
+Symbol Table
+
+    .__.$$$.                                                    =  2710 L
+    .__.ABS.                                                    =  0000 G
+    .__.CPU.                                                    =  0000 L
+    .__.H$L.                                                    =  0000 L
+    __divuchar                                                     **** GX
+  A __xinit__tile_buffer_0                                         0000 R
+  A __xinit__tile_buffer_1                                         0032 R
+  1 _abort                                                         0077 GR
+  9 _cards                                                         0023 GR
+  9 _checkUserMovement                                             0287 GR
+    _cpc_GetSp                                                     **** GX
+    _cpct_drawSprite                                               **** GX
+    _cpct_drawSpriteMaskedAlignedTable                             **** GX
+    _cpct_getRandom_mxor_u8                                        **** GX
+    _cpct_getScreenPtr                                             **** GX
+    _cpct_isKeyPressed                                             **** GX
+    _cpct_scanKeyboard_f                                           **** GX
+  9 _delay                                                         0000 GR
+  9 _drawScreen                                                    0078 GR
+  9 _drawUser                                                      020A GR
+  0 _dummy_cpct_transparentMaskTable0M0_container                  0000 GR
+  1 _enemyTable                                                    0032 GR
+  1 _enemyX                                                        0000 GR
+  1 _enemyY                                                        0001 GR
+  9 _game                                                          0343 GR
+    _hc_figures_0                                                  **** GX
+    _hc_figures_1                                                  **** GX
+    _hc_figures_2                                                  **** GX
+    _hc_figures_3                                                  **** GX
+    _hc_marker                                                     **** GX
+  8 _hc_tablatrans                                                 0100 GR
+  9 _initGame                                                      002B GR
+  9 _insertCard                                                    008A GR
+  1 _keys                                                          0062 GR
+    _reset_cpc                                                     **** GX
+  2 _tile_buffer_0                                                 0000 GR
+  2 _tile_buffer_1                                                 0032 GR
+  1 _user                                                          0070 GR
+  1 _userTable                                                     0002 GR
+
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
+Hexadecimal [16-Bits]
+
+Area Table
+
+   0 _CODE                                      size    0   flags    0
+   1 _DATA                                      size   78   flags    0
+   2 _INITIALIZED                               size   64   flags    0
+   3 _DABS                                      size    0   flags    8
+   4 _HOME                                      size    0   flags    0
+   5 _GSINIT                                    size    0   flags    0
+   6 _GSFINAL                                   size    0   flags    0
+   7 _hc_tablatrans_                            size    0   flags    8
+   8 _hc_tablatrans_0                           size  100   flags    8
+   9 _CSEG                                      size  371   flags    0
+   A _INITIALIZER                               size   64   flags    0
+   B _CABS                                      size    0   flags    8
+

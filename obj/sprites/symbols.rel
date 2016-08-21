@@ -1,0 +1,50 @@
+XL2
+H 9 areas 5 global symbols
+M symbols
+O -mz80
+S .__.ABS. Def0000
+A _CODE size 84 flags 0 addr 0
+S _g_tile_symbols_1 Def0000
+S _g_tile_symbols_2 Def0021
+S _g_tile_symbols_3 Def0042
+S _g_tile_symbols_4 Def0063
+A _DATA size 0 flags 0 addr 0
+A _INITIALIZED size 0 flags 0 addr 0
+A _DABS size 0 flags 8 addr 0
+A _HOME size 0 flags 0 addr 0
+A _GSINIT size 0 flags 0 addr 0
+A _GSFINAL size 0 flags 0 addr 0
+A _INITIALIZER size 0 flags 0 addr 0
+A _CABS size 0 flags 8 addr 0
+T 00 00
+R 00 00 00 00
+T 00 00 F0 78 F0 F0 78 F0 F0 78 F0 B4 3C F0 B4 3C
+R 00 00 00 00
+T 0E 00 F0 3C 3C 78 0C 0C 58 F0 58 F0 F0 58 F0 F0
+R 00 00 00 00
+T 1C 00 58 F0 F0 58 F0
+R 00 00 00 00
+T 21 00
+R 00 00 00 00
+T 21 00 F0 58 F0 F0 58 F0 F0 58 F0 F0 58 F0 0C 0C
+R 00 00 00 00
+T 2F 00 58 3C 3C 78 B4 3C F0 B4 3C F0 F0 78 F0 F0
+R 00 00 00 00
+T 3D 00 78 F0 F0 78 F0
+R 00 00 00 00
+T 42 00
+R 00 00 00 00
+T 42 00 F0 F0 F0 F0 F0 F0 F0 78 F0 F0 3C F0 F0 3C
+R 00 00 00 00
+T 50 00 78 3C 3C 3C F0 0C 58 F0 0C F0 F0 58 F0 F0
+R 00 00 00 00
+T 5E 00 F0 F0 F0 F0 F0
+R 00 00 00 00
+T 63 00
+R 00 00 00 00
+T 63 00 F0 F0 F0 F0 F0 F0 F0 B4 F0 F0 3C F0 B4 3C
+R 00 00 00 00
+T 71 00 F0 3C 3C 3C A4 0C F0 F0 0C F0 F0 A4 F0 F0
+R 00 00 00 00
+T 7F 00 F0 F0 F0 F0 F0
+R 00 00 00 00

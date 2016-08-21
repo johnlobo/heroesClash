@@ -1,0 +1,27 @@
+-mjwx
+-i obj/heroesClash.ihx
+-b _CODE = 0x4000
+-b _DATA = 0x0000
+-u
+-k /Users/david/Documents/retro/proyectos/cpctelera/cpctelera/tools/sdcc-3.5.5/bin/../share/sdcc/lib/z80
+-k /Users/david/Documents/retro/proyectos/cpctelera/cpctelera/tools/sdcc-3.5.5/share/sdcc/lib/z80
+-l /Users/david/Documents/retro/proyectos/cpctelera/cpctelera/cpctelera.lib
+-l z80
+obj/sprites/walls.rel
+obj/sprites/attack.rel
+obj/sprites/figures.rel
+obj/sprites/marker.rel
+obj/game.rel
+obj/main.rel
+obj/sprites/font.rel
+obj/sprites/fonts-big.rel
+obj/sprites/numbers-big.rel
+obj/sprites/numbers.rel
+obj/sprites/symbols.rel
+obj/utils/itoa.rel
+obj/utils/keyboard.rel
+obj/utils/text.rel
+obj/utils/video.rel
+obj/asm/util.rel
+
+-e
