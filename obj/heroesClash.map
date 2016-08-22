@@ -22,7 +22,7 @@ Area                                    Addr        Size        Decimal Bytes (A
      00000064  l__INITIALIZER                  
      00000079  l__DATA                         
      00000100  l__hc_tablatrans_0              
-     00000371  l__CSEG                         
+     00000558  l__CSEG                         
      0000180C  l__CODE                         
      00004000  s__CODE                         
      0000580C  s__DATA                         
@@ -91,7 +91,7 @@ _CODE                               00004000    0000180C =        6156. bytes (R
      00005392  cpct_scanKeyboard_f_asm            cpct_keyboard
      000053FC  _cpct_setPALColour                 cpct_video
      00005408  _cpct_drawSprite                   cpct_sprites
-     000054AD  __divuint                          
+     000054AD  _cpct_fw2hw                        cpct_video
 ASxxxx Linker V03.00 + NoICE + sdld,  page 3.
 Hexadecimal  [32-Bits]
 
@@ -101,50 +101,50 @@ _CODE                               00004000    0000180C =        6156. bytes (R
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
-     000054B5  __divuchar                         
-     000054BC  __divu8                            
-     000054BF  __divu16                           
-     000054EE  _cpct_fw2hw                        cpct_video
-     00005501  _cpct_keyboardStatusBuffer         cpct_keyboard
-     0000550B  _cpct_setSeed_mxor                 cpct_random
-     0000550B  cpct_setSeed_mxor_asm              cpct_random
-     00005513  _cpct_restoreState_mxor_u8         cpct_random
-     00005513  cpct_restoreState_mxor_u8_asm      cpct_random
-     00005519  _cpct_getRandom_mxor_u8            cpct_random
-     00005519  cpct_getRandom_mxor_u8             cpct_random
-     0000551A  cpct_randomIdx_mxor_u8             cpct_random
-     0000553E  _cpct_nextRandom_mxor_u32          cpct_random
-     0000553E  cpct_nextRandom_mxor_u32_asm       cpct_random
-     00005561  cpct_firmware2hw_colour            
-     0000557C  _cpct_isAnyKeyPressed              cpct_keyboard
-     0000557C  cpct_isAnyKeyPressed_asm           cpct_keyboard
-     00005589  _cpct_scanKeyboard_if              cpct_keyboard
-     00005589  cpct_scanKeyboard_if_asm           cpct_keyboard
-     000055F1  _cpct_waitVSYNC                    cpct_video
-     000055F1  cpct_waitVSYNC_asm                 cpct_video
-     000055F9  _cpct_isAnyKeyPressed_f            cpct_keyboard
-     000055F9  cpct_isAnyKeyPressed_f_asm         cpct_keyboard
-     00005614  _cpct_setVideoMode                 cpct_video
-     00005622  _cpct_px2byteM0                    cpct_sprites
-     0000563E  _cpct_memset                       cpct_memutils
-     0000564C  _strlen                            
-     0000565B  _cpct_disableFirmware              cpct_firmware
-     0000565B  _cpct_removeInterruptHandler       cpct_firmware
-     0000565B  cpct_disableFirmware_asm           cpct_firmware
-     0000565B  cpct_removeInterruptHandler_asm    cpct_firmware
-     0000566B  _cpct_drawSolidBox                 cpct_sprites
-     00005723  _cpct_mode_rom_status              cpct_firmware
-     00005724  _cpct_scanKeyboard                 cpct_keyboard
-     00005724  cpct_scanKeyboard_asm              cpct_keyboard
-     00005755  _cpct_getScreenPtr                 cpct_video
-     00005775  _cpct_drawSpriteMaskedAlignedTab   cpct_sprites
-     000057B0  __divsint                          
-     000057B9  __divschar                         
-     000057C0  __div8                             
-     000057C4  __div_signexte                     
-     000057C8  __div16                            
-     000057EE  __get_remainder                    
-     000057F8  _cpct_mxor32_seed                  cpct_random
+     000054C0  _cpct_keyboardStatusBuffer         cpct_keyboard
+     000054CA  _cpct_setSeed_mxor                 cpct_random
+     000054CA  cpct_setSeed_mxor_asm              cpct_random
+     000054D2  _cpct_restoreState_mxor_u8         cpct_random
+     000054D2  cpct_restoreState_mxor_u8_asm      cpct_random
+     000054D8  _cpct_getRandom_mxor_u8            cpct_random
+     000054D8  cpct_getRandom_mxor_u8             cpct_random
+     000054D9  cpct_randomIdx_mxor_u8             cpct_random
+     000054FD  _cpct_nextRandom_mxor_u32          cpct_random
+     000054FD  cpct_nextRandom_mxor_u32_asm       cpct_random
+     00005520  cpct_firmware2hw_colour            
+     0000553B  _cpct_isAnyKeyPressed              cpct_keyboard
+     0000553B  cpct_isAnyKeyPressed_asm           cpct_keyboard
+     00005548  _cpct_scanKeyboard_if              cpct_keyboard
+     00005548  cpct_scanKeyboard_if_asm           cpct_keyboard
+     000055B0  _cpct_waitVSYNC                    cpct_video
+     000055B0  cpct_waitVSYNC_asm                 cpct_video
+     000055B8  _cpct_isAnyKeyPressed_f            cpct_keyboard
+     000055B8  cpct_isAnyKeyPressed_f_asm         cpct_keyboard
+     000055D3  _cpct_setVideoMode                 cpct_video
+     000055E1  _cpct_px2byteM0                    cpct_sprites
+     000055FD  _cpct_memset                       cpct_memutils
+     0000560B  _strlen                            
+     0000561A  _cpct_disableFirmware              cpct_firmware
+     0000561A  _cpct_removeInterruptHandler       cpct_firmware
+     0000561A  cpct_disableFirmware_asm           cpct_firmware
+     0000561A  cpct_removeInterruptHandler_asm    cpct_firmware
+     0000562A  _cpct_drawSolidBox                 cpct_sprites
+     000056E2  _cpct_mode_rom_status              cpct_firmware
+     000056E3  _cpct_scanKeyboard                 cpct_keyboard
+     000056E3  cpct_scanKeyboard_asm              cpct_keyboard
+     00005714  _cpct_getScreenPtr                 cpct_video
+     00005734  _cpct_drawSpriteMaskedAlignedTab   cpct_sprites
+     0000576F  __divsint                          
+     00005778  __divschar                         
+     0000577F  __div8                             
+     00005783  __div_signexte                     
+     00005787  __div16                            
+     000057AD  __get_remainder                    
+     000057B7  _cpct_mxor32_seed                  cpct_random
+     000057BB  __divuint                          
+     000057C3  __divuchar                         
+     000057CA  __divu8                            
+     000057CD  __divu16                           
      000057FC  dc_mode0_ct                        cpct_strings
 
 ASxxxx Linker V03.00 + NoICE + sdld,  page 4.
@@ -201,18 +201,20 @@ Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_CSEG                               0000594D    00000371 =         881. bytes (REL,CON)
+_CSEG                               0000594D    00000558 =        1368. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
      0000594D  _delay                             game
      00005970  _cards                             game
-     00005978  _initGame                          game
-     000059C5  _drawScreen                        game
-     000059D7  _insertCard                        game
-     00005B57  _drawUser                          game
-     00005BD4  _checkUserMovement                 game
-     00005C90  _game                              game
+     0000597A  _initGame                          game
+     000059C7  _drawScreen                        game
+     000059D9  _insertCardUser                    game
+     00005B2D  _insertCardEnemy                   game
+     00005C83  _newHand                           game
+     00005D02  _drawUser                          game
+     00005D7F  _checkUserMovement                 game
+     00005E3C  _game                              game
 
 ASxxxx Linker V03.00 + NoICE + sdld,  page 9.
 
@@ -248,8 +250,6 @@ Libraries Linked                          [ object file ]
                                           [ cpct_setPALColour_cbindings.rel ]
 /Users/david/Documents/retro/proyectos/cpctelera/cpctelera/cpctelera.lib
                                           [ cpct_drawSprite_cbindings.rel ]
-/Users/david/Documents/retro/proyectos/cpctelera/cpctelera/tools/sdcc-3.5.5/bin/../share/sdcc/lib/z80/z80.lib
-                                          [ divunsigned.rel ]
 /Users/david/Documents/retro/proyectos/cpctelera/cpctelera/cpctelera.lib
                                           [ cpct_fw2hw_cbindings.rel ]
 /Users/david/Documents/retro/proyectos/cpctelera/cpctelera/cpctelera.lib
@@ -296,6 +296,8 @@ Libraries Linked                          [ object file ]
                                           [ divsigned.rel ]
 /Users/david/Documents/retro/proyectos/cpctelera/cpctelera/cpctelera.lib
                                           [ cpct_mxor32_seed.rel ]
+/Users/david/Documents/retro/proyectos/cpctelera/cpctelera/tools/sdcc-3.5.5/bin/../share/sdcc/lib/z80/z80.lib
+                                          [ divunsigned.rel ]
 /Users/david/Documents/retro/proyectos/cpctelera/cpctelera/cpctelera.lib
                                           [ cpct_dc_mode0_ct.rel ]
 

@@ -25,7 +25,7 @@ TTable enemyTable;
 Keys keys;
 TUser user;
 u8 abort;
-u8* const cards[4] = { hc_figures_0, hc_figures_1, hc_figures_2, hc_figures_3};
+u8* const cards[5] = { hc_figures_0, hc_figures_0, hc_figures_1, hc_figures_2, hc_figures_3};
 
 u8 tile_buffer_0[50] = {
     0x00, 0x00, 0x00, 0x00, 0x00,
@@ -74,7 +74,7 @@ void delay(u32 cycles) {
 }
 
 
-void initGame(){
+void initGame() {
     abort = 0;
 
     user.x = 0;
@@ -93,37 +93,36 @@ void initGame(){
     keys.abort = Key_Esc;
 }
 
-void drawScreen(){
-    u8 i,j;
+void drawScreen() {
+    u8 i, j;
 
-    for (j=0;j<TABLE_HEIGHT;j++){
-        for (i=0;i<TABLE_WIDTH;i++){
+    for (j = 0; j < TABLE_HEIGHT; j++) {
+        for (i = 0; i < TABLE_WIDTH; i++) {
         }
     }
 }
 
-void insertCard(){
-    u8 row,col;
+void insertCardUser(u8 col) {
+    u8 row;
     u8* pvmem;
     u8 stopped = 0;
     u8 card;
 
     row = 5;
-    col = user.x;
-    card = (cpct_rand() / 85) + 1;
+    card = (cpct_rand() / 64) + 1;
 
-    pvmem = cpct_getScreenPtr(CPCT_VMEM_START, USER_TABLE_X+(col*TILE_W), USER_TABLE_Y+(row*TILE_H));
-    cpc_GetSp((u8*) tile_buffer_1, 10, 10, (int) pvmem);
+    pvmem = cpct_getScreenPtr(CPCT_VMEM_START, USER_TABLE_X + (col * (TILE_W + 1)), USER_TABLE_Y + (row * (TILE_H + 2)));
+    cpc_GetSp((u8*) tile_buffer_1, 10, 5, (int) pvmem);
     cpct_drawSpriteMaskedAlignedTable(cards[card], pvmem, TILE_W, TILE_H, hc_tablatrans);
 
-    while (!stopped){
+    while (!stopped) {
         delay(10);
-        if ((row>0) && (userTable[col][row-1]==0)){
-            pvmem = cpct_getScreenPtr(CPCT_VMEM_START, USER_TABLE_X+(col*TILE_W), USER_TABLE_Y+(row*TILE_H));
+        if ((row > 0) && (userTable[col][row - 1] == 0)) {
+            pvmem = cpct_getScreenPtr(CPCT_VMEM_START, USER_TABLE_X + (col * (TILE_W + 1)), USER_TABLE_Y + (row * (TILE_H + 2)));
             cpct_drawSprite(tile_buffer_1, pvmem, HC_MARKER_W, HC_MARKER_H);
             row--;
-            pvmem = cpct_getScreenPtr(CPCT_VMEM_START, USER_TABLE_X+(col*TILE_W), USER_TABLE_Y+(row*TILE_H));
-            cpc_GetSp((u8*) tile_buffer_1, 10, 10, (int) pvmem);
+            pvmem = cpct_getScreenPtr(CPCT_VMEM_START, USER_TABLE_X + (col * (TILE_W + 1)), USER_TABLE_Y + (row * (TILE_H + 2)));
+            cpc_GetSp((u8*) tile_buffer_1, 10, 5, (int) pvmem);
             cpct_drawSpriteMaskedAlignedTable(cards[card], pvmem, TILE_W, TILE_H, hc_tablatrans);
             if (row == 0)
                 stopped = 1;
@@ -131,73 +130,131 @@ void insertCard(){
             stopped = 1;
 
     }
-    userTable[col][row]= card;
+    userTable[col][row] = card;
 }
 
-void drawUser(){
+void insertCardEnemy(u8 col) {
+    u8 row;
+    u8* pvmem;
+    u8 stopped = 0;
+    u8 card;
+
+    row = 0;
+    card = (cpct_rand() / 64) + 1;
+
+    pvmem = cpct_getScreenPtr(CPCT_VMEM_START, ENEMY_TABLE_X + (col * (TILE_W + 1)), ENEMY_TABLE_Y + (row * (TILE_H + 2)));
+    cpc_GetSp((u8*) tile_buffer_1, 10, 5, (int) pvmem);
+    cpct_drawSpriteMaskedAlignedTable(cards[card], pvmem, TILE_W, TILE_H, hc_tablatrans);
+
+    while (!stopped) {
+        delay(10);
+        if ((row < 5) && (enemyTable[col][row + 1] == 0)) {
+            pvmem = cpct_getScreenPtr(CPCT_VMEM_START, ENEMY_TABLE_X + (col * (TILE_W + 1)), ENEMY_TABLE_Y + (row * (TILE_H + 2)));
+            cpct_drawSprite(tile_buffer_1, pvmem, HC_MARKER_W, HC_MARKER_H);
+            row++;
+            pvmem = cpct_getScreenPtr(CPCT_VMEM_START, ENEMY_TABLE_X + (col * (TILE_W + 1)), ENEMY_TABLE_Y + (row * (TILE_H + 2)));
+            cpc_GetSp((u8*) tile_buffer_1, 10, 5, (int) pvmem);
+            cpct_drawSpriteMaskedAlignedTable(cards[card], pvmem, TILE_W, TILE_H, hc_tablatrans);
+            if (row == 5)
+                stopped = 1;
+        } else
+            stopped = 1;
+
+    }
+    enemyTable[col][row] = card;
+}
+
+void newHand(u8 side) {
+    u8 i;
+    u8 col;
+
+    for (i = 0; i < 8; i++) {
+        if (side) {
+            col = (cpct_rand() / 32);
+            while (userTable[col][5] != 0) {
+                col = (cpct_rand() / 32);
+            }
+            insertCardUser(col);
+        } else {
+            col = (cpct_rand() / 32);
+            while (enemyTable[col][0] != 0) {
+                col = (cpct_rand() / 32);
+            }
+            insertCardEnemy(col);
+        }
+    }
+}
+
+void drawUser() {
     //u8* pvmem = cpct_getScreenPtr(CPCT_VMEM_START, USER_TABLE_X+(user.px*TILE_W), USER_TABLE_Y+(user.py*TILE_H));
     //cpct_drawSolidBox(pvmem,#0,HC_MARKER_W,HC_MARKER_H);
     //pvmem = cpct_getScreenPtr(CPCT_VMEM_START, USER_TABLE_X+(user.x*TILE_W), USER_TABLE_Y+(user.y*TILE_H));
     //cpct_drawSpriteMaskedAlignedTable(hc_marker, pvmem, HC_MARKER_W, HC_MARKER_H, hc_tablatrans);
     //---cpct_drawSprite(hc_marker, pvmem, HC_MARKER_W, HC_MARKER_H);
 
-    u8* pvmem = cpct_getScreenPtr(CPCT_VMEM_START, USER_TABLE_X+(user.px*TILE_W), USER_TABLE_Y+(user.py*TILE_H));
+    u8* pvmem = cpct_getScreenPtr(CPCT_VMEM_START, USER_TABLE_X + (user.px * (TILE_W + 1)), USER_TABLE_Y + (user.py * (TILE_H + 2)));
     cpct_drawSprite(tile_buffer_0, pvmem, HC_MARKER_W, HC_MARKER_H);
-    pvmem = cpct_getScreenPtr(CPCT_VMEM_START, USER_TABLE_X+(user.x*TILE_W), USER_TABLE_Y+(user.y*TILE_H));
-    cpc_GetSp((u8*) tile_buffer_0, 10, 10, (int) pvmem);
+    pvmem = cpct_getScreenPtr(CPCT_VMEM_START, USER_TABLE_X + (user.x * (TILE_W + 1)), USER_TABLE_Y + (user.y * (TILE_H + 2)));
+    cpc_GetSp((u8*) tile_buffer_0, 10, 5, (int) pvmem);
     cpct_drawSpriteMaskedAlignedTable(hc_marker, pvmem, HC_MARKER_W, HC_MARKER_H, hc_tablatrans);
 
-    
+
     user.px = user.x;
     user.py = user.y;
 }
 
-void checkUserMovement(){
-	cpct_scanKeyboard_f();
+void checkUserMovement() {
+    cpct_scanKeyboard_f();
 
-    if ((user.x<(TABLE_WIDTH-1)) && (cpct_isKeyPressed(keys.right))) {
+    if ((user.x < (TABLE_WIDTH - 1)) && (cpct_isKeyPressed(keys.right))) {
         user.px = user.x;
         user.x++;
-    	user.moved = 1;
-    } else if ((user.x>0) && (cpct_isKeyPressed(keys.left))) {
-    	user.px = user.x;
+        user.moved = 1;
+    } else if ((user.x > 0) && (cpct_isKeyPressed(keys.left))) {
+        user.px = user.x;
         user.x--;
         user.moved = 1;
-    	}
+    }
 
-    if ((user.y<(TABLE_HEIGHT-1)) && (cpct_isKeyPressed(keys.down))) {
+    if ((user.y < (TABLE_HEIGHT - 1)) && (cpct_isKeyPressed(keys.down))) {
         user.py = user.y;
         user.y++;
         user.moved = 1;
-    } else if ((user.y>0) && (cpct_isKeyPressed(keys.up))) {
+    } else if ((user.y > 0) && (cpct_isKeyPressed(keys.up))) {
         user.py = user.y;
         user.y--;
         user.moved = 1;
-        }
-    if ((userTable[user.x][user.y]==0) && (cpct_isKeyPressed(keys.fire))){
-        insertCard();
     }
-    
-    if (cpct_isKeyPressed(keys.abort)){
+    if ((userTable[user.x][5] == 0) && (cpct_isKeyPressed(keys.fire))) {
+        newHand(1);
+    }
+
+    if (cpct_isKeyPressed(keys.abort)) {
         //abort = 1;
         reset_cpc();
     }
 }
 
-void game(){
-	initGame();
-	drawScreen();
-	drawUser();
-	while (1){
-		checkUserMovement();
-		if (user.moved){
-			drawUser();
-			user.moved = 0;
-		}
+void game() {
+    u8* pvmem;
+
+    initGame();
+    drawScreen();
+    newHand(0);  //0 for Enemy 1 for User
+    newHand(1);  //0 for Enemy 1 for User
+    pvmem = cpct_getScreenPtr(CPCT_VMEM_START, USER_TABLE_X + (user.x * (TILE_W + 1)), USER_TABLE_Y + (user.y * (TILE_H + 2)));
+    cpc_GetSp((u8*) tile_buffer_0, 10, 5, (int) pvmem);
+    drawUser();
+    while (1) {
+        checkUserMovement();
+        if (user.moved) {
+            drawUser();
+            user.moved = 0;
+        }
         if (abort)
             break;
         delay(20);
-	}
+    }
 }
 
 

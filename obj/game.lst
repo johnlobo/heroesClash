@@ -10,895 +10,1196 @@
                              10 ;--------------------------------------------------------
                              11 	.globl _checkUserMovement
                              12 	.globl _drawUser
-                             13 	.globl _insertCard
-                             14 	.globl _drawScreen
-                             15 	.globl _initGame
-                             16 	.globl _delay
-                             17 	.globl _cpc_GetSp
-                             18 	.globl _reset_cpc
-                             19 	.globl _cpct_getRandom_mxor_u8
-                             20 	.globl _cpct_getScreenPtr
-                             21 	.globl _cpct_drawSpriteMaskedAlignedTable
-                             22 	.globl _cpct_drawSprite
-                             23 	.globl _cpct_isKeyPressed
-                             24 	.globl _cpct_scanKeyboard_f
-                             25 	.globl _tile_buffer_1
-                             26 	.globl _tile_buffer_0
-                             27 	.globl _abort
-                             28 	.globl _user
-                             29 	.globl _keys
-                             30 	.globl _enemyTable
-                             31 	.globl _userTable
-                             32 	.globl _enemyY
-                             33 	.globl _enemyX
-                             34 	.globl _cards
-                             35 	.globl _game
-                             36 ;--------------------------------------------------------
-                             37 ; special function registers
+                             13 	.globl _newHand
+                             14 	.globl _insertCardEnemy
+                             15 	.globl _insertCardUser
+                             16 	.globl _drawScreen
+                             17 	.globl _initGame
+                             18 	.globl _delay
+                             19 	.globl _cpc_GetSp
+                             20 	.globl _reset_cpc
+                             21 	.globl _cpct_getRandom_mxor_u8
+                             22 	.globl _cpct_getScreenPtr
+                             23 	.globl _cpct_drawSpriteMaskedAlignedTable
+                             24 	.globl _cpct_drawSprite
+                             25 	.globl _cpct_isKeyPressed
+                             26 	.globl _cpct_scanKeyboard_f
+                             27 	.globl _tile_buffer_1
+                             28 	.globl _tile_buffer_0
+                             29 	.globl _abort
+                             30 	.globl _user
+                             31 	.globl _keys
+                             32 	.globl _enemyTable
+                             33 	.globl _userTable
+                             34 	.globl _enemyY
+                             35 	.globl _enemyX
+                             36 	.globl _cards
+                             37 	.globl _game
                              38 ;--------------------------------------------------------
-                             39 ;--------------------------------------------------------
-                             40 ; ram data
+                             39 ; special function registers
+                             40 ;--------------------------------------------------------
                              41 ;--------------------------------------------------------
-                             42 	.area _DATA
-   0000                      43 _enemyX::
-   0000                      44 	.ds 1
-   0001                      45 _enemyY::
-   0001                      46 	.ds 1
-   0002                      47 _userTable::
-   0002                      48 	.ds 48
-   0032                      49 _enemyTable::
-   0032                      50 	.ds 48
-   0062                      51 _keys::
-   0062                      52 	.ds 14
-   0070                      53 _user::
-   0070                      54 	.ds 7
-   0077                      55 _abort::
-   0077                      56 	.ds 1
-                             57 ;--------------------------------------------------------
-                             58 ; ram data
+                             42 ; ram data
+                             43 ;--------------------------------------------------------
+                             44 	.area _DATA
+   0000                      45 _enemyX::
+   0000                      46 	.ds 1
+   0001                      47 _enemyY::
+   0001                      48 	.ds 1
+   0002                      49 _userTable::
+   0002                      50 	.ds 48
+   0032                      51 _enemyTable::
+   0032                      52 	.ds 48
+   0062                      53 _keys::
+   0062                      54 	.ds 14
+   0070                      55 _user::
+   0070                      56 	.ds 7
+   0077                      57 _abort::
+   0077                      58 	.ds 1
                              59 ;--------------------------------------------------------
-                             60 	.area _INITIALIZED
-   0000                      61 _tile_buffer_0::
-   0000                      62 	.ds 50
-   0032                      63 _tile_buffer_1::
-   0032                      64 	.ds 50
-                             65 ;--------------------------------------------------------
-                             66 ; absolute external ram data
+                             60 ; ram data
+                             61 ;--------------------------------------------------------
+                             62 	.area _INITIALIZED
+   0000                      63 _tile_buffer_0::
+   0000                      64 	.ds 50
+   0032                      65 _tile_buffer_1::
+   0032                      66 	.ds 50
                              67 ;--------------------------------------------------------
-                             68 	.area _DABS (ABS)
+                             68 ; absolute external ram data
                              69 ;--------------------------------------------------------
-                             70 ; global & static initialisations
+                             70 	.area _DABS (ABS)
                              71 ;--------------------------------------------------------
-                             72 	.area _HOME
-                             73 	.area _GSINIT
-                             74 	.area _GSFINAL
+                             72 ; global & static initialisations
+                             73 ;--------------------------------------------------------
+                             74 	.area _HOME
                              75 	.area _GSINIT
-                             76 ;--------------------------------------------------------
-                             77 ; Home
+                             76 	.area _GSFINAL
+                             77 	.area _GSINIT
                              78 ;--------------------------------------------------------
-                             79 	.area _HOME
-                             80 	.area _HOME
-                             81 ;--------------------------------------------------------
-                             82 ; code
+                             79 ; Home
+                             80 ;--------------------------------------------------------
+                             81 	.area _HOME
+                             82 	.area _HOME
                              83 ;--------------------------------------------------------
-                             84 	.area _CODE
-                             85 ;src/game.c:56: cpctm_createTransparentMaskTable(hc_tablatrans, 0x100, M0, 0);
-                             86 ;	---------------------------------
-                             87 ; Function dummy_cpct_transparentMaskTable0M0_container
-                             88 ; ---------------------------------
-   0000                      89 _dummy_cpct_transparentMaskTable0M0_container::
-                             90 	.area _hc_tablatrans_ (ABS) 
-   0100                      91 	.org 0x100 
-   0100                      92 	 _hc_tablatrans::
-   0100 FF AA 55 00 AA AA    93 	.db 0xFF, 0xAA, 0x55, 0x00, 0xAA, 0xAA, 0x00, 0x00 
+                             84 ; code
+                             85 ;--------------------------------------------------------
+                             86 	.area _CODE
+                             87 ;src/game.c:56: cpctm_createTransparentMaskTable(hc_tablatrans, 0x100, M0, 0);
+                             88 ;	---------------------------------
+                             89 ; Function dummy_cpct_transparentMaskTable0M0_container
+                             90 ; ---------------------------------
+   0000                      91 _dummy_cpct_transparentMaskTable0M0_container::
+                             92 	.area _hc_tablatrans_ (ABS) 
+   0100                      93 	.org 0x100 
+   0100                      94 	 _hc_tablatrans::
+   0100 FF AA 55 00 AA AA    95 	.db 0xFF, 0xAA, 0x55, 0x00, 0xAA, 0xAA, 0x00, 0x00 
         00 00
-   0108 55 00 55 00 00 00    94 	.db 0x55, 0x00, 0x55, 0x00, 0x00, 0x00, 0x00, 0x00 
+   0108 55 00 55 00 00 00    96 	.db 0x55, 0x00, 0x55, 0x00, 0x00, 0x00, 0x00, 0x00 
         00 00
-   0110 AA AA 00 00 AA AA    95 	.db 0xAA, 0xAA, 0x00, 0x00, 0xAA, 0xAA, 0x00, 0x00 
+   0110 AA AA 00 00 AA AA    97 	.db 0xAA, 0xAA, 0x00, 0x00, 0xAA, 0xAA, 0x00, 0x00 
         00 00
-   0118 00 00 00 00 00 00    96 	.db 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 
+   0118 00 00 00 00 00 00    98 	.db 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 
         00 00
-   0120 55 00 55 00 00 00    97 	.db 0x55, 0x00, 0x55, 0x00, 0x00, 0x00, 0x00, 0x00 
+   0120 55 00 55 00 00 00    99 	.db 0x55, 0x00, 0x55, 0x00, 0x00, 0x00, 0x00, 0x00 
         00 00
-   0128 55 00 55 00 00 00    98 	.db 0x55, 0x00, 0x55, 0x00, 0x00, 0x00, 0x00, 0x00 
+   0128 55 00 55 00 00 00   100 	.db 0x55, 0x00, 0x55, 0x00, 0x00, 0x00, 0x00, 0x00 
         00 00
-   0130 00 00 00 00 00 00    99 	.db 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 
+   0130 00 00 00 00 00 00   101 	.db 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 
         00 00
-   0138 00 00 00 00 00 00   100 	.db 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 
+   0138 00 00 00 00 00 00   102 	.db 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 
         00 00
-   0140 AA AA 00 00 AA AA   101 	.db 0xAA, 0xAA, 0x00, 0x00, 0xAA, 0xAA, 0x00, 0x00 
+   0140 AA AA 00 00 AA AA   103 	.db 0xAA, 0xAA, 0x00, 0x00, 0xAA, 0xAA, 0x00, 0x00 
         00 00
-   0148 00 00 00 00 00 00   102 	.db 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 
+   0148 00 00 00 00 00 00   104 	.db 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 
         00 00
-   0150 AA AA 00 00 AA AA   103 	.db 0xAA, 0xAA, 0x00, 0x00, 0xAA, 0xAA, 0x00, 0x00 
+   0150 AA AA 00 00 AA AA   105 	.db 0xAA, 0xAA, 0x00, 0x00, 0xAA, 0xAA, 0x00, 0x00 
         00 00
-   0158 00 00 00 00 00 00   104 	.db 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 
+   0158 00 00 00 00 00 00   106 	.db 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 
         00 00
-   0160 00 00 00 00 00 00   105 	.db 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 
+   0160 00 00 00 00 00 00   107 	.db 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 
         00 00
-   0168 00 00 00 00 00 00   106 	.db 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 
+   0168 00 00 00 00 00 00   108 	.db 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 
         00 00
-   0170 00 00 00 00 00 00   107 	.db 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 
+   0170 00 00 00 00 00 00   109 	.db 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 
         00 00
-   0178 00 00 00 00 00 00   108 	.db 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 
+   0178 00 00 00 00 00 00   110 	.db 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 
         00 00
-   0180 55 00 55 00 00 00   109 	.db 0x55, 0x00, 0x55, 0x00, 0x00, 0x00, 0x00, 0x00 
+   0180 55 00 55 00 00 00   111 	.db 0x55, 0x00, 0x55, 0x00, 0x00, 0x00, 0x00, 0x00 
         00 00
-   0188 55 00 55 00 00 00   110 	.db 0x55, 0x00, 0x55, 0x00, 0x00, 0x00, 0x00, 0x00 
+   0188 55 00 55 00 00 00   112 	.db 0x55, 0x00, 0x55, 0x00, 0x00, 0x00, 0x00, 0x00 
         00 00
-   0190 00 00 00 00 00 00   111 	.db 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 
+   0190 00 00 00 00 00 00   113 	.db 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 
         00 00
-   0198 00 00 00 00 00 00   112 	.db 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 
+   0198 00 00 00 00 00 00   114 	.db 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 
         00 00
-   01A0 55 00 55 00 00 00   113 	.db 0x55, 0x00, 0x55, 0x00, 0x00, 0x00, 0x00, 0x00 
+   01A0 55 00 55 00 00 00   115 	.db 0x55, 0x00, 0x55, 0x00, 0x00, 0x00, 0x00, 0x00 
         00 00
-   01A8 55 00 55 00 00 00   114 	.db 0x55, 0x00, 0x55, 0x00, 0x00, 0x00, 0x00, 0x00 
+   01A8 55 00 55 00 00 00   116 	.db 0x55, 0x00, 0x55, 0x00, 0x00, 0x00, 0x00, 0x00 
         00 00
-   01B0 00 00 00 00 00 00   115 	.db 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 
+   01B0 00 00 00 00 00 00   117 	.db 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 
         00 00
-   01B8 00 00 00 00 00 00   116 	.db 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 
+   01B8 00 00 00 00 00 00   118 	.db 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 
         00 00
-   01C0 00 00 00 00 00 00   117 	.db 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 
+   01C0 00 00 00 00 00 00   119 	.db 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 
         00 00
-   01C8 00 00 00 00 00 00   118 	.db 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 
+   01C8 00 00 00 00 00 00   120 	.db 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 
         00 00
-   01D0 00 00 00 00 00 00   119 	.db 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 
+   01D0 00 00 00 00 00 00   121 	.db 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 
         00 00
-   01D8 00 00 00 00 00 00   120 	.db 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 
+   01D8 00 00 00 00 00 00   122 	.db 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 
         00 00
-   01E0 00 00 00 00 00 00   121 	.db 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 
+   01E0 00 00 00 00 00 00   123 	.db 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 
         00 00
-   01E8 00 00 00 00 00 00   122 	.db 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 
+   01E8 00 00 00 00 00 00   124 	.db 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 
         00 00
-   01F0 00 00 00 00 00 00   123 	.db 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 
+   01F0 00 00 00 00 00 00   125 	.db 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 
         00 00
-   01F8 00 00 00 00 00 00   124 	.db 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 
+   01F8 00 00 00 00 00 00   126 	.db 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 
         00 00
-                            125 	.area _CSEG (REL, CON) 
-                            126 ;src/game.c:67: void delay(u32 cycles) {
-                            127 ;	---------------------------------
-                            128 ; Function delay
-                            129 ; ---------------------------------
-   0000                     130 _delay::
-                            131 ;src/game.c:69: for (i = 0; i < cycles; i++) {
-   0000 01 00 00      [10]  132 	ld	bc,#0x0000
-   0003 11 00 00      [10]  133 	ld	de,#0x0000
-   0006                     134 00103$:
-   0006 21 02 00      [10]  135 	ld	hl,#2
-   0009 39            [11]  136 	add	hl,sp
-   000A 79            [ 4]  137 	ld	a,c
-   000B 96            [ 7]  138 	sub	a, (hl)
-   000C 78            [ 4]  139 	ld	a,b
-   000D 23            [ 6]  140 	inc	hl
-   000E 9E            [ 7]  141 	sbc	a, (hl)
-   000F 7B            [ 4]  142 	ld	a,e
-   0010 23            [ 6]  143 	inc	hl
-   0011 9E            [ 7]  144 	sbc	a, (hl)
-   0012 7A            [ 4]  145 	ld	a,d
-   0013 23            [ 6]  146 	inc	hl
-   0014 9E            [ 7]  147 	sbc	a, (hl)
-   0015 D0            [11]  148 	ret	NC
-                            149 ;src/game.c:72: __endasm;
-   0016 76            [ 4]  150 	halt
-                            151 ;src/game.c:69: for (i = 0; i < cycles; i++) {
-   0017 0C            [ 4]  152 	inc	c
-   0018 20 EC         [12]  153 	jr	NZ,00103$
-   001A 04            [ 4]  154 	inc	b
-   001B 20 E9         [12]  155 	jr	NZ,00103$
-   001D 1C            [ 4]  156 	inc	e
-   001E 20 E6         [12]  157 	jr	NZ,00103$
-   0020 14            [ 4]  158 	inc	d
-   0021 18 E3         [12]  159 	jr	00103$
-   0023                     160 _cards:
-   0023r00r00               161 	.dw _hc_figures_0
-   0025r00r00               162 	.dw _hc_figures_1
-   0027r00r00               163 	.dw _hc_figures_2
-   0029r00r00               164 	.dw _hc_figures_3
-                            165 ;src/game.c:77: void initGame(){
-                            166 ;	---------------------------------
-                            167 ; Function initGame
-                            168 ; ---------------------------------
-   002B                     169 _initGame::
-                            170 ;src/game.c:78: abort = 0;
-   002B 21r77r00      [10]  171 	ld	hl,#_abort + 0
-   002E 36 00         [10]  172 	ld	(hl), #0x00
-                            173 ;src/game.c:80: user.x = 0;
-   0030 21r70r00      [10]  174 	ld	hl,#_user
-   0033 36 00         [10]  175 	ld	(hl),#0x00
-                            176 ;src/game.c:81: user.y = 0;
-   0035 21r71r00      [10]  177 	ld	hl,#(_user + 0x0001)
-   0038 36 00         [10]  178 	ld	(hl),#0x00
-                            179 ;src/game.c:82: user.px = 0;
-   003A 21r72r00      [10]  180 	ld	hl,#(_user + 0x0002)
-   003D 36 00         [10]  181 	ld	(hl),#0x00
-                            182 ;src/game.c:83: user.py = 0;
-   003F 21r73r00      [10]  183 	ld	hl,#(_user + 0x0003)
-   0042 36 00         [10]  184 	ld	(hl),#0x00
-                            185 ;src/game.c:84: user.moved = 0;
-   0044 21r74r00      [10]  186 	ld	hl,#(_user + 0x0004)
-   0047 36 00         [10]  187 	ld	(hl),#0x00
-                            188 ;src/game.c:85: user.buffer = tile_buffer_0;
-   0049 21r00r00      [10]  189 	ld	hl,#_tile_buffer_0
-   004C 22r75r00      [16]  190 	ld	((_user + 0x0005)), hl
-                            191 ;src/game.c:87: keys.up    = Key_CursorUp;
-   004F 21 00 01      [10]  192 	ld	hl,#0x0100
-   0052 22r62r00      [16]  193 	ld	(_keys), hl
-                            194 ;src/game.c:88: keys.down  = Key_CursorDown;
-   0055 26 04         [ 7]  195 	ld	h, #0x04
-   0057 22r64r00      [16]  196 	ld	((_keys + 0x0002)), hl
-                            197 ;src/game.c:89: keys.left  = Key_CursorLeft;
-   005A 21 01 01      [10]  198 	ld	hl,#0x0101
-   005D 22r66r00      [16]  199 	ld	((_keys + 0x0004)), hl
-                            200 ;src/game.c:90: keys.right = Key_CursorRight;
-   0060 21 00 02      [10]  201 	ld	hl,#0x0200
-   0063 22r68r00      [16]  202 	ld	((_keys + 0x0006)), hl
-                            203 ;src/game.c:91: keys.fire  = Key_Space;
-   0066 21 05 80      [10]  204 	ld	hl,#0x8005
-   0069 22r6Ar00      [16]  205 	ld	((_keys + 0x0008)), hl
-                            206 ;src/game.c:92: keys.pause = Key_Del;
-   006C 2E 09         [ 7]  207 	ld	l, #0x09
-   006E 22r6Cr00      [16]  208 	ld	((_keys + 0x000a)), hl
-                            209 ;src/game.c:93: keys.abort = Key_Esc;
-   0071 21 08 04      [10]  210 	ld	hl,#0x0408
-   0074 22r6Er00      [16]  211 	ld	((_keys + 0x000c)), hl
-   0077 C9            [10]  212 	ret
-                            213 ;src/game.c:96: void drawScreen(){
-                            214 ;	---------------------------------
-                            215 ; Function drawScreen
-                            216 ; ---------------------------------
-   0078                     217 _drawScreen::
-                            218 ;src/game.c:99: for (j=0;j<TABLE_HEIGHT;j++){
-   0078 0E 00         [ 7]  219 	ld	c,#0x00
-   007A                     220 00106$:
-                            221 ;src/game.c:100: for (i=0;i<TABLE_WIDTH;i++){
-   007A 06 08         [ 7]  222 	ld	b,#0x08
-   007C                     223 00105$:
-   007C 58            [ 4]  224 	ld	e,b
-   007D 1D            [ 4]  225 	dec	e
-   007E 7B            [ 4]  226 	ld	a,e
-   007F 47            [ 4]  227 	ld	b,a
-   0080 B7            [ 4]  228 	or	a, a
-   0081 20 F9         [12]  229 	jr	NZ,00105$
-                            230 ;src/game.c:99: for (j=0;j<TABLE_HEIGHT;j++){
-   0083 0C            [ 4]  231 	inc	c
-   0084 79            [ 4]  232 	ld	a,c
-   0085 D6 06         [ 7]  233 	sub	a, #0x06
-   0087 38 F1         [12]  234 	jr	C,00106$
-   0089 C9            [10]  235 	ret
-                            236 ;src/game.c:105: void insertCard(){
-                            237 ;	---------------------------------
-                            238 ; Function insertCard
-                            239 ; ---------------------------------
-   008A                     240 _insertCard::
-   008A DD E5         [15]  241 	push	ix
-   008C DD 21 00 00   [14]  242 	ld	ix,#0
-   0090 DD 39         [15]  243 	add	ix,sp
-   0092 21 F9 FF      [10]  244 	ld	hl,#-7
-   0095 39            [11]  245 	add	hl,sp
-   0096 F9            [ 6]  246 	ld	sp,hl
-                            247 ;src/game.c:108: u8 stopped = 0;
-   0097 0E 00         [ 7]  248 	ld	c,#0x00
-                            249 ;src/game.c:111: row = 5;
-   0099 1E 05         [ 7]  250 	ld	e,#0x05
-                            251 ;src/game.c:112: col = user.x;
-   009B 3Ar70r00      [13]  252 	ld	a,(#_user+0)
-   009E DD 77 FA      [19]  253 	ld	-6 (ix),a
-                            254 ;src/game.c:113: card = (cpct_rand() / 85) + 1;
-   00A1 C5            [11]  255 	push	bc
-   00A2 D5            [11]  256 	push	de
-   00A3 CDr00r00      [17]  257 	call	_cpct_getRandom_mxor_u8
-   00A6 45            [ 4]  258 	ld	b,l
-   00A7 D1            [10]  259 	pop	de
-   00A8 78            [ 4]  260 	ld	a,b
-   00A9 C1            [10]  261 	pop	bc
-   00AA 47            [ 4]  262 	ld	b,a
-   00AB C5            [11]  263 	push	bc
-   00AC D5            [11]  264 	push	de
-   00AD 3E 55         [ 7]  265 	ld	a,#0x55
-   00AF F5            [11]  266 	push	af
-   00B0 33            [ 6]  267 	inc	sp
-   00B1 C5            [11]  268 	push	bc
-   00B2 33            [ 6]  269 	inc	sp
-   00B3 CDr00r00      [17]  270 	call	__divuchar
-   00B6 F1            [10]  271 	pop	af
-   00B7 D1            [10]  272 	pop	de
-   00B8 C1            [10]  273 	pop	bc
-   00B9 7D            [ 4]  274 	ld	a,l
-   00BA 3C            [ 4]  275 	inc	a
-   00BB DD 77 F9      [19]  276 	ld	-7 (ix),a
-                            277 ;src/game.c:115: pvmem = cpct_getScreenPtr(CPCT_VMEM_START, USER_TABLE_X+(col*TILE_W), USER_TABLE_Y+(row*TILE_H));
-   00BE D5            [11]  278 	push	de
-   00BF DD 7E FA      [19]  279 	ld	a,-6 (ix)
-   00C2 5F            [ 4]  280 	ld	e,a
-   00C3 87            [ 4]  281 	add	a, a
-   00C4 87            [ 4]  282 	add	a, a
-   00C5 83            [ 4]  283 	add	a, e
-   00C6 D1            [10]  284 	pop	de
-   00C7 C6 02         [ 7]  285 	add	a, #0x02
-   00C9 DD 77 FF      [19]  286 	ld	-1 (ix),a
-   00CC C5            [11]  287 	push	bc
-   00CD D5            [11]  288 	push	de
-   00CE 3E 8E         [ 7]  289 	ld	a,#0x8E
-   00D0 F5            [11]  290 	push	af
-   00D1 33            [ 6]  291 	inc	sp
-   00D2 DD 7E FF      [19]  292 	ld	a,-1 (ix)
-   00D5 F5            [11]  293 	push	af
-   00D6 33            [ 6]  294 	inc	sp
-   00D7 21 00 C0      [10]  295 	ld	hl,#0xC000
-   00DA E5            [11]  296 	push	hl
-   00DB CDr00r00      [17]  297 	call	_cpct_getScreenPtr
-   00DE D1            [10]  298 	pop	de
-   00DF C1            [10]  299 	pop	bc
-   00E0 45            [ 4]  300 	ld	b,l
-   00E1 54            [ 4]  301 	ld	d,h
-                            302 ;src/game.c:116: cpc_GetSp((u8*) tile_buffer_1, 10, 10, (int) pvmem);
-   00E2 DD 70 FD      [19]  303 	ld	-3 (ix),b
-   00E5 DD 72 FE      [19]  304 	ld	-2 (ix),d
-   00E8 C5            [11]  305 	push	bc
-   00E9 D5            [11]  306 	push	de
-   00EA DD 6E FD      [19]  307 	ld	l,-3 (ix)
-   00ED DD 66 FE      [19]  308 	ld	h,-2 (ix)
-   00F0 E5            [11]  309 	push	hl
-   00F1 21 0A 0A      [10]  310 	ld	hl,#0x0A0A
-   00F4 E5            [11]  311 	push	hl
-   00F5 21r32r00      [10]  312 	ld	hl,#_tile_buffer_1
-   00F8 E5            [11]  313 	push	hl
-   00F9 CDr00r00      [17]  314 	call	_cpc_GetSp
-   00FC D1            [10]  315 	pop	de
-   00FD C1            [10]  316 	pop	bc
-                            317 ;src/game.c:117: cpct_drawSpriteMaskedAlignedTable(cards[card], pvmem, TILE_W, TILE_H, hc_tablatrans);
-   00FE DD 6E F9      [19]  318 	ld	l,-7 (ix)
-   0101 26 00         [ 7]  319 	ld	h,#0x00
-   0103 29            [11]  320 	add	hl, hl
-   0104 3Er23         [ 7]  321 	ld	a,#<(_cards)
-   0106 85            [ 4]  322 	add	a, l
-   0107 DD 77 FD      [19]  323 	ld	-3 (ix),a
-   010A 3Es00         [ 7]  324 	ld	a,#>(_cards)
-   010C 8C            [ 4]  325 	adc	a, h
-   010D DD 77 FE      [19]  326 	ld	-2 (ix),a
-   0110 DD 6E FD      [19]  327 	ld	l,-3 (ix)
-   0113 DD 66 FE      [19]  328 	ld	h,-2 (ix)
-   0116 7E            [ 7]  329 	ld	a, (hl)
-   0117 23            [ 6]  330 	inc	hl
-   0118 66            [ 7]  331 	ld	h,(hl)
-   0119 6F            [ 4]  332 	ld	l,a
-   011A E5            [11]  333 	push	hl
-   011B FD E1         [14]  334 	pop	iy
-   011D C5            [11]  335 	push	bc
-   011E D5            [11]  336 	push	de
-   011F 21r00r01      [10]  337 	ld	hl,#_hc_tablatrans
-   0122 E5            [11]  338 	push	hl
-   0123 21 05 0A      [10]  339 	ld	hl,#0x0A05
-   0126 E5            [11]  340 	push	hl
-   0127 58            [ 4]  341 	ld	e,b
-   0128 D5            [11]  342 	push	de
-   0129 FD E5         [15]  343 	push	iy
-   012B CDr00r00      [17]  344 	call	_cpct_drawSpriteMaskedAlignedTable
-   012E D1            [10]  345 	pop	de
-   012F C1            [10]  346 	pop	bc
-                            347 ;src/game.c:119: while (!stopped){
-   0130 D5            [11]  348 	push	de
-   0131 DD 5E FA      [19]  349 	ld	e,-6 (ix)
-   0134 16 00         [ 7]  350 	ld	d,#0x00
-   0136 6B            [ 4]  351 	ld	l, e
-   0137 62            [ 4]  352 	ld	h, d
-   0138 29            [11]  353 	add	hl, hl
-   0139 19            [11]  354 	add	hl, de
-   013A 29            [11]  355 	add	hl, hl
-   013B D1            [10]  356 	pop	de
-   013C 3Er02         [ 7]  357 	ld	a,#<(_userTable)
-   013E 85            [ 4]  358 	add	a, l
-   013F DD 77 FB      [19]  359 	ld	-5 (ix),a
-   0142 3Es00         [ 7]  360 	ld	a,#>(_userTable)
-   0144 8C            [ 4]  361 	adc	a, h
-   0145 DD 77 FC      [19]  362 	ld	-4 (ix),a
-   0148                     363 00107$:
-   0148 79            [ 4]  364 	ld	a,c
-   0149 B7            [ 4]  365 	or	a, a
-   014A C2rF8r01      [10]  366 	jp	NZ,00109$
-                            367 ;src/game.c:120: delay(10);
-   014D C5            [11]  368 	push	bc
-   014E D5            [11]  369 	push	de
-   014F 21 00 00      [10]  370 	ld	hl,#0x0000
-   0152 E5            [11]  371 	push	hl
-   0153 21 0A 00      [10]  372 	ld	hl,#0x000A
-   0156 E5            [11]  373 	push	hl
-   0157 CDr00r00      [17]  374 	call	_delay
-   015A F1            [10]  375 	pop	af
-   015B F1            [10]  376 	pop	af
-   015C D1            [10]  377 	pop	de
-   015D C1            [10]  378 	pop	bc
-                            379 ;src/game.c:121: if ((row>0) && (userTable[col][row-1]==0)){
-   015E 7B            [ 4]  380 	ld	a,e
-   015F B7            [ 4]  381 	or	a, a
-   0160 CArF3r01      [10]  382 	jp	Z,00104$
-   0163 43            [ 4]  383 	ld	b,e
-   0164 05            [ 4]  384 	dec	b
-   0165 DD 7E FB      [19]  385 	ld	a,-5 (ix)
-   0168 80            [ 4]  386 	add	a, b
-   0169 6F            [ 4]  387 	ld	l,a
-   016A DD 7E FC      [19]  388 	ld	a,-4 (ix)
-   016D CE 00         [ 7]  389 	adc	a, #0x00
-   016F 67            [ 4]  390 	ld	h,a
-   0170 7E            [ 7]  391 	ld	a,(hl)
-   0171 B7            [ 4]  392 	or	a, a
-   0172 C2rF3r01      [10]  393 	jp	NZ,00104$
-                            394 ;src/game.c:122: pvmem = cpct_getScreenPtr(CPCT_VMEM_START, USER_TABLE_X+(col*TILE_W), USER_TABLE_Y+(row*TILE_H));
-   0175 7B            [ 4]  395 	ld	a,e
-   0176 87            [ 4]  396 	add	a, a
-   0177 87            [ 4]  397 	add	a, a
-   0178 83            [ 4]  398 	add	a, e
-   0179 87            [ 4]  399 	add	a, a
-   017A C6 5C         [ 7]  400 	add	a, #0x5C
-   017C 57            [ 4]  401 	ld	d,a
-   017D C5            [11]  402 	push	bc
-   017E D5            [11]  403 	push	de
-   017F 33            [ 6]  404 	inc	sp
-   0180 DD 7E FF      [19]  405 	ld	a,-1 (ix)
-   0183 F5            [11]  406 	push	af
-   0184 33            [ 6]  407 	inc	sp
-   0185 21 00 C0      [10]  408 	ld	hl,#0xC000
-   0188 E5            [11]  409 	push	hl
-   0189 CDr00r00      [17]  410 	call	_cpct_getScreenPtr
-   018C EB            [ 4]  411 	ex	de,hl
-   018D 21 05 0A      [10]  412 	ld	hl,#0x0A05
-   0190 E5            [11]  413 	push	hl
-   0191 D5            [11]  414 	push	de
-   0192 21r32r00      [10]  415 	ld	hl,#_tile_buffer_1
-   0195 E5            [11]  416 	push	hl
-   0196 CDr00r00      [17]  417 	call	_cpct_drawSprite
-   0199 C1            [10]  418 	pop	bc
-                            419 ;src/game.c:124: row--;
-   019A 58            [ 4]  420 	ld	e,b
-                            421 ;src/game.c:125: pvmem = cpct_getScreenPtr(CPCT_VMEM_START, USER_TABLE_X+(col*TILE_W), USER_TABLE_Y+(row*TILE_H));
-   019B D5            [11]  422 	push	de
-   019C 7B            [ 4]  423 	ld	a,e
-   019D 87            [ 4]  424 	add	a, a
-   019E 87            [ 4]  425 	add	a, a
-   019F 83            [ 4]  426 	add	a, e
-   01A0 87            [ 4]  427 	add	a, a
-   01A1 D1            [10]  428 	pop	de
-   01A2 C6 5C         [ 7]  429 	add	a, #0x5C
-   01A4 47            [ 4]  430 	ld	b,a
-   01A5 C5            [11]  431 	push	bc
-   01A6 D5            [11]  432 	push	de
-   01A7 C5            [11]  433 	push	bc
-   01A8 33            [ 6]  434 	inc	sp
-   01A9 DD 7E FF      [19]  435 	ld	a,-1 (ix)
-   01AC F5            [11]  436 	push	af
-   01AD 33            [ 6]  437 	inc	sp
-   01AE 21 00 C0      [10]  438 	ld	hl,#0xC000
-   01B1 E5            [11]  439 	push	hl
-   01B2 CDr00r00      [17]  440 	call	_cpct_getScreenPtr
-   01B5 D1            [10]  441 	pop	de
-   01B6 C1            [10]  442 	pop	bc
-                            443 ;src/game.c:126: cpc_GetSp((u8*) tile_buffer_1, 10, 10, (int) pvmem);
-   01B7 45            [ 4]  444 	ld	b,l
-   01B8 54            [ 4]  445 	ld	d,h
-   01B9 C5            [11]  446 	push	bc
-   01BA D5            [11]  447 	push	de
-   01BB E5            [11]  448 	push	hl
-   01BC 21 0A 0A      [10]  449 	ld	hl,#0x0A0A
-   01BF E5            [11]  450 	push	hl
-   01C0 21r32r00      [10]  451 	ld	hl,#_tile_buffer_1
-   01C3 E5            [11]  452 	push	hl
-   01C4 CDr00r00      [17]  453 	call	_cpc_GetSp
-   01C7 D1            [10]  454 	pop	de
-   01C8 C1            [10]  455 	pop	bc
-                            456 ;src/game.c:127: cpct_drawSpriteMaskedAlignedTable(cards[card], pvmem, TILE_W, TILE_H, hc_tablatrans);
-   01C9 DD 6E FD      [19]  457 	ld	l,-3 (ix)
-   01CC DD 66 FE      [19]  458 	ld	h,-2 (ix)
-   01CF 7E            [ 7]  459 	ld	a, (hl)
-   01D0 23            [ 6]  460 	inc	hl
-   01D1 66            [ 7]  461 	ld	h,(hl)
-   01D2 6F            [ 4]  462 	ld	l,a
-   01D3 E5            [11]  463 	push	hl
-   01D4 FD E1         [14]  464 	pop	iy
-   01D6 C5            [11]  465 	push	bc
-   01D7 D5            [11]  466 	push	de
-   01D8 21r00r01      [10]  467 	ld	hl,#_hc_tablatrans
-   01DB E5            [11]  468 	push	hl
-   01DC 21 05 0A      [10]  469 	ld	hl,#0x0A05
-   01DF E5            [11]  470 	push	hl
-   01E0 58            [ 4]  471 	ld	e,b
-   01E1 D5            [11]  472 	push	de
-   01E2 FD E5         [15]  473 	push	iy
-   01E4 CDr00r00      [17]  474 	call	_cpct_drawSpriteMaskedAlignedTable
-   01E7 D1            [10]  475 	pop	de
-   01E8 C1            [10]  476 	pop	bc
-                            477 ;src/game.c:128: if (row == 0)
-   01E9 7B            [ 4]  478 	ld	a,e
-   01EA B7            [ 4]  479 	or	a, a
-   01EB C2r48r01      [10]  480 	jp	NZ,00107$
-                            481 ;src/game.c:129: stopped = 1;
-   01EE 0E 01         [ 7]  482 	ld	c,#0x01
-   01F0 C3r48r01      [10]  483 	jp	00107$
-   01F3                     484 00104$:
-                            485 ;src/game.c:131: stopped = 1;
-   01F3 0E 01         [ 7]  486 	ld	c,#0x01
-   01F5 C3r48r01      [10]  487 	jp	00107$
-   01F8                     488 00109$:
-                            489 ;src/game.c:134: userTable[col][row]= card;
-   01F8 DD 6E FB      [19]  490 	ld	l,-5 (ix)
-   01FB DD 66 FC      [19]  491 	ld	h,-4 (ix)
-   01FE 16 00         [ 7]  492 	ld	d,#0x00
-   0200 19            [11]  493 	add	hl, de
-   0201 DD 7E F9      [19]  494 	ld	a,-7 (ix)
-   0204 77            [ 7]  495 	ld	(hl),a
-   0205 DD F9         [10]  496 	ld	sp, ix
-   0207 DD E1         [14]  497 	pop	ix
-   0209 C9            [10]  498 	ret
-                            499 ;src/game.c:137: void drawUser(){
-                            500 ;	---------------------------------
-                            501 ; Function drawUser
-                            502 ; ---------------------------------
-   020A                     503 _drawUser::
-                            504 ;src/game.c:144: u8* pvmem = cpct_getScreenPtr(CPCT_VMEM_START, USER_TABLE_X+(user.px*TILE_W), USER_TABLE_Y+(user.py*TILE_H));
-   020A 3Ar73r00      [13]  505 	ld	a, (#(_user + 0x0003) + 0)
-   020D 4F            [ 4]  506 	ld	c,a
-   020E 87            [ 4]  507 	add	a, a
-   020F 87            [ 4]  508 	add	a, a
-   0210 81            [ 4]  509 	add	a, c
-   0211 87            [ 4]  510 	add	a, a
-   0212 C6 5C         [ 7]  511 	add	a, #0x5C
-   0214 57            [ 4]  512 	ld	d,a
-   0215 3Ar72r00      [13]  513 	ld	a, (#(_user + 0x0002) + 0)
-   0218 4F            [ 4]  514 	ld	c,a
-   0219 87            [ 4]  515 	add	a, a
-   021A 87            [ 4]  516 	add	a, a
-   021B 81            [ 4]  517 	add	a, c
-   021C 47            [ 4]  518 	ld	b,a
-   021D 04            [ 4]  519 	inc	b
-   021E 04            [ 4]  520 	inc	b
-   021F D5            [11]  521 	push	de
-   0220 33            [ 6]  522 	inc	sp
-   0221 C5            [11]  523 	push	bc
-   0222 33            [ 6]  524 	inc	sp
-   0223 21 00 C0      [10]  525 	ld	hl,#0xC000
-   0226 E5            [11]  526 	push	hl
-   0227 CDr00r00      [17]  527 	call	_cpct_getScreenPtr
-   022A 4D            [ 4]  528 	ld	c,l
-   022B 44            [ 4]  529 	ld	b,h
-                            530 ;src/game.c:145: cpct_drawSprite(tile_buffer_0, pvmem, HC_MARKER_W, HC_MARKER_H);
-   022C 21 05 0A      [10]  531 	ld	hl,#0x0A05
-   022F E5            [11]  532 	push	hl
-   0230 C5            [11]  533 	push	bc
-   0231 21r00r00      [10]  534 	ld	hl,#_tile_buffer_0
-   0234 E5            [11]  535 	push	hl
-   0235 CDr00r00      [17]  536 	call	_cpct_drawSprite
-                            537 ;src/game.c:146: pvmem = cpct_getScreenPtr(CPCT_VMEM_START, USER_TABLE_X+(user.x*TILE_W), USER_TABLE_Y+(user.y*TILE_H));
-   0238 3Ar71r00      [13]  538 	ld	a, (#(_user + 0x0001) + 0)
-   023B 4F            [ 4]  539 	ld	c,a
-   023C 87            [ 4]  540 	add	a, a
-   023D 87            [ 4]  541 	add	a, a
-   023E 81            [ 4]  542 	add	a, c
-   023F 87            [ 4]  543 	add	a, a
-   0240 C6 5C         [ 7]  544 	add	a, #0x5C
-   0242 57            [ 4]  545 	ld	d,a
-   0243 3Ar70r00      [13]  546 	ld	a, (#_user + 0)
-   0246 4F            [ 4]  547 	ld	c,a
-   0247 87            [ 4]  548 	add	a, a
-   0248 87            [ 4]  549 	add	a, a
-   0249 81            [ 4]  550 	add	a, c
-   024A 47            [ 4]  551 	ld	b,a
-   024B 04            [ 4]  552 	inc	b
-   024C 04            [ 4]  553 	inc	b
-   024D D5            [11]  554 	push	de
-   024E 33            [ 6]  555 	inc	sp
-   024F C5            [11]  556 	push	bc
-   0250 33            [ 6]  557 	inc	sp
-   0251 21 00 C0      [10]  558 	ld	hl,#0xC000
-   0254 E5            [11]  559 	push	hl
-   0255 CDr00r00      [17]  560 	call	_cpct_getScreenPtr
-   0258 4D            [ 4]  561 	ld	c,l
-   0259 44            [ 4]  562 	ld	b,h
-                            563 ;src/game.c:147: cpc_GetSp((u8*) tile_buffer_0, 10, 10, (int) pvmem);
-   025A 59            [ 4]  564 	ld	e, c
-   025B 50            [ 4]  565 	ld	d, b
-   025C C5            [11]  566 	push	bc
-   025D D5            [11]  567 	push	de
-   025E 21 0A 0A      [10]  568 	ld	hl,#0x0A0A
-   0261 E5            [11]  569 	push	hl
-   0262 21r00r00      [10]  570 	ld	hl,#_tile_buffer_0
-   0265 E5            [11]  571 	push	hl
-   0266 CDr00r00      [17]  572 	call	_cpc_GetSp
-   0269 C1            [10]  573 	pop	bc
-                            574 ;src/game.c:148: cpct_drawSpriteMaskedAlignedTable(hc_marker, pvmem, HC_MARKER_W, HC_MARKER_H, hc_tablatrans);
-   026A 11r00r01      [10]  575 	ld	de,#_hc_tablatrans+0
-   026D D5            [11]  576 	push	de
-   026E 21 05 0A      [10]  577 	ld	hl,#0x0A05
-   0271 E5            [11]  578 	push	hl
-   0272 C5            [11]  579 	push	bc
-   0273 21r00r00      [10]  580 	ld	hl,#_hc_marker
-   0276 E5            [11]  581 	push	hl
-   0277 CDr00r00      [17]  582 	call	_cpct_drawSpriteMaskedAlignedTable
-                            583 ;src/game.c:151: user.px = user.x;
-   027A 3Ar70r00      [13]  584 	ld	a, (#_user + 0)
-   027D 32r72r00      [13]  585 	ld	(#(_user + 0x0002)),a
-                            586 ;src/game.c:152: user.py = user.y;
-   0280 3Ar71r00      [13]  587 	ld	a, (#(_user + 0x0001) + 0)
-   0283 32r73r00      [13]  588 	ld	(#(_user + 0x0003)),a
-   0286 C9            [10]  589 	ret
-                            590 ;src/game.c:155: void checkUserMovement(){
-                            591 ;	---------------------------------
-                            592 ; Function checkUserMovement
-                            593 ; ---------------------------------
-   0287                     594 _checkUserMovement::
-                            595 ;src/game.c:156: cpct_scanKeyboard_f();
-   0287 CDr00r00      [17]  596 	call	_cpct_scanKeyboard_f
-                            597 ;src/game.c:158: if ((user.x<(TABLE_WIDTH-1)) && (cpct_isKeyPressed(keys.right))) {
-   028A 3Ar70r00      [13]  598 	ld	a,(#_user + 0)
-   028D D6 07         [ 7]  599 	sub	a, #0x07
-   028F 30 1B         [12]  600 	jr	NC,00105$
-   0291 2Ar68r00      [16]  601 	ld	hl, (#(_keys + 0x0006) + 0)
-   0294 CDr00r00      [17]  602 	call	_cpct_isKeyPressed
-   0297 7D            [ 4]  603 	ld	a,l
-   0298 B7            [ 4]  604 	or	a, a
-   0299 28 11         [12]  605 	jr	Z,00105$
-                            606 ;src/game.c:159: user.px = user.x;
-   029B 01r70r00      [10]  607 	ld	bc,#_user+0
-   029E 0A            [ 7]  608 	ld	a,(bc)
-   029F 32r72r00      [13]  609 	ld	(#(_user + 0x0002)),a
-                            610 ;src/game.c:160: user.x++;
-   02A2 0A            [ 7]  611 	ld	a,(bc)
-   02A3 3C            [ 4]  612 	inc	a
-   02A4 02            [ 7]  613 	ld	(bc),a
-                            614 ;src/game.c:161: user.moved = 1;
-   02A5 21r74r00      [10]  615 	ld	hl,#(_user + 0x0004)
-   02A8 36 01         [10]  616 	ld	(hl),#0x01
-   02AA 18 20         [12]  617 	jr	00106$
-   02AC                     618 00105$:
-                            619 ;src/game.c:162: } else if ((user.x>0) && (cpct_isKeyPressed(keys.left))) {
-   02AC 3Ar70r00      [13]  620 	ld	a, (#_user + 0)
-   02AF B7            [ 4]  621 	or	a, a
-   02B0 28 1A         [12]  622 	jr	Z,00106$
-   02B2 2Ar66r00      [16]  623 	ld	hl, (#(_keys + 0x0004) + 0)
-   02B5 CDr00r00      [17]  624 	call	_cpct_isKeyPressed
-   02B8 7D            [ 4]  625 	ld	a,l
-   02B9 B7            [ 4]  626 	or	a, a
-   02BA 28 10         [12]  627 	jr	Z,00106$
-                            628 ;src/game.c:163: user.px = user.x;
-   02BC 01r70r00      [10]  629 	ld	bc,#_user+0
-   02BF 0A            [ 7]  630 	ld	a,(bc)
-   02C0 32r72r00      [13]  631 	ld	(#(_user + 0x0002)),a
-                            632 ;src/game.c:164: user.x--;
-   02C3 0A            [ 7]  633 	ld	a,(bc)
-   02C4 C6 FF         [ 7]  634 	add	a,#0xFF
-   02C6 02            [ 7]  635 	ld	(bc),a
-                            636 ;src/game.c:165: user.moved = 1;
-   02C7 21r74r00      [10]  637 	ld	hl,#(_user + 0x0004)
-   02CA 36 01         [10]  638 	ld	(hl),#0x01
-   02CC                     639 00106$:
-                            640 ;src/game.c:168: if ((user.y<(TABLE_HEIGHT-1)) && (cpct_isKeyPressed(keys.down))) {
-   02CC 01r71r00      [10]  641 	ld	bc,#_user + 1
-   02CF 0A            [ 7]  642 	ld	a,(bc)
-                            643 ;src/game.c:169: user.py = user.y;
-                            644 ;src/game.c:171: user.moved = 1;
-                            645 ;src/game.c:168: if ((user.y<(TABLE_HEIGHT-1)) && (cpct_isKeyPressed(keys.down))) {
-   02D0 5F            [ 4]  646 	ld	e,a
-   02D1 D6 05         [ 7]  647 	sub	a, #0x05
-   02D3 30 1D         [12]  648 	jr	NC,00112$
-   02D5 2Ar64r00      [16]  649 	ld	hl, (#(_keys + 0x0002) + 0)
-   02D8 C5            [11]  650 	push	bc
-   02D9 CDr00r00      [17]  651 	call	_cpct_isKeyPressed
-   02DC 55            [ 4]  652 	ld	d,l
-   02DD C1            [10]  653 	pop	bc
-   02DE 0A            [ 7]  654 	ld	a,(bc)
-   02DF 5F            [ 4]  655 	ld	e,a
-   02E0 7A            [ 4]  656 	ld	a,d
-   02E1 B7            [ 4]  657 	or	a, a
-   02E2 28 0E         [12]  658 	jr	Z,00112$
-                            659 ;src/game.c:169: user.py = user.y;
-   02E4 21r73r00      [10]  660 	ld	hl,#(_user + 0x0003)
-   02E7 73            [ 7]  661 	ld	(hl),e
-                            662 ;src/game.c:170: user.y++;
-   02E8 0A            [ 7]  663 	ld	a,(bc)
-   02E9 3C            [ 4]  664 	inc	a
-   02EA 02            [ 7]  665 	ld	(bc),a
-                            666 ;src/game.c:171: user.moved = 1;
-   02EB 21r74r00      [10]  667 	ld	hl,#(_user + 0x0004)
-   02EE 36 01         [10]  668 	ld	(hl),#0x01
-   02F0 18 1D         [12]  669 	jr	00113$
-   02F2                     670 00112$:
-                            671 ;src/game.c:172: } else if ((user.y>0) && (cpct_isKeyPressed(keys.up))) {
-   02F2 7B            [ 4]  672 	ld	a,e
-   02F3 B7            [ 4]  673 	or	a, a
-   02F4 28 19         [12]  674 	jr	Z,00113$
-   02F6 2Ar62r00      [16]  675 	ld	hl, (#_keys + 0)
-   02F9 C5            [11]  676 	push	bc
-   02FA CDr00r00      [17]  677 	call	_cpct_isKeyPressed
-   02FD C1            [10]  678 	pop	bc
-   02FE 7D            [ 4]  679 	ld	a,l
-   02FF B7            [ 4]  680 	or	a, a
-   0300 28 0D         [12]  681 	jr	Z,00113$
-                            682 ;src/game.c:173: user.py = user.y;
-   0302 0A            [ 7]  683 	ld	a,(bc)
-   0303 32r73r00      [13]  684 	ld	(#(_user + 0x0003)),a
-                            685 ;src/game.c:174: user.y--;
-   0306 0A            [ 7]  686 	ld	a,(bc)
-   0307 C6 FF         [ 7]  687 	add	a,#0xFF
-   0309 02            [ 7]  688 	ld	(bc),a
-                            689 ;src/game.c:175: user.moved = 1;
-   030A 21r74r00      [10]  690 	ld	hl,#(_user + 0x0004)
-   030D 36 01         [10]  691 	ld	(hl),#0x01
-   030F                     692 00113$:
-                            693 ;src/game.c:177: if ((userTable[user.x][user.y]==0) && (cpct_isKeyPressed(keys.fire))){
-   030F 3Ar70r00      [13]  694 	ld	a, (#_user + 0)
-   0312 5F            [ 4]  695 	ld	e,a
-   0313 16 00         [ 7]  696 	ld	d,#0x00
-   0315 6B            [ 4]  697 	ld	l, e
-   0316 62            [ 4]  698 	ld	h, d
-   0317 29            [11]  699 	add	hl, hl
-   0318 19            [11]  700 	add	hl, de
-   0319 29            [11]  701 	add	hl, hl
-   031A EB            [ 4]  702 	ex	de,hl
-   031B 21r02r00      [10]  703 	ld	hl,#_userTable
-   031E 19            [11]  704 	add	hl,de
-   031F EB            [ 4]  705 	ex	de,hl
-   0320 0A            [ 7]  706 	ld	a,(bc)
-   0321 4F            [ 4]  707 	ld	c,a
-   0322 69            [ 4]  708 	ld	l,c
-   0323 26 00         [ 7]  709 	ld	h,#0x00
-   0325 19            [11]  710 	add	hl,de
-   0326 7E            [ 7]  711 	ld	a,(hl)
-   0327 B7            [ 4]  712 	or	a, a
-   0328 20 0D         [12]  713 	jr	NZ,00116$
-   032A 2Ar6Ar00      [16]  714 	ld	hl, (#(_keys + 0x0008) + 0)
-   032D CDr00r00      [17]  715 	call	_cpct_isKeyPressed
-   0330 7D            [ 4]  716 	ld	a,l
-   0331 B7            [ 4]  717 	or	a, a
-   0332 28 03         [12]  718 	jr	Z,00116$
-                            719 ;src/game.c:178: insertCard();
-   0334 CDr8Ar00      [17]  720 	call	_insertCard
-   0337                     721 00116$:
-                            722 ;src/game.c:181: if (cpct_isKeyPressed(keys.abort)){
-   0337 2Ar6Er00      [16]  723 	ld	hl, (#(_keys + 0x000c) + 0)
-   033A CDr00r00      [17]  724 	call	_cpct_isKeyPressed
-   033D 7D            [ 4]  725 	ld	a,l
-   033E B7            [ 4]  726 	or	a, a
-   033F C8            [11]  727 	ret	Z
-                            728 ;src/game.c:183: reset_cpc();
-   0340 C3r00r00      [10]  729 	jp  _reset_cpc
-                            730 ;src/game.c:187: void game(){
-                            731 ;	---------------------------------
-                            732 ; Function game
-                            733 ; ---------------------------------
-   0343                     734 _game::
-                            735 ;src/game.c:188: initGame();
-   0343 CDr2Br00      [17]  736 	call	_initGame
-                            737 ;src/game.c:189: drawScreen();
-   0346 CDr78r00      [17]  738 	call	_drawScreen
-                            739 ;src/game.c:190: drawUser();
-   0349 CDr0Ar02      [17]  740 	call	_drawUser
-                            741 ;src/game.c:191: while (1){
-   034C                     742 00106$:
-                            743 ;src/game.c:192: checkUserMovement();
-   034C CDr87r02      [17]  744 	call	_checkUserMovement
-                            745 ;src/game.c:193: if (user.moved){
-   034F 3Ar74r00      [13]  746 	ld	a, (#(_user + 0x0004) + 0)
-   0352 B7            [ 4]  747 	or	a, a
-   0353 28 08         [12]  748 	jr	Z,00102$
-                            749 ;src/game.c:194: drawUser();
-   0355 CDr0Ar02      [17]  750 	call	_drawUser
-                            751 ;src/game.c:195: user.moved = 0;
-   0358 21r74r00      [10]  752 	ld	hl,#(_user + 0x0004)
-   035B 36 00         [10]  753 	ld	(hl),#0x00
-   035D                     754 00102$:
-                            755 ;src/game.c:197: if (abort)
-   035D 3Ar77r00      [13]  756 	ld	a,(#_abort + 0)
-   0360 B7            [ 4]  757 	or	a, a
-   0361 C0            [11]  758 	ret	NZ
-                            759 ;src/game.c:199: delay(20);
-   0362 21 00 00      [10]  760 	ld	hl,#0x0000
-   0365 E5            [11]  761 	push	hl
-   0366 21 14 00      [10]  762 	ld	hl,#0x0014
-   0369 E5            [11]  763 	push	hl
-   036A CDr00r00      [17]  764 	call	_delay
-   036D F1            [10]  765 	pop	af
-   036E F1            [10]  766 	pop	af
-   036F 18 DB         [12]  767 	jr	00106$
-                            768 	.area _CODE
-                            769 	.area _INITIALIZER
-   0000                     770 __xinit__tile_buffer_0:
-   0000 00                  771 	.db #0x00	; 0
-   0001 00                  772 	.db #0x00	; 0
-   0002 00                  773 	.db #0x00	; 0
-   0003 00                  774 	.db #0x00	; 0
-   0004 00                  775 	.db #0x00	; 0
-   0005 00                  776 	.db #0x00	; 0
-   0006 00                  777 	.db #0x00	; 0
-   0007 00                  778 	.db #0x00	; 0
-   0008 00                  779 	.db #0x00	; 0
-   0009 00                  780 	.db #0x00	; 0
-   000A 00                  781 	.db #0x00	; 0
-   000B 00                  782 	.db #0x00	; 0
-   000C 00                  783 	.db #0x00	; 0
-   000D 00                  784 	.db #0x00	; 0
-   000E 00                  785 	.db #0x00	; 0
-   000F 00                  786 	.db #0x00	; 0
-   0010 00                  787 	.db #0x00	; 0
-   0011 00                  788 	.db #0x00	; 0
-   0012 00                  789 	.db #0x00	; 0
-   0013 00                  790 	.db #0x00	; 0
-   0014 00                  791 	.db #0x00	; 0
-   0015 00                  792 	.db #0x00	; 0
-   0016 00                  793 	.db #0x00	; 0
-   0017 00                  794 	.db #0x00	; 0
-   0018 00                  795 	.db #0x00	; 0
-   0019 00                  796 	.db #0x00	; 0
-   001A 00                  797 	.db #0x00	; 0
-   001B 00                  798 	.db #0x00	; 0
-   001C 00                  799 	.db #0x00	; 0
-   001D 00                  800 	.db #0x00	; 0
-   001E 00                  801 	.db #0x00	; 0
-   001F 00                  802 	.db #0x00	; 0
-   0020 00                  803 	.db #0x00	; 0
-   0021 00                  804 	.db #0x00	; 0
-   0022 00                  805 	.db #0x00	; 0
-   0023 00                  806 	.db #0x00	; 0
-   0024 00                  807 	.db #0x00	; 0
-   0025 00                  808 	.db #0x00	; 0
-   0026 00                  809 	.db #0x00	; 0
-   0027 00                  810 	.db #0x00	; 0
-   0028 00                  811 	.db #0x00	; 0
-   0029 00                  812 	.db #0x00	; 0
-   002A 00                  813 	.db #0x00	; 0
-   002B 00                  814 	.db #0x00	; 0
-   002C 00                  815 	.db #0x00	; 0
-   002D 00                  816 	.db #0x00	; 0
-   002E 00                  817 	.db #0x00	; 0
-   002F 00                  818 	.db #0x00	; 0
-   0030 00                  819 	.db #0x00	; 0
-   0031 00                  820 	.db #0x00	; 0
-   0032                     821 __xinit__tile_buffer_1:
-   0032 00                  822 	.db #0x00	; 0
-   0033 00                  823 	.db #0x00	; 0
-   0034 00                  824 	.db #0x00	; 0
-   0035 00                  825 	.db #0x00	; 0
-   0036 00                  826 	.db #0x00	; 0
-   0037 00                  827 	.db #0x00	; 0
-   0038 00                  828 	.db #0x00	; 0
-   0039 00                  829 	.db #0x00	; 0
-   003A 00                  830 	.db #0x00	; 0
-   003B 00                  831 	.db #0x00	; 0
-   003C 00                  832 	.db #0x00	; 0
-   003D 00                  833 	.db #0x00	; 0
-   003E 00                  834 	.db #0x00	; 0
-   003F 00                  835 	.db #0x00	; 0
-   0040 00                  836 	.db #0x00	; 0
-   0041 00                  837 	.db #0x00	; 0
-   0042 00                  838 	.db #0x00	; 0
-   0043 00                  839 	.db #0x00	; 0
-   0044 00                  840 	.db #0x00	; 0
-   0045 00                  841 	.db #0x00	; 0
-   0046 00                  842 	.db #0x00	; 0
-   0047 00                  843 	.db #0x00	; 0
-   0048 00                  844 	.db #0x00	; 0
-   0049 00                  845 	.db #0x00	; 0
-   004A 00                  846 	.db #0x00	; 0
-   004B 00                  847 	.db #0x00	; 0
-   004C 00                  848 	.db #0x00	; 0
-   004D 00                  849 	.db #0x00	; 0
-   004E 00                  850 	.db #0x00	; 0
-   004F 00                  851 	.db #0x00	; 0
-   0050 00                  852 	.db #0x00	; 0
-   0051 00                  853 	.db #0x00	; 0
-   0052 00                  854 	.db #0x00	; 0
-   0053 00                  855 	.db #0x00	; 0
-   0054 00                  856 	.db #0x00	; 0
-   0055 00                  857 	.db #0x00	; 0
-   0056 00                  858 	.db #0x00	; 0
-   0057 00                  859 	.db #0x00	; 0
-   0058 00                  860 	.db #0x00	; 0
-   0059 00                  861 	.db #0x00	; 0
-   005A 00                  862 	.db #0x00	; 0
-   005B 00                  863 	.db #0x00	; 0
-   005C 00                  864 	.db #0x00	; 0
-   005D 00                  865 	.db #0x00	; 0
-   005E 00                  866 	.db #0x00	; 0
-   005F 00                  867 	.db #0x00	; 0
-   0060 00                  868 	.db #0x00	; 0
-   0061 00                  869 	.db #0x00	; 0
-   0062 00                  870 	.db #0x00	; 0
-   0063 00                  871 	.db #0x00	; 0
-                            872 	.area _CABS (ABS)
+                            127 	.area _CSEG (REL, CON) 
+                            128 ;src/game.c:67: void delay(u32 cycles) {
+                            129 ;	---------------------------------
+                            130 ; Function delay
+                            131 ; ---------------------------------
+   0000                     132 _delay::
+                            133 ;src/game.c:69: for (i = 0; i < cycles; i++) {
+   0000 01 00 00      [10]  134 	ld	bc,#0x0000
+   0003 11 00 00      [10]  135 	ld	de,#0x0000
+   0006                     136 00103$:
+   0006 21 02 00      [10]  137 	ld	hl,#2
+   0009 39            [11]  138 	add	hl,sp
+   000A 79            [ 4]  139 	ld	a,c
+   000B 96            [ 7]  140 	sub	a, (hl)
+   000C 78            [ 4]  141 	ld	a,b
+   000D 23            [ 6]  142 	inc	hl
+   000E 9E            [ 7]  143 	sbc	a, (hl)
+   000F 7B            [ 4]  144 	ld	a,e
+   0010 23            [ 6]  145 	inc	hl
+   0011 9E            [ 7]  146 	sbc	a, (hl)
+   0012 7A            [ 4]  147 	ld	a,d
+   0013 23            [ 6]  148 	inc	hl
+   0014 9E            [ 7]  149 	sbc	a, (hl)
+   0015 D0            [11]  150 	ret	NC
+                            151 ;src/game.c:72: __endasm;
+   0016 76            [ 4]  152 	halt
+                            153 ;src/game.c:69: for (i = 0; i < cycles; i++) {
+   0017 0C            [ 4]  154 	inc	c
+   0018 20 EC         [12]  155 	jr	NZ,00103$
+   001A 04            [ 4]  156 	inc	b
+   001B 20 E9         [12]  157 	jr	NZ,00103$
+   001D 1C            [ 4]  158 	inc	e
+   001E 20 E6         [12]  159 	jr	NZ,00103$
+   0020 14            [ 4]  160 	inc	d
+   0021 18 E3         [12]  161 	jr	00103$
+   0023                     162 _cards:
+   0023r00r00               163 	.dw _hc_figures_0
+   0025r00r00               164 	.dw _hc_figures_0
+   0027r00r00               165 	.dw _hc_figures_1
+   0029r00r00               166 	.dw _hc_figures_2
+   002Br00r00               167 	.dw _hc_figures_3
+                            168 ;src/game.c:77: void initGame() {
+                            169 ;	---------------------------------
+                            170 ; Function initGame
+                            171 ; ---------------------------------
+   002D                     172 _initGame::
+                            173 ;src/game.c:78: abort = 0;
+   002D 21r77r00      [10]  174 	ld	hl,#_abort + 0
+   0030 36 00         [10]  175 	ld	(hl), #0x00
+                            176 ;src/game.c:80: user.x = 0;
+   0032 21r70r00      [10]  177 	ld	hl,#_user
+   0035 36 00         [10]  178 	ld	(hl),#0x00
+                            179 ;src/game.c:81: user.y = 0;
+   0037 21r71r00      [10]  180 	ld	hl,#(_user + 0x0001)
+   003A 36 00         [10]  181 	ld	(hl),#0x00
+                            182 ;src/game.c:82: user.px = 0;
+   003C 21r72r00      [10]  183 	ld	hl,#(_user + 0x0002)
+   003F 36 00         [10]  184 	ld	(hl),#0x00
+                            185 ;src/game.c:83: user.py = 0;
+   0041 21r73r00      [10]  186 	ld	hl,#(_user + 0x0003)
+   0044 36 00         [10]  187 	ld	(hl),#0x00
+                            188 ;src/game.c:84: user.moved = 0;
+   0046 21r74r00      [10]  189 	ld	hl,#(_user + 0x0004)
+   0049 36 00         [10]  190 	ld	(hl),#0x00
+                            191 ;src/game.c:85: user.buffer = tile_buffer_0;
+   004B 21r00r00      [10]  192 	ld	hl,#_tile_buffer_0
+   004E 22r75r00      [16]  193 	ld	((_user + 0x0005)), hl
+                            194 ;src/game.c:87: keys.up    = Key_CursorUp;
+   0051 21 00 01      [10]  195 	ld	hl,#0x0100
+   0054 22r62r00      [16]  196 	ld	(_keys), hl
+                            197 ;src/game.c:88: keys.down  = Key_CursorDown;
+   0057 26 04         [ 7]  198 	ld	h, #0x04
+   0059 22r64r00      [16]  199 	ld	((_keys + 0x0002)), hl
+                            200 ;src/game.c:89: keys.left  = Key_CursorLeft;
+   005C 21 01 01      [10]  201 	ld	hl,#0x0101
+   005F 22r66r00      [16]  202 	ld	((_keys + 0x0004)), hl
+                            203 ;src/game.c:90: keys.right = Key_CursorRight;
+   0062 21 00 02      [10]  204 	ld	hl,#0x0200
+   0065 22r68r00      [16]  205 	ld	((_keys + 0x0006)), hl
+                            206 ;src/game.c:91: keys.fire  = Key_Space;
+   0068 21 05 80      [10]  207 	ld	hl,#0x8005
+   006B 22r6Ar00      [16]  208 	ld	((_keys + 0x0008)), hl
+                            209 ;src/game.c:92: keys.pause = Key_Del;
+   006E 2E 09         [ 7]  210 	ld	l, #0x09
+   0070 22r6Cr00      [16]  211 	ld	((_keys + 0x000a)), hl
+                            212 ;src/game.c:93: keys.abort = Key_Esc;
+   0073 21 08 04      [10]  213 	ld	hl,#0x0408
+   0076 22r6Er00      [16]  214 	ld	((_keys + 0x000c)), hl
+   0079 C9            [10]  215 	ret
+                            216 ;src/game.c:96: void drawScreen() {
+                            217 ;	---------------------------------
+                            218 ; Function drawScreen
+                            219 ; ---------------------------------
+   007A                     220 _drawScreen::
+                            221 ;src/game.c:99: for (j = 0; j < TABLE_HEIGHT; j++) {
+   007A 0E 00         [ 7]  222 	ld	c,#0x00
+   007C                     223 00106$:
+                            224 ;src/game.c:100: for (i = 0; i < TABLE_WIDTH; i++) {
+   007C 06 08         [ 7]  225 	ld	b,#0x08
+   007E                     226 00105$:
+   007E 58            [ 4]  227 	ld	e,b
+   007F 1D            [ 4]  228 	dec	e
+   0080 7B            [ 4]  229 	ld	a,e
+   0081 47            [ 4]  230 	ld	b,a
+   0082 B7            [ 4]  231 	or	a, a
+   0083 20 F9         [12]  232 	jr	NZ,00105$
+                            233 ;src/game.c:99: for (j = 0; j < TABLE_HEIGHT; j++) {
+   0085 0C            [ 4]  234 	inc	c
+   0086 79            [ 4]  235 	ld	a,c
+   0087 D6 06         [ 7]  236 	sub	a, #0x06
+   0089 38 F1         [12]  237 	jr	C,00106$
+   008B C9            [10]  238 	ret
+                            239 ;src/game.c:105: void insertCardUser(u8 col) {
+                            240 ;	---------------------------------
+                            241 ; Function insertCardUser
+                            242 ; ---------------------------------
+   008C                     243 _insertCardUser::
+   008C DD E5         [15]  244 	push	ix
+   008E DD 21 00 00   [14]  245 	ld	ix,#0
+   0092 DD 39         [15]  246 	add	ix,sp
+   0094 21 F6 FF      [10]  247 	ld	hl,#-10
+   0097 39            [11]  248 	add	hl,sp
+   0098 F9            [ 6]  249 	ld	sp,hl
+                            250 ;src/game.c:108: u8 stopped = 0;
+   0099 DD 36 F7 00   [19]  251 	ld	-9 (ix),#0x00
+                            252 ;src/game.c:111: row = 5;
+   009D DD 36 F8 05   [19]  253 	ld	-8 (ix),#0x05
+                            254 ;src/game.c:112: card = (cpct_rand() / 64) + 1;
+   00A1 CDr00r00      [17]  255 	call	_cpct_getRandom_mxor_u8
+   00A4 7D            [ 4]  256 	ld	a,l
+   00A5 07            [ 4]  257 	rlca
+   00A6 07            [ 4]  258 	rlca
+   00A7 E6 03         [ 7]  259 	and	a,#0x03
+   00A9 3C            [ 4]  260 	inc	a
+   00AA DD 77 F6      [19]  261 	ld	-10 (ix),a
+                            262 ;src/game.c:114: pvmem = cpct_getScreenPtr(CPCT_VMEM_START, USER_TABLE_X + (col * (TILE_W + 1)), USER_TABLE_Y + (row * (TILE_H + 2)));
+   00AD DD 7E 04      [19]  263 	ld	a,4 (ix)
+   00B0 4F            [ 4]  264 	ld	c,a
+   00B1 87            [ 4]  265 	add	a, a
+   00B2 81            [ 4]  266 	add	a, c
+   00B3 87            [ 4]  267 	add	a, a
+   00B4 C6 02         [ 7]  268 	add	a, #0x02
+   00B6 DD 77 FF      [19]  269 	ld	-1 (ix),a
+   00B9 3E 98         [ 7]  270 	ld	a,#0x98
+   00BB F5            [11]  271 	push	af
+   00BC 33            [ 6]  272 	inc	sp
+   00BD DD 7E FF      [19]  273 	ld	a,-1 (ix)
+   00C0 F5            [11]  274 	push	af
+   00C1 33            [ 6]  275 	inc	sp
+   00C2 21 00 C0      [10]  276 	ld	hl,#0xC000
+   00C5 E5            [11]  277 	push	hl
+   00C6 CDr00r00      [17]  278 	call	_cpct_getScreenPtr
+   00C9 EB            [ 4]  279 	ex	de,hl
+                            280 ;src/game.c:115: cpc_GetSp((u8*) tile_buffer_1, 10, 5, (int) pvmem);
+   00CA 4B            [ 4]  281 	ld	c, e
+   00CB 42            [ 4]  282 	ld	b, d
+   00CC D5            [11]  283 	push	de
+   00CD C5            [11]  284 	push	bc
+   00CE 21 0A 05      [10]  285 	ld	hl,#0x050A
+   00D1 E5            [11]  286 	push	hl
+   00D2 21r32r00      [10]  287 	ld	hl,#_tile_buffer_1
+   00D5 E5            [11]  288 	push	hl
+   00D6 CDr00r00      [17]  289 	call	_cpc_GetSp
+   00D9 D1            [10]  290 	pop	de
+                            291 ;src/game.c:116: cpct_drawSpriteMaskedAlignedTable(cards[card], pvmem, TILE_W, TILE_H, hc_tablatrans);
+   00DA 01r23r00      [10]  292 	ld	bc,#_cards+0
+   00DD DD 6E F6      [19]  293 	ld	l,-10 (ix)
+   00E0 26 00         [ 7]  294 	ld	h,#0x00
+   00E2 29            [11]  295 	add	hl, hl
+   00E3 09            [11]  296 	add	hl,bc
+   00E4 DD 75 FD      [19]  297 	ld	-3 (ix),l
+   00E7 DD 74 FE      [19]  298 	ld	-2 (ix),h
+   00EA DD 6E FD      [19]  299 	ld	l,-3 (ix)
+   00ED DD 66 FE      [19]  300 	ld	h,-2 (ix)
+   00F0 4E            [ 7]  301 	ld	c,(hl)
+   00F1 23            [ 6]  302 	inc	hl
+   00F2 46            [ 7]  303 	ld	b,(hl)
+   00F3 21r00r01      [10]  304 	ld	hl,#_hc_tablatrans
+   00F6 E5            [11]  305 	push	hl
+   00F7 21 05 0A      [10]  306 	ld	hl,#0x0A05
+   00FA E5            [11]  307 	push	hl
+   00FB D5            [11]  308 	push	de
+   00FC C5            [11]  309 	push	bc
+   00FD CDr00r00      [17]  310 	call	_cpct_drawSpriteMaskedAlignedTable
+                            311 ;src/game.c:118: while (!stopped) {
+   0100 01r02r00      [10]  312 	ld	bc,#_userTable+0
+   0103 DD 5E 04      [19]  313 	ld	e,4 (ix)
+   0106 16 00         [ 7]  314 	ld	d,#0x00
+   0108 6B            [ 4]  315 	ld	l, e
+   0109 62            [ 4]  316 	ld	h, d
+   010A 29            [11]  317 	add	hl, hl
+   010B 19            [11]  318 	add	hl, de
+   010C 29            [11]  319 	add	hl, hl
+   010D 09            [11]  320 	add	hl,bc
+   010E DD 75 FB      [19]  321 	ld	-5 (ix),l
+   0111 DD 74 FC      [19]  322 	ld	-4 (ix),h
+   0114 DD 7E FB      [19]  323 	ld	a,-5 (ix)
+   0117 DD 77 F9      [19]  324 	ld	-7 (ix),a
+   011A DD 7E FC      [19]  325 	ld	a,-4 (ix)
+   011D DD 77 FA      [19]  326 	ld	-6 (ix),a
+   0120                     327 00107$:
+   0120 DD 7E F7      [19]  328 	ld	a,-9 (ix)
+   0123 B7            [ 4]  329 	or	a, a
+   0124 C2rCAr01      [10]  330 	jp	NZ,00109$
+                            331 ;src/game.c:119: delay(10);
+   0127 21 00 00      [10]  332 	ld	hl,#0x0000
+   012A E5            [11]  333 	push	hl
+   012B 21 0A 00      [10]  334 	ld	hl,#0x000A
+   012E E5            [11]  335 	push	hl
+   012F CDr00r00      [17]  336 	call	_delay
+   0132 F1            [10]  337 	pop	af
+   0133 F1            [10]  338 	pop	af
+                            339 ;src/game.c:120: if ((row > 0) && (userTable[col][row - 1] == 0)) {
+   0134 DD 7E F8      [19]  340 	ld	a,-8 (ix)
+   0137 B7            [ 4]  341 	or	a, a
+   0138 CArC3r01      [10]  342 	jp	Z,00104$
+   013B DD 4E F8      [19]  343 	ld	c,-8 (ix)
+   013E 0D            [ 4]  344 	dec	c
+   013F DD 6E F9      [19]  345 	ld	l,-7 (ix)
+   0142 DD 66 FA      [19]  346 	ld	h,-6 (ix)
+   0145 06 00         [ 7]  347 	ld	b,#0x00
+   0147 09            [11]  348 	add	hl, bc
+   0148 7E            [ 7]  349 	ld	a,(hl)
+   0149 B7            [ 4]  350 	or	a, a
+   014A 20 77         [12]  351 	jr	NZ,00104$
+                            352 ;src/game.c:121: pvmem = cpct_getScreenPtr(CPCT_VMEM_START, USER_TABLE_X + (col * (TILE_W + 1)), USER_TABLE_Y + (row * (TILE_H + 2)));
+   014C DD 7E F8      [19]  353 	ld	a,-8 (ix)
+   014F 5F            [ 4]  354 	ld	e,a
+   0150 87            [ 4]  355 	add	a, a
+   0151 83            [ 4]  356 	add	a, e
+   0152 87            [ 4]  357 	add	a, a
+   0153 87            [ 4]  358 	add	a, a
+   0154 C6 5C         [ 7]  359 	add	a, #0x5C
+   0156 47            [ 4]  360 	ld	b,a
+   0157 C5            [11]  361 	push	bc
+   0158 C5            [11]  362 	push	bc
+   0159 33            [ 6]  363 	inc	sp
+   015A DD 7E FF      [19]  364 	ld	a,-1 (ix)
+   015D F5            [11]  365 	push	af
+   015E 33            [ 6]  366 	inc	sp
+   015F 21 00 C0      [10]  367 	ld	hl,#0xC000
+   0162 E5            [11]  368 	push	hl
+   0163 CDr00r00      [17]  369 	call	_cpct_getScreenPtr
+   0166 EB            [ 4]  370 	ex	de,hl
+   0167 21 05 0A      [10]  371 	ld	hl,#0x0A05
+   016A E5            [11]  372 	push	hl
+   016B D5            [11]  373 	push	de
+   016C 21r32r00      [10]  374 	ld	hl,#_tile_buffer_1
+   016F E5            [11]  375 	push	hl
+   0170 CDr00r00      [17]  376 	call	_cpct_drawSprite
+   0173 C1            [10]  377 	pop	bc
+                            378 ;src/game.c:123: row--;
+                            379 ;src/game.c:124: pvmem = cpct_getScreenPtr(CPCT_VMEM_START, USER_TABLE_X + (col * (TILE_W + 1)), USER_TABLE_Y + (row * (TILE_H + 2)));
+   0174 DD 71 F8      [19]  380 	ld	-8 (ix), c
+   0177 79            [ 4]  381 	ld	a,c
+   0178 87            [ 4]  382 	add	a, a
+   0179 81            [ 4]  383 	add	a, c
+   017A 87            [ 4]  384 	add	a, a
+   017B 87            [ 4]  385 	add	a, a
+   017C C6 5C         [ 7]  386 	add	a, #0x5C
+   017E 47            [ 4]  387 	ld	b,a
+   017F C5            [11]  388 	push	bc
+   0180 33            [ 6]  389 	inc	sp
+   0181 DD 7E FF      [19]  390 	ld	a,-1 (ix)
+   0184 F5            [11]  391 	push	af
+   0185 33            [ 6]  392 	inc	sp
+   0186 21 00 C0      [10]  393 	ld	hl,#0xC000
+   0189 E5            [11]  394 	push	hl
+   018A CDr00r00      [17]  395 	call	_cpct_getScreenPtr
+   018D 4D            [ 4]  396 	ld	c,l
+   018E 44            [ 4]  397 	ld	b,h
+                            398 ;src/game.c:125: cpc_GetSp((u8*) tile_buffer_1, 10, 5, (int) pvmem);
+   018F 59            [ 4]  399 	ld	e, c
+   0190 50            [ 4]  400 	ld	d, b
+   0191 C5            [11]  401 	push	bc
+   0192 D5            [11]  402 	push	de
+   0193 21 0A 05      [10]  403 	ld	hl,#0x050A
+   0196 E5            [11]  404 	push	hl
+   0197 21r32r00      [10]  405 	ld	hl,#_tile_buffer_1
+   019A E5            [11]  406 	push	hl
+   019B CDr00r00      [17]  407 	call	_cpc_GetSp
+   019E C1            [10]  408 	pop	bc
+                            409 ;src/game.c:126: cpct_drawSpriteMaskedAlignedTable(cards[card], pvmem, TILE_W, TILE_H, hc_tablatrans);
+   019F DD 6E FD      [19]  410 	ld	l,-3 (ix)
+   01A2 DD 66 FE      [19]  411 	ld	h,-2 (ix)
+   01A5 5E            [ 7]  412 	ld	e,(hl)
+   01A6 23            [ 6]  413 	inc	hl
+   01A7 56            [ 7]  414 	ld	d,(hl)
+   01A8 21r00r01      [10]  415 	ld	hl,#_hc_tablatrans
+   01AB E5            [11]  416 	push	hl
+   01AC 21 05 0A      [10]  417 	ld	hl,#0x0A05
+   01AF E5            [11]  418 	push	hl
+   01B0 C5            [11]  419 	push	bc
+   01B1 D5            [11]  420 	push	de
+   01B2 CDr00r00      [17]  421 	call	_cpct_drawSpriteMaskedAlignedTable
+                            422 ;src/game.c:127: if (row == 0)
+   01B5 DD 7E F8      [19]  423 	ld	a,-8 (ix)
+   01B8 B7            [ 4]  424 	or	a, a
+   01B9 C2r20r01      [10]  425 	jp	NZ,00107$
+                            426 ;src/game.c:128: stopped = 1;
+   01BC DD 36 F7 01   [19]  427 	ld	-9 (ix),#0x01
+   01C0 C3r20r01      [10]  428 	jp	00107$
+   01C3                     429 00104$:
+                            430 ;src/game.c:130: stopped = 1;
+   01C3 DD 36 F7 01   [19]  431 	ld	-9 (ix),#0x01
+   01C7 C3r20r01      [10]  432 	jp	00107$
+   01CA                     433 00109$:
+                            434 ;src/game.c:133: userTable[col][row] = card;
+   01CA DD 7E FB      [19]  435 	ld	a,-5 (ix)
+   01CD DD 86 F8      [19]  436 	add	a, -8 (ix)
+   01D0 4F            [ 4]  437 	ld	c,a
+   01D1 DD 7E FC      [19]  438 	ld	a,-4 (ix)
+   01D4 CE 00         [ 7]  439 	adc	a, #0x00
+   01D6 47            [ 4]  440 	ld	b,a
+   01D7 DD 7E F6      [19]  441 	ld	a,-10 (ix)
+   01DA 02            [ 7]  442 	ld	(bc),a
+   01DB DD F9         [10]  443 	ld	sp, ix
+   01DD DD E1         [14]  444 	pop	ix
+   01DF C9            [10]  445 	ret
+                            446 ;src/game.c:136: void insertCardEnemy(u8 col) {
+                            447 ;	---------------------------------
+                            448 ; Function insertCardEnemy
+                            449 ; ---------------------------------
+   01E0                     450 _insertCardEnemy::
+   01E0 DD E5         [15]  451 	push	ix
+   01E2 DD 21 00 00   [14]  452 	ld	ix,#0
+   01E6 DD 39         [15]  453 	add	ix,sp
+   01E8 21 F6 FF      [10]  454 	ld	hl,#-10
+   01EB 39            [11]  455 	add	hl,sp
+   01EC F9            [ 6]  456 	ld	sp,hl
+                            457 ;src/game.c:139: u8 stopped = 0;
+   01ED DD 36 F7 00   [19]  458 	ld	-9 (ix),#0x00
+                            459 ;src/game.c:142: row = 0;
+   01F1 DD 36 F8 00   [19]  460 	ld	-8 (ix),#0x00
+                            461 ;src/game.c:143: card = (cpct_rand() / 64) + 1;
+   01F5 CDr00r00      [17]  462 	call	_cpct_getRandom_mxor_u8
+   01F8 7D            [ 4]  463 	ld	a,l
+   01F9 07            [ 4]  464 	rlca
+   01FA 07            [ 4]  465 	rlca
+   01FB E6 03         [ 7]  466 	and	a,#0x03
+   01FD 3C            [ 4]  467 	inc	a
+   01FE DD 77 F6      [19]  468 	ld	-10 (ix),a
+                            469 ;src/game.c:145: pvmem = cpct_getScreenPtr(CPCT_VMEM_START, ENEMY_TABLE_X + (col * (TILE_W + 1)), ENEMY_TABLE_Y + (row * (TILE_H + 2)));
+   0201 DD 7E 04      [19]  470 	ld	a,4 (ix)
+   0204 4F            [ 4]  471 	ld	c,a
+   0205 87            [ 4]  472 	add	a, a
+   0206 81            [ 4]  473 	add	a, c
+   0207 87            [ 4]  474 	add	a, a
+   0208 C6 02         [ 7]  475 	add	a, #0x02
+   020A DD 77 FF      [19]  476 	ld	-1 (ix),a
+   020D 3E 02         [ 7]  477 	ld	a,#0x02
+   020F F5            [11]  478 	push	af
+   0210 33            [ 6]  479 	inc	sp
+   0211 DD 7E FF      [19]  480 	ld	a,-1 (ix)
+   0214 F5            [11]  481 	push	af
+   0215 33            [ 6]  482 	inc	sp
+   0216 21 00 C0      [10]  483 	ld	hl,#0xC000
+   0219 E5            [11]  484 	push	hl
+   021A CDr00r00      [17]  485 	call	_cpct_getScreenPtr
+   021D EB            [ 4]  486 	ex	de,hl
+                            487 ;src/game.c:146: cpc_GetSp((u8*) tile_buffer_1, 10, 5, (int) pvmem);
+   021E 4B            [ 4]  488 	ld	c, e
+   021F 42            [ 4]  489 	ld	b, d
+   0220 D5            [11]  490 	push	de
+   0221 C5            [11]  491 	push	bc
+   0222 21 0A 05      [10]  492 	ld	hl,#0x050A
+   0225 E5            [11]  493 	push	hl
+   0226 21r32r00      [10]  494 	ld	hl,#_tile_buffer_1
+   0229 E5            [11]  495 	push	hl
+   022A CDr00r00      [17]  496 	call	_cpc_GetSp
+   022D D1            [10]  497 	pop	de
+                            498 ;src/game.c:147: cpct_drawSpriteMaskedAlignedTable(cards[card], pvmem, TILE_W, TILE_H, hc_tablatrans);
+   022E 01r23r00      [10]  499 	ld	bc,#_cards+0
+   0231 DD 6E F6      [19]  500 	ld	l,-10 (ix)
+   0234 26 00         [ 7]  501 	ld	h,#0x00
+   0236 29            [11]  502 	add	hl, hl
+   0237 09            [11]  503 	add	hl,bc
+   0238 DD 75 FD      [19]  504 	ld	-3 (ix),l
+   023B DD 74 FE      [19]  505 	ld	-2 (ix),h
+   023E DD 6E FD      [19]  506 	ld	l,-3 (ix)
+   0241 DD 66 FE      [19]  507 	ld	h,-2 (ix)
+   0244 4E            [ 7]  508 	ld	c,(hl)
+   0245 23            [ 6]  509 	inc	hl
+   0246 46            [ 7]  510 	ld	b,(hl)
+   0247 21r00r01      [10]  511 	ld	hl,#_hc_tablatrans
+   024A E5            [11]  512 	push	hl
+   024B 21 05 0A      [10]  513 	ld	hl,#0x0A05
+   024E E5            [11]  514 	push	hl
+   024F D5            [11]  515 	push	de
+   0250 C5            [11]  516 	push	bc
+   0251 CDr00r00      [17]  517 	call	_cpct_drawSpriteMaskedAlignedTable
+                            518 ;src/game.c:149: while (!stopped) {
+   0254 01r32r00      [10]  519 	ld	bc,#_enemyTable+0
+   0257 DD 5E 04      [19]  520 	ld	e,4 (ix)
+   025A 16 00         [ 7]  521 	ld	d,#0x00
+   025C 6B            [ 4]  522 	ld	l, e
+   025D 62            [ 4]  523 	ld	h, d
+   025E 29            [11]  524 	add	hl, hl
+   025F 19            [11]  525 	add	hl, de
+   0260 29            [11]  526 	add	hl, hl
+   0261 09            [11]  527 	add	hl,bc
+   0262 DD 75 FB      [19]  528 	ld	-5 (ix),l
+   0265 DD 74 FC      [19]  529 	ld	-4 (ix),h
+   0268 DD 7E FB      [19]  530 	ld	a,-5 (ix)
+   026B DD 77 F9      [19]  531 	ld	-7 (ix),a
+   026E DD 7E FC      [19]  532 	ld	a,-4 (ix)
+   0271 DD 77 FA      [19]  533 	ld	-6 (ix),a
+   0274                     534 00107$:
+   0274 DD 7E F7      [19]  535 	ld	a,-9 (ix)
+   0277 B7            [ 4]  536 	or	a, a
+   0278 C2r20r03      [10]  537 	jp	NZ,00109$
+                            538 ;src/game.c:150: delay(10);
+   027B 21 00 00      [10]  539 	ld	hl,#0x0000
+   027E E5            [11]  540 	push	hl
+   027F 21 0A 00      [10]  541 	ld	hl,#0x000A
+   0282 E5            [11]  542 	push	hl
+   0283 CDr00r00      [17]  543 	call	_delay
+   0286 F1            [10]  544 	pop	af
+   0287 F1            [10]  545 	pop	af
+                            546 ;src/game.c:151: if ((row < 5) && (enemyTable[col][row + 1] == 0)) {
+   0288 DD 7E F8      [19]  547 	ld	a,-8 (ix)
+   028B D6 05         [ 7]  548 	sub	a, #0x05
+   028D D2r19r03      [10]  549 	jp	NC,00104$
+   0290 DD 4E F8      [19]  550 	ld	c,-8 (ix)
+   0293 0C            [ 4]  551 	inc	c
+   0294 DD 6E F9      [19]  552 	ld	l,-7 (ix)
+   0297 DD 66 FA      [19]  553 	ld	h,-6 (ix)
+   029A 06 00         [ 7]  554 	ld	b,#0x00
+   029C 09            [11]  555 	add	hl, bc
+   029D 7E            [ 7]  556 	ld	a,(hl)
+   029E B7            [ 4]  557 	or	a, a
+   029F 20 78         [12]  558 	jr	NZ,00104$
+                            559 ;src/game.c:152: pvmem = cpct_getScreenPtr(CPCT_VMEM_START, ENEMY_TABLE_X + (col * (TILE_W + 1)), ENEMY_TABLE_Y + (row * (TILE_H + 2)));
+   02A1 DD 7E F8      [19]  560 	ld	a,-8 (ix)
+   02A4 5F            [ 4]  561 	ld	e,a
+   02A5 87            [ 4]  562 	add	a, a
+   02A6 83            [ 4]  563 	add	a, e
+   02A7 87            [ 4]  564 	add	a, a
+   02A8 87            [ 4]  565 	add	a, a
+   02A9 47            [ 4]  566 	ld	b,a
+   02AA 04            [ 4]  567 	inc	b
+   02AB 04            [ 4]  568 	inc	b
+   02AC C5            [11]  569 	push	bc
+   02AD C5            [11]  570 	push	bc
+   02AE 33            [ 6]  571 	inc	sp
+   02AF DD 7E FF      [19]  572 	ld	a,-1 (ix)
+   02B2 F5            [11]  573 	push	af
+   02B3 33            [ 6]  574 	inc	sp
+   02B4 21 00 C0      [10]  575 	ld	hl,#0xC000
+   02B7 E5            [11]  576 	push	hl
+   02B8 CDr00r00      [17]  577 	call	_cpct_getScreenPtr
+   02BB EB            [ 4]  578 	ex	de,hl
+   02BC 21 05 0A      [10]  579 	ld	hl,#0x0A05
+   02BF E5            [11]  580 	push	hl
+   02C0 D5            [11]  581 	push	de
+   02C1 21r32r00      [10]  582 	ld	hl,#_tile_buffer_1
+   02C4 E5            [11]  583 	push	hl
+   02C5 CDr00r00      [17]  584 	call	_cpct_drawSprite
+   02C8 C1            [10]  585 	pop	bc
+                            586 ;src/game.c:154: row++;
+                            587 ;src/game.c:155: pvmem = cpct_getScreenPtr(CPCT_VMEM_START, ENEMY_TABLE_X + (col * (TILE_W + 1)), ENEMY_TABLE_Y + (row * (TILE_H + 2)));
+   02C9 DD 71 F8      [19]  588 	ld	-8 (ix), c
+   02CC 79            [ 4]  589 	ld	a,c
+   02CD 87            [ 4]  590 	add	a, a
+   02CE 81            [ 4]  591 	add	a, c
+   02CF 87            [ 4]  592 	add	a, a
+   02D0 87            [ 4]  593 	add	a, a
+   02D1 47            [ 4]  594 	ld	b,a
+   02D2 04            [ 4]  595 	inc	b
+   02D3 04            [ 4]  596 	inc	b
+   02D4 C5            [11]  597 	push	bc
+   02D5 33            [ 6]  598 	inc	sp
+   02D6 DD 7E FF      [19]  599 	ld	a,-1 (ix)
+   02D9 F5            [11]  600 	push	af
+   02DA 33            [ 6]  601 	inc	sp
+   02DB 21 00 C0      [10]  602 	ld	hl,#0xC000
+   02DE E5            [11]  603 	push	hl
+   02DF CDr00r00      [17]  604 	call	_cpct_getScreenPtr
+   02E2 4D            [ 4]  605 	ld	c,l
+   02E3 44            [ 4]  606 	ld	b,h
+                            607 ;src/game.c:156: cpc_GetSp((u8*) tile_buffer_1, 10, 5, (int) pvmem);
+   02E4 59            [ 4]  608 	ld	e, c
+   02E5 50            [ 4]  609 	ld	d, b
+   02E6 C5            [11]  610 	push	bc
+   02E7 D5            [11]  611 	push	de
+   02E8 21 0A 05      [10]  612 	ld	hl,#0x050A
+   02EB E5            [11]  613 	push	hl
+   02EC 21r32r00      [10]  614 	ld	hl,#_tile_buffer_1
+   02EF E5            [11]  615 	push	hl
+   02F0 CDr00r00      [17]  616 	call	_cpc_GetSp
+   02F3 C1            [10]  617 	pop	bc
+                            618 ;src/game.c:157: cpct_drawSpriteMaskedAlignedTable(cards[card], pvmem, TILE_W, TILE_H, hc_tablatrans);
+   02F4 DD 6E FD      [19]  619 	ld	l,-3 (ix)
+   02F7 DD 66 FE      [19]  620 	ld	h,-2 (ix)
+   02FA 5E            [ 7]  621 	ld	e,(hl)
+   02FB 23            [ 6]  622 	inc	hl
+   02FC 56            [ 7]  623 	ld	d,(hl)
+   02FD 21r00r01      [10]  624 	ld	hl,#_hc_tablatrans
+   0300 E5            [11]  625 	push	hl
+   0301 21 05 0A      [10]  626 	ld	hl,#0x0A05
+   0304 E5            [11]  627 	push	hl
+   0305 C5            [11]  628 	push	bc
+   0306 D5            [11]  629 	push	de
+   0307 CDr00r00      [17]  630 	call	_cpct_drawSpriteMaskedAlignedTable
+                            631 ;src/game.c:158: if (row == 5)
+   030A DD 7E F8      [19]  632 	ld	a,-8 (ix)
+   030D D6 05         [ 7]  633 	sub	a, #0x05
+   030F C2r74r02      [10]  634 	jp	NZ,00107$
+                            635 ;src/game.c:159: stopped = 1;
+   0312 DD 36 F7 01   [19]  636 	ld	-9 (ix),#0x01
+   0316 C3r74r02      [10]  637 	jp	00107$
+   0319                     638 00104$:
+                            639 ;src/game.c:161: stopped = 1;
+   0319 DD 36 F7 01   [19]  640 	ld	-9 (ix),#0x01
+   031D C3r74r02      [10]  641 	jp	00107$
+   0320                     642 00109$:
+                            643 ;src/game.c:164: enemyTable[col][row] = card;
+   0320 DD 7E FB      [19]  644 	ld	a,-5 (ix)
+   0323 DD 86 F8      [19]  645 	add	a, -8 (ix)
+   0326 4F            [ 4]  646 	ld	c,a
+   0327 DD 7E FC      [19]  647 	ld	a,-4 (ix)
+   032A CE 00         [ 7]  648 	adc	a, #0x00
+   032C 47            [ 4]  649 	ld	b,a
+   032D DD 7E F6      [19]  650 	ld	a,-10 (ix)
+   0330 02            [ 7]  651 	ld	(bc),a
+   0331 DD F9         [10]  652 	ld	sp, ix
+   0333 DD E1         [14]  653 	pop	ix
+   0335 C9            [10]  654 	ret
+                            655 ;src/game.c:167: void newHand(u8 side) {
+                            656 ;	---------------------------------
+                            657 ; Function newHand
+                            658 ; ---------------------------------
+   0336                     659 _newHand::
+   0336 DD E5         [15]  660 	push	ix
+   0338 DD 21 00 00   [14]  661 	ld	ix,#0
+   033C DD 39         [15]  662 	add	ix,sp
+   033E 3B            [ 6]  663 	dec	sp
+                            664 ;src/game.c:171: for (i = 0; i < 8; i++) {
+   033F DD 36 FF 00   [19]  665 	ld	-1 (ix),#0x00
+   0343                     666 00111$:
+                            667 ;src/game.c:172: if (side) {
+   0343 DD 7E 04      [19]  668 	ld	a,4 (ix)
+   0346 B7            [ 4]  669 	or	a, a
+   0347 28 32         [12]  670 	jr	Z,00108$
+                            671 ;src/game.c:173: col = (cpct_rand() / 32);
+   0349 CDr00r00      [17]  672 	call	_cpct_getRandom_mxor_u8
+   034C 7D            [ 4]  673 	ld	a,l
+   034D 07            [ 4]  674 	rlca
+   034E 07            [ 4]  675 	rlca
+   034F 07            [ 4]  676 	rlca
+   0350 E6 07         [ 7]  677 	and	a,#0x07
+   0352 4F            [ 4]  678 	ld	c,a
+                            679 ;src/game.c:174: while (userTable[col][5] != 0) {
+   0353                     680 00101$:
+   0353 06 00         [ 7]  681 	ld	b,#0x00
+   0355 69            [ 4]  682 	ld	l, c
+   0356 60            [ 4]  683 	ld	h, b
+   0357 29            [11]  684 	add	hl, hl
+   0358 09            [11]  685 	add	hl, bc
+   0359 29            [11]  686 	add	hl, hl
+   035A 11r02r00      [10]  687 	ld	de,#_userTable
+   035D 19            [11]  688 	add	hl,de
+   035E 11 05 00      [10]  689 	ld	de, #0x0005
+   0361 19            [11]  690 	add	hl, de
+   0362 7E            [ 7]  691 	ld	a,(hl)
+   0363 B7            [ 4]  692 	or	a, a
+   0364 28 0C         [12]  693 	jr	Z,00103$
+                            694 ;src/game.c:175: col = (cpct_rand() / 32);
+   0366 CDr00r00      [17]  695 	call	_cpct_getRandom_mxor_u8
+   0369 7D            [ 4]  696 	ld	a,l
+   036A 07            [ 4]  697 	rlca
+   036B 07            [ 4]  698 	rlca
+   036C 07            [ 4]  699 	rlca
+   036D E6 07         [ 7]  700 	and	a,#0x07
+   036F 4F            [ 4]  701 	ld	c,a
+   0370 18 E1         [12]  702 	jr	00101$
+   0372                     703 00103$:
+                            704 ;src/game.c:177: insertCardUser(col);
+   0372 79            [ 4]  705 	ld	a,c
+   0373 F5            [11]  706 	push	af
+   0374 33            [ 6]  707 	inc	sp
+   0375 CDr8Cr00      [17]  708 	call	_insertCardUser
+   0378 33            [ 6]  709 	inc	sp
+   0379 18 2C         [12]  710 	jr	00112$
+   037B                     711 00108$:
+                            712 ;src/game.c:179: col = (cpct_rand() / 32);
+   037B CDr00r00      [17]  713 	call	_cpct_getRandom_mxor_u8
+   037E 7D            [ 4]  714 	ld	a,l
+   037F 07            [ 4]  715 	rlca
+   0380 07            [ 4]  716 	rlca
+   0381 07            [ 4]  717 	rlca
+   0382 E6 07         [ 7]  718 	and	a,#0x07
+   0384 47            [ 4]  719 	ld	b,a
+                            720 ;src/game.c:180: while (enemyTable[col][0] != 0) {
+   0385                     721 00104$:
+   0385 58            [ 4]  722 	ld	e,b
+   0386 16 00         [ 7]  723 	ld	d,#0x00
+   0388 6B            [ 4]  724 	ld	l, e
+   0389 62            [ 4]  725 	ld	h, d
+   038A 29            [11]  726 	add	hl, hl
+   038B 19            [11]  727 	add	hl, de
+   038C 29            [11]  728 	add	hl, hl
+   038D 11r32r00      [10]  729 	ld	de,#_enemyTable
+   0390 19            [11]  730 	add	hl,de
+   0391 7E            [ 7]  731 	ld	a,(hl)
+   0392 B7            [ 4]  732 	or	a, a
+   0393 28 0C         [12]  733 	jr	Z,00106$
+                            734 ;src/game.c:181: col = (cpct_rand() / 32);
+   0395 CDr00r00      [17]  735 	call	_cpct_getRandom_mxor_u8
+   0398 7D            [ 4]  736 	ld	a,l
+   0399 07            [ 4]  737 	rlca
+   039A 07            [ 4]  738 	rlca
+   039B 07            [ 4]  739 	rlca
+   039C E6 07         [ 7]  740 	and	a,#0x07
+   039E 47            [ 4]  741 	ld	b,a
+   039F 18 E4         [12]  742 	jr	00104$
+   03A1                     743 00106$:
+                            744 ;src/game.c:183: insertCardEnemy(col);
+   03A1 C5            [11]  745 	push	bc
+   03A2 33            [ 6]  746 	inc	sp
+   03A3 CDrE0r01      [17]  747 	call	_insertCardEnemy
+   03A6 33            [ 6]  748 	inc	sp
+   03A7                     749 00112$:
+                            750 ;src/game.c:171: for (i = 0; i < 8; i++) {
+   03A7 DD 34 FF      [23]  751 	inc	-1 (ix)
+   03AA DD 7E FF      [19]  752 	ld	a,-1 (ix)
+   03AD D6 08         [ 7]  753 	sub	a, #0x08
+   03AF 38 92         [12]  754 	jr	C,00111$
+   03B1 33            [ 6]  755 	inc	sp
+   03B2 DD E1         [14]  756 	pop	ix
+   03B4 C9            [10]  757 	ret
+                            758 ;src/game.c:188: void drawUser() {
+                            759 ;	---------------------------------
+                            760 ; Function drawUser
+                            761 ; ---------------------------------
+   03B5                     762 _drawUser::
+                            763 ;src/game.c:195: u8* pvmem = cpct_getScreenPtr(CPCT_VMEM_START, USER_TABLE_X + (user.px * (TILE_W + 1)), USER_TABLE_Y + (user.py * (TILE_H + 2)));
+   03B5 3Ar73r00      [13]  764 	ld	a, (#(_user + 0x0003) + 0)
+   03B8 4F            [ 4]  765 	ld	c,a
+   03B9 87            [ 4]  766 	add	a, a
+   03BA 81            [ 4]  767 	add	a, c
+   03BB 87            [ 4]  768 	add	a, a
+   03BC 87            [ 4]  769 	add	a, a
+   03BD C6 5C         [ 7]  770 	add	a, #0x5C
+   03BF 57            [ 4]  771 	ld	d,a
+   03C0 3Ar72r00      [13]  772 	ld	a, (#(_user + 0x0002) + 0)
+   03C3 4F            [ 4]  773 	ld	c,a
+   03C4 87            [ 4]  774 	add	a, a
+   03C5 81            [ 4]  775 	add	a, c
+   03C6 87            [ 4]  776 	add	a, a
+   03C7 47            [ 4]  777 	ld	b,a
+   03C8 04            [ 4]  778 	inc	b
+   03C9 04            [ 4]  779 	inc	b
+   03CA D5            [11]  780 	push	de
+   03CB 33            [ 6]  781 	inc	sp
+   03CC C5            [11]  782 	push	bc
+   03CD 33            [ 6]  783 	inc	sp
+   03CE 21 00 C0      [10]  784 	ld	hl,#0xC000
+   03D1 E5            [11]  785 	push	hl
+   03D2 CDr00r00      [17]  786 	call	_cpct_getScreenPtr
+   03D5 4D            [ 4]  787 	ld	c,l
+   03D6 44            [ 4]  788 	ld	b,h
+                            789 ;src/game.c:196: cpct_drawSprite(tile_buffer_0, pvmem, HC_MARKER_W, HC_MARKER_H);
+   03D7 21 05 0A      [10]  790 	ld	hl,#0x0A05
+   03DA E5            [11]  791 	push	hl
+   03DB C5            [11]  792 	push	bc
+   03DC 21r00r00      [10]  793 	ld	hl,#_tile_buffer_0
+   03DF E5            [11]  794 	push	hl
+   03E0 CDr00r00      [17]  795 	call	_cpct_drawSprite
+                            796 ;src/game.c:197: pvmem = cpct_getScreenPtr(CPCT_VMEM_START, USER_TABLE_X + (user.x * (TILE_W + 1)), USER_TABLE_Y + (user.y * (TILE_H + 2)));
+   03E3 3Ar71r00      [13]  797 	ld	a, (#(_user + 0x0001) + 0)
+   03E6 4F            [ 4]  798 	ld	c,a
+   03E7 87            [ 4]  799 	add	a, a
+   03E8 81            [ 4]  800 	add	a, c
+   03E9 87            [ 4]  801 	add	a, a
+   03EA 87            [ 4]  802 	add	a, a
+   03EB C6 5C         [ 7]  803 	add	a, #0x5C
+   03ED 57            [ 4]  804 	ld	d,a
+   03EE 3Ar70r00      [13]  805 	ld	a, (#_user + 0)
+   03F1 4F            [ 4]  806 	ld	c,a
+   03F2 87            [ 4]  807 	add	a, a
+   03F3 81            [ 4]  808 	add	a, c
+   03F4 87            [ 4]  809 	add	a, a
+   03F5 47            [ 4]  810 	ld	b,a
+   03F6 04            [ 4]  811 	inc	b
+   03F7 04            [ 4]  812 	inc	b
+   03F8 D5            [11]  813 	push	de
+   03F9 33            [ 6]  814 	inc	sp
+   03FA C5            [11]  815 	push	bc
+   03FB 33            [ 6]  816 	inc	sp
+   03FC 21 00 C0      [10]  817 	ld	hl,#0xC000
+   03FF E5            [11]  818 	push	hl
+   0400 CDr00r00      [17]  819 	call	_cpct_getScreenPtr
+   0403 4D            [ 4]  820 	ld	c,l
+   0404 44            [ 4]  821 	ld	b,h
+                            822 ;src/game.c:198: cpc_GetSp((u8*) tile_buffer_0, 10, 5, (int) pvmem);
+   0405 59            [ 4]  823 	ld	e, c
+   0406 50            [ 4]  824 	ld	d, b
+   0407 C5            [11]  825 	push	bc
+   0408 D5            [11]  826 	push	de
+   0409 21 0A 05      [10]  827 	ld	hl,#0x050A
+   040C E5            [11]  828 	push	hl
+   040D 21r00r00      [10]  829 	ld	hl,#_tile_buffer_0
+   0410 E5            [11]  830 	push	hl
+   0411 CDr00r00      [17]  831 	call	_cpc_GetSp
+   0414 C1            [10]  832 	pop	bc
+                            833 ;src/game.c:199: cpct_drawSpriteMaskedAlignedTable(hc_marker, pvmem, HC_MARKER_W, HC_MARKER_H, hc_tablatrans);
+   0415 11r00r01      [10]  834 	ld	de,#_hc_tablatrans+0
+   0418 D5            [11]  835 	push	de
+   0419 21 05 0A      [10]  836 	ld	hl,#0x0A05
+   041C E5            [11]  837 	push	hl
+   041D C5            [11]  838 	push	bc
+   041E 21r00r00      [10]  839 	ld	hl,#_hc_marker
+   0421 E5            [11]  840 	push	hl
+   0422 CDr00r00      [17]  841 	call	_cpct_drawSpriteMaskedAlignedTable
+                            842 ;src/game.c:202: user.px = user.x;
+   0425 3Ar70r00      [13]  843 	ld	a, (#_user + 0)
+   0428 32r72r00      [13]  844 	ld	(#(_user + 0x0002)),a
+                            845 ;src/game.c:203: user.py = user.y;
+   042B 3Ar71r00      [13]  846 	ld	a, (#(_user + 0x0001) + 0)
+   042E 32r73r00      [13]  847 	ld	(#(_user + 0x0003)),a
+   0431 C9            [10]  848 	ret
+                            849 ;src/game.c:206: void checkUserMovement() {
+                            850 ;	---------------------------------
+                            851 ; Function checkUserMovement
+                            852 ; ---------------------------------
+   0432                     853 _checkUserMovement::
+                            854 ;src/game.c:207: cpct_scanKeyboard_f();
+   0432 CDr00r00      [17]  855 	call	_cpct_scanKeyboard_f
+                            856 ;src/game.c:209: if ((user.x < (TABLE_WIDTH - 1)) && (cpct_isKeyPressed(keys.right))) {
+   0435 3Ar70r00      [13]  857 	ld	a,(#_user + 0)
+   0438 D6 07         [ 7]  858 	sub	a, #0x07
+   043A 30 1B         [12]  859 	jr	NC,00105$
+   043C 2Ar68r00      [16]  860 	ld	hl, (#(_keys + 0x0006) + 0)
+   043F CDr00r00      [17]  861 	call	_cpct_isKeyPressed
+   0442 7D            [ 4]  862 	ld	a,l
+   0443 B7            [ 4]  863 	or	a, a
+   0444 28 11         [12]  864 	jr	Z,00105$
+                            865 ;src/game.c:210: user.px = user.x;
+   0446 01r70r00      [10]  866 	ld	bc,#_user+0
+   0449 0A            [ 7]  867 	ld	a,(bc)
+   044A 32r72r00      [13]  868 	ld	(#(_user + 0x0002)),a
+                            869 ;src/game.c:211: user.x++;
+   044D 0A            [ 7]  870 	ld	a,(bc)
+   044E 3C            [ 4]  871 	inc	a
+   044F 02            [ 7]  872 	ld	(bc),a
+                            873 ;src/game.c:212: user.moved = 1;
+   0450 21r74r00      [10]  874 	ld	hl,#(_user + 0x0004)
+   0453 36 01         [10]  875 	ld	(hl),#0x01
+   0455 18 20         [12]  876 	jr	00106$
+   0457                     877 00105$:
+                            878 ;src/game.c:213: } else if ((user.x > 0) && (cpct_isKeyPressed(keys.left))) {
+   0457 3Ar70r00      [13]  879 	ld	a, (#_user + 0)
+   045A B7            [ 4]  880 	or	a, a
+   045B 28 1A         [12]  881 	jr	Z,00106$
+   045D 2Ar66r00      [16]  882 	ld	hl, (#(_keys + 0x0004) + 0)
+   0460 CDr00r00      [17]  883 	call	_cpct_isKeyPressed
+   0463 7D            [ 4]  884 	ld	a,l
+   0464 B7            [ 4]  885 	or	a, a
+   0465 28 10         [12]  886 	jr	Z,00106$
+                            887 ;src/game.c:214: user.px = user.x;
+   0467 01r70r00      [10]  888 	ld	bc,#_user+0
+   046A 0A            [ 7]  889 	ld	a,(bc)
+   046B 32r72r00      [13]  890 	ld	(#(_user + 0x0002)),a
+                            891 ;src/game.c:215: user.x--;
+   046E 0A            [ 7]  892 	ld	a,(bc)
+   046F C6 FF         [ 7]  893 	add	a,#0xFF
+   0471 02            [ 7]  894 	ld	(bc),a
+                            895 ;src/game.c:216: user.moved = 1;
+   0472 21r74r00      [10]  896 	ld	hl,#(_user + 0x0004)
+   0475 36 01         [10]  897 	ld	(hl),#0x01
+   0477                     898 00106$:
+                            899 ;src/game.c:219: if ((user.y < (TABLE_HEIGHT - 1)) && (cpct_isKeyPressed(keys.down))) {
+   0477 01r71r00      [10]  900 	ld	bc,#_user + 1
+   047A 0A            [ 7]  901 	ld	a,(bc)
+                            902 ;src/game.c:220: user.py = user.y;
+                            903 ;src/game.c:222: user.moved = 1;
+                            904 ;src/game.c:219: if ((user.y < (TABLE_HEIGHT - 1)) && (cpct_isKeyPressed(keys.down))) {
+   047B 5F            [ 4]  905 	ld	e,a
+   047C D6 05         [ 7]  906 	sub	a, #0x05
+   047E 30 1D         [12]  907 	jr	NC,00112$
+   0480 2Ar64r00      [16]  908 	ld	hl, (#(_keys + 0x0002) + 0)
+   0483 C5            [11]  909 	push	bc
+   0484 CDr00r00      [17]  910 	call	_cpct_isKeyPressed
+   0487 55            [ 4]  911 	ld	d,l
+   0488 C1            [10]  912 	pop	bc
+   0489 0A            [ 7]  913 	ld	a,(bc)
+   048A 5F            [ 4]  914 	ld	e,a
+   048B 7A            [ 4]  915 	ld	a,d
+   048C B7            [ 4]  916 	or	a, a
+   048D 28 0E         [12]  917 	jr	Z,00112$
+                            918 ;src/game.c:220: user.py = user.y;
+   048F 21r73r00      [10]  919 	ld	hl,#(_user + 0x0003)
+   0492 73            [ 7]  920 	ld	(hl),e
+                            921 ;src/game.c:221: user.y++;
+   0493 0A            [ 7]  922 	ld	a,(bc)
+   0494 3C            [ 4]  923 	inc	a
+   0495 02            [ 7]  924 	ld	(bc),a
+                            925 ;src/game.c:222: user.moved = 1;
+   0496 21r74r00      [10]  926 	ld	hl,#(_user + 0x0004)
+   0499 36 01         [10]  927 	ld	(hl),#0x01
+   049B 18 1D         [12]  928 	jr	00113$
+   049D                     929 00112$:
+                            930 ;src/game.c:223: } else if ((user.y > 0) && (cpct_isKeyPressed(keys.up))) {
+   049D 7B            [ 4]  931 	ld	a,e
+   049E B7            [ 4]  932 	or	a, a
+   049F 28 19         [12]  933 	jr	Z,00113$
+   04A1 2Ar62r00      [16]  934 	ld	hl, (#_keys + 0)
+   04A4 C5            [11]  935 	push	bc
+   04A5 CDr00r00      [17]  936 	call	_cpct_isKeyPressed
+   04A8 C1            [10]  937 	pop	bc
+   04A9 7D            [ 4]  938 	ld	a,l
+   04AA B7            [ 4]  939 	or	a, a
+   04AB 28 0D         [12]  940 	jr	Z,00113$
+                            941 ;src/game.c:224: user.py = user.y;
+   04AD 0A            [ 7]  942 	ld	a,(bc)
+   04AE 32r73r00      [13]  943 	ld	(#(_user + 0x0003)),a
+                            944 ;src/game.c:225: user.y--;
+   04B1 0A            [ 7]  945 	ld	a,(bc)
+   04B2 C6 FF         [ 7]  946 	add	a,#0xFF
+   04B4 02            [ 7]  947 	ld	(bc),a
+                            948 ;src/game.c:226: user.moved = 1;
+   04B5 21r74r00      [10]  949 	ld	hl,#(_user + 0x0004)
+   04B8 36 01         [10]  950 	ld	(hl),#0x01
+   04BA                     951 00113$:
+                            952 ;src/game.c:228: if ((userTable[user.x][5] == 0) && (cpct_isKeyPressed(keys.fire))) {
+   04BA 3Ar70r00      [13]  953 	ld	a, (#_user + 0)
+   04BD 4F            [ 4]  954 	ld	c,a
+   04BE 06 00         [ 7]  955 	ld	b,#0x00
+   04C0 69            [ 4]  956 	ld	l, c
+   04C1 60            [ 4]  957 	ld	h, b
+   04C2 29            [11]  958 	add	hl, hl
+   04C3 09            [11]  959 	add	hl, bc
+   04C4 29            [11]  960 	add	hl, hl
+   04C5 11r02r00      [10]  961 	ld	de,#_userTable
+   04C8 19            [11]  962 	add	hl,de
+   04C9 11 05 00      [10]  963 	ld	de, #0x0005
+   04CC 19            [11]  964 	add	hl, de
+   04CD 7E            [ 7]  965 	ld	a,(hl)
+   04CE B7            [ 4]  966 	or	a, a
+   04CF 20 12         [12]  967 	jr	NZ,00116$
+   04D1 2Ar6Ar00      [16]  968 	ld	hl, (#(_keys + 0x0008) + 0)
+   04D4 CDr00r00      [17]  969 	call	_cpct_isKeyPressed
+   04D7 7D            [ 4]  970 	ld	a,l
+   04D8 B7            [ 4]  971 	or	a, a
+   04D9 28 08         [12]  972 	jr	Z,00116$
+                            973 ;src/game.c:229: newHand(1);
+   04DB 3E 01         [ 7]  974 	ld	a,#0x01
+   04DD F5            [11]  975 	push	af
+   04DE 33            [ 6]  976 	inc	sp
+   04DF CDr36r03      [17]  977 	call	_newHand
+   04E2 33            [ 6]  978 	inc	sp
+   04E3                     979 00116$:
+                            980 ;src/game.c:232: if (cpct_isKeyPressed(keys.abort)) {
+   04E3 2Ar6Er00      [16]  981 	ld	hl, (#(_keys + 0x000c) + 0)
+   04E6 CDr00r00      [17]  982 	call	_cpct_isKeyPressed
+   04E9 7D            [ 4]  983 	ld	a,l
+   04EA B7            [ 4]  984 	or	a, a
+   04EB C8            [11]  985 	ret	Z
+                            986 ;src/game.c:234: reset_cpc();
+   04EC C3r00r00      [10]  987 	jp  _reset_cpc
+                            988 ;src/game.c:238: void game() {
+                            989 ;	---------------------------------
+                            990 ; Function game
+                            991 ; ---------------------------------
+   04EF                     992 _game::
+                            993 ;src/game.c:241: initGame();
+   04EF CDr2Dr00      [17]  994 	call	_initGame
+                            995 ;src/game.c:242: drawScreen();
+   04F2 CDr7Ar00      [17]  996 	call	_drawScreen
+                            997 ;src/game.c:243: newHand(0);  //0 for Enemy 1 for User
+   04F5 AF            [ 4]  998 	xor	a, a
+   04F6 F5            [11]  999 	push	af
+   04F7 33            [ 6] 1000 	inc	sp
+   04F8 CDr36r03      [17] 1001 	call	_newHand
+   04FB 33            [ 6] 1002 	inc	sp
+                           1003 ;src/game.c:244: newHand(1);  //0 for Enemy 1 for User
+   04FC 3E 01         [ 7] 1004 	ld	a,#0x01
+   04FE F5            [11] 1005 	push	af
+   04FF 33            [ 6] 1006 	inc	sp
+   0500 CDr36r03      [17] 1007 	call	_newHand
+   0503 33            [ 6] 1008 	inc	sp
+                           1009 ;src/game.c:245: pvmem = cpct_getScreenPtr(CPCT_VMEM_START, USER_TABLE_X + (user.x * (TILE_W + 1)), USER_TABLE_Y + (user.y * (TILE_H + 2)));
+   0504 3Ar71r00      [13] 1010 	ld	a, (#_user + 1)
+   0507 4F            [ 4] 1011 	ld	c,a
+   0508 87            [ 4] 1012 	add	a, a
+   0509 81            [ 4] 1013 	add	a, c
+   050A 87            [ 4] 1014 	add	a, a
+   050B 87            [ 4] 1015 	add	a, a
+   050C C6 5C         [ 7] 1016 	add	a, #0x5C
+   050E 57            [ 4] 1017 	ld	d,a
+   050F 3Ar70r00      [13] 1018 	ld	a, (#_user + 0)
+   0512 4F            [ 4] 1019 	ld	c,a
+   0513 87            [ 4] 1020 	add	a, a
+   0514 81            [ 4] 1021 	add	a, c
+   0515 87            [ 4] 1022 	add	a, a
+   0516 47            [ 4] 1023 	ld	b,a
+   0517 04            [ 4] 1024 	inc	b
+   0518 04            [ 4] 1025 	inc	b
+   0519 D5            [11] 1026 	push	de
+   051A 33            [ 6] 1027 	inc	sp
+   051B C5            [11] 1028 	push	bc
+   051C 33            [ 6] 1029 	inc	sp
+   051D 21 00 C0      [10] 1030 	ld	hl,#0xC000
+   0520 E5            [11] 1031 	push	hl
+   0521 CDr00r00      [17] 1032 	call	_cpct_getScreenPtr
+                           1033 ;src/game.c:246: cpc_GetSp((u8*) tile_buffer_0, 10, 5, (int) pvmem);
+   0524 E5            [11] 1034 	push	hl
+   0525 21 0A 05      [10] 1035 	ld	hl,#0x050A
+   0528 E5            [11] 1036 	push	hl
+   0529 21r00r00      [10] 1037 	ld	hl,#_tile_buffer_0
+   052C E5            [11] 1038 	push	hl
+   052D CDr00r00      [17] 1039 	call	_cpc_GetSp
+                           1040 ;src/game.c:247: drawUser();
+   0530 CDrB5r03      [17] 1041 	call	_drawUser
+                           1042 ;src/game.c:248: while (1) {
+   0533                    1043 00106$:
+                           1044 ;src/game.c:249: checkUserMovement();
+   0533 CDr32r04      [17] 1045 	call	_checkUserMovement
+                           1046 ;src/game.c:250: if (user.moved) {
+   0536 3Ar74r00      [13] 1047 	ld	a, (#(_user + 0x0004) + 0)
+   0539 B7            [ 4] 1048 	or	a, a
+   053A 28 08         [12] 1049 	jr	Z,00102$
+                           1050 ;src/game.c:251: drawUser();
+   053C CDrB5r03      [17] 1051 	call	_drawUser
+                           1052 ;src/game.c:252: user.moved = 0;
+   053F 21r74r00      [10] 1053 	ld	hl,#(_user + 0x0004)
+   0542 36 00         [10] 1054 	ld	(hl),#0x00
+   0544                    1055 00102$:
+                           1056 ;src/game.c:254: if (abort)
+   0544 3Ar77r00      [13] 1057 	ld	a,(#_abort + 0)
+   0547 B7            [ 4] 1058 	or	a, a
+   0548 C0            [11] 1059 	ret	NZ
+                           1060 ;src/game.c:256: delay(20);
+   0549 21 00 00      [10] 1061 	ld	hl,#0x0000
+   054C E5            [11] 1062 	push	hl
+   054D 21 14 00      [10] 1063 	ld	hl,#0x0014
+   0550 E5            [11] 1064 	push	hl
+   0551 CDr00r00      [17] 1065 	call	_delay
+   0554 F1            [10] 1066 	pop	af
+   0555 F1            [10] 1067 	pop	af
+   0556 18 DB         [12] 1068 	jr	00106$
+                           1069 	.area _CODE
+                           1070 	.area _INITIALIZER
+   0000                    1071 __xinit__tile_buffer_0:
+   0000 00                 1072 	.db #0x00	; 0
+   0001 00                 1073 	.db #0x00	; 0
+   0002 00                 1074 	.db #0x00	; 0
+   0003 00                 1075 	.db #0x00	; 0
+   0004 00                 1076 	.db #0x00	; 0
+   0005 00                 1077 	.db #0x00	; 0
+   0006 00                 1078 	.db #0x00	; 0
+   0007 00                 1079 	.db #0x00	; 0
+   0008 00                 1080 	.db #0x00	; 0
+   0009 00                 1081 	.db #0x00	; 0
+   000A 00                 1082 	.db #0x00	; 0
+   000B 00                 1083 	.db #0x00	; 0
+   000C 00                 1084 	.db #0x00	; 0
+   000D 00                 1085 	.db #0x00	; 0
+   000E 00                 1086 	.db #0x00	; 0
+   000F 00                 1087 	.db #0x00	; 0
+   0010 00                 1088 	.db #0x00	; 0
+   0011 00                 1089 	.db #0x00	; 0
+   0012 00                 1090 	.db #0x00	; 0
+   0013 00                 1091 	.db #0x00	; 0
+   0014 00                 1092 	.db #0x00	; 0
+   0015 00                 1093 	.db #0x00	; 0
+   0016 00                 1094 	.db #0x00	; 0
+   0017 00                 1095 	.db #0x00	; 0
+   0018 00                 1096 	.db #0x00	; 0
+   0019 00                 1097 	.db #0x00	; 0
+   001A 00                 1098 	.db #0x00	; 0
+   001B 00                 1099 	.db #0x00	; 0
+   001C 00                 1100 	.db #0x00	; 0
+   001D 00                 1101 	.db #0x00	; 0
+   001E 00                 1102 	.db #0x00	; 0
+   001F 00                 1103 	.db #0x00	; 0
+   0020 00                 1104 	.db #0x00	; 0
+   0021 00                 1105 	.db #0x00	; 0
+   0022 00                 1106 	.db #0x00	; 0
+   0023 00                 1107 	.db #0x00	; 0
+   0024 00                 1108 	.db #0x00	; 0
+   0025 00                 1109 	.db #0x00	; 0
+   0026 00                 1110 	.db #0x00	; 0
+   0027 00                 1111 	.db #0x00	; 0
+   0028 00                 1112 	.db #0x00	; 0
+   0029 00                 1113 	.db #0x00	; 0
+   002A 00                 1114 	.db #0x00	; 0
+   002B 00                 1115 	.db #0x00	; 0
+   002C 00                 1116 	.db #0x00	; 0
+   002D 00                 1117 	.db #0x00	; 0
+   002E 00                 1118 	.db #0x00	; 0
+   002F 00                 1119 	.db #0x00	; 0
+   0030 00                 1120 	.db #0x00	; 0
+   0031 00                 1121 	.db #0x00	; 0
+   0032                    1122 __xinit__tile_buffer_1:
+   0032 00                 1123 	.db #0x00	; 0
+   0033 00                 1124 	.db #0x00	; 0
+   0034 00                 1125 	.db #0x00	; 0
+   0035 00                 1126 	.db #0x00	; 0
+   0036 00                 1127 	.db #0x00	; 0
+   0037 00                 1128 	.db #0x00	; 0
+   0038 00                 1129 	.db #0x00	; 0
+   0039 00                 1130 	.db #0x00	; 0
+   003A 00                 1131 	.db #0x00	; 0
+   003B 00                 1132 	.db #0x00	; 0
+   003C 00                 1133 	.db #0x00	; 0
+   003D 00                 1134 	.db #0x00	; 0
+   003E 00                 1135 	.db #0x00	; 0
+   003F 00                 1136 	.db #0x00	; 0
+   0040 00                 1137 	.db #0x00	; 0
+   0041 00                 1138 	.db #0x00	; 0
+   0042 00                 1139 	.db #0x00	; 0
+   0043 00                 1140 	.db #0x00	; 0
+   0044 00                 1141 	.db #0x00	; 0
+   0045 00                 1142 	.db #0x00	; 0
+   0046 00                 1143 	.db #0x00	; 0
+   0047 00                 1144 	.db #0x00	; 0
+   0048 00                 1145 	.db #0x00	; 0
+   0049 00                 1146 	.db #0x00	; 0
+   004A 00                 1147 	.db #0x00	; 0
+   004B 00                 1148 	.db #0x00	; 0
+   004C 00                 1149 	.db #0x00	; 0
+   004D 00                 1150 	.db #0x00	; 0
+   004E 00                 1151 	.db #0x00	; 0
+   004F 00                 1152 	.db #0x00	; 0
+   0050 00                 1153 	.db #0x00	; 0
+   0051 00                 1154 	.db #0x00	; 0
+   0052 00                 1155 	.db #0x00	; 0
+   0053 00                 1156 	.db #0x00	; 0
+   0054 00                 1157 	.db #0x00	; 0
+   0055 00                 1158 	.db #0x00	; 0
+   0056 00                 1159 	.db #0x00	; 0
+   0057 00                 1160 	.db #0x00	; 0
+   0058 00                 1161 	.db #0x00	; 0
+   0059 00                 1162 	.db #0x00	; 0
+   005A 00                 1163 	.db #0x00	; 0
+   005B 00                 1164 	.db #0x00	; 0
+   005C 00                 1165 	.db #0x00	; 0
+   005D 00                 1166 	.db #0x00	; 0
+   005E 00                 1167 	.db #0x00	; 0
+   005F 00                 1168 	.db #0x00	; 0
+   0060 00                 1169 	.db #0x00	; 0
+   0061 00                 1170 	.db #0x00	; 0
+   0062 00                 1171 	.db #0x00	; 0
+   0063 00                 1172 	.db #0x00	; 0
+                           1173 	.area _CABS (ABS)

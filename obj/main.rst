@@ -69,7 +69,7 @@
    41FB D6 05         [ 7]   69 	sub	a, #0x05
    41FD C0            [11]   70 	ret	NZ
                              71 ;src/main.c:48: cpct_scanKeyboard_if();
-   41FE CD 89 55      [17]   72 	call	_cpct_scanKeyboard_if
+   41FE CD 48 55      [17]   72 	call	_cpct_scanKeyboard_if
                              73 ;src/main.c:49: kk = 0;
    4201 21 84 58      [10]   74 	ld	hl,#_interrupcion_kk_1_106 + 0
    4204 36 00         [10]   75 	ld	(hl), #0x00
@@ -80,16 +80,16 @@
                              80 ; ---------------------------------
    4207                      81 _init::
                              82 ;src/main.c:55: cpct_disableFirmware();
-   4207 CD 5B 56      [17]   83 	call	_cpct_disableFirmware
+   4207 CD 1A 56      [17]   83 	call	_cpct_disableFirmware
                              84 ;src/main.c:56: cpct_setVideoMode(0);
    420A 2E 00         [ 7]   85 	ld	l,#0x00
-   420C CD 14 56      [17]   86 	call	_cpct_setVideoMode
+   420C CD D3 55      [17]   86 	call	_cpct_setVideoMode
                              87 ;src/main.c:57: cpct_fw2hw(hc_graphics_palette, 16);
    420F 21 10 00      [10]   88 	ld	hl,#0x0010
    4212 E5            [11]   89 	push	hl
    4213 21 D8 52      [10]   90 	ld	hl,#_hc_graphics_palette
    4216 E5            [11]   91 	push	hl
-   4217 CD EE 54      [17]   92 	call	_cpct_fw2hw
+   4217 CD AD 54      [17]   92 	call	_cpct_fw2hw
                              93 ;src/main.c:58: cpct_setPalette(hc_graphics_palette, 16);
    421A 21 10 00      [10]   94 	ld	hl,#0x0010
    421D E5            [11]   95 	push	hl
@@ -142,8 +142,8 @@
    4262                     142 00109$:
    4262                     143 00102$:
                             144 ;src/main.c:75: cpct_srand(seed);
-   4262 CD 0B 55      [17]  145 	call	_cpct_setSeed_mxor
-   4265 CD 13 55      [17]  146 	call	_cpct_restoreState_mxor_u8
+   4262 CD CA 54      [17]  145 	call	_cpct_setSeed_mxor
+   4265 CD D2 54      [17]  146 	call	_cpct_restoreState_mxor_u8
                             147 ;src/main.c:77: clearScreen();
    4268 CD E8 52      [17]  148 	call	_clearScreen
    426B C9            [10]  149 	ret
@@ -171,11 +171,11 @@
    4294 33            [ 6]  166 	inc	sp
    4295 26 C0         [ 7]  167 	ld	h, #0xC0
    4297 E5            [11]  168 	push	hl
-   4298 CD 3E 56      [17]  169 	call	_cpct_memset
+   4298 CD FD 55      [17]  169 	call	_cpct_memset
                             170 ;src/main.c:87: init();
    429B CD 07 42      [17]  171 	call	_init
                             172 ;src/main.c:89: game();
-   429E CD 90 5C      [17]  173 	call	_game
+   429E CD 3C 5E      [17]  173 	call	_game
    42A1 C9            [10]  174 	ret
                             175 	.area _CODE
                             176 	.area _INITIALIZER

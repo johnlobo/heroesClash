@@ -77,7 +77,7 @@
    4D03 E5            [11]   77 	push	hl
    4D04 D5            [11]   78 	push	de
    4D05 CD 92 53      [17]   79 	call	_cpct_scanKeyboard_f
-   4D08 CD F9 55      [17]   80 	call	_cpct_isAnyKeyPressed_f
+   4D08 CD B8 55      [17]   80 	call	_cpct_isAnyKeyPressed_f
    4D0B 7D            [ 4]   81 	ld	a,l
    4D0C D1            [10]   82 	pop	de
    4D0D E1            [10]   83 	pop	hl
@@ -99,14 +99,14 @@
                              99 ;src/utils/keyboard.c:52: do { cpct_scanKeyboard(); } while ( ! cpct_isAnyKeyPressed() );
    4D1D                     100 00101$:
    4D1D D5            [11]  101 	push	de
-   4D1E CD 24 57      [17]  102 	call	_cpct_scanKeyboard
-   4D21 CD 7C 55      [17]  103 	call	_cpct_isAnyKeyPressed
+   4D1E CD E3 56      [17]  102 	call	_cpct_scanKeyboard
+   4D21 CD 3B 55      [17]  103 	call	_cpct_isAnyKeyPressed
    4D24 D1            [10]  104 	pop	de
    4D25 7D            [ 4]  105 	ld	a,l
    4D26 B7            [ 4]  106 	or	a, a
    4D27 28 F4         [12]  107 	jr	Z,00101$
                             108 ;src/utils/keyboard.c:55: do {
-   4D29 01 0A 55      [10]  109 	ld	bc,#(_cpct_keyboardStatusBuffer + 0x0009)
+   4D29 01 C9 54      [10]  109 	ld	bc,#(_cpct_keyboardStatusBuffer + 0x0009)
    4D2C 1E 0A         [ 7]  110 	ld	e,#0x0A
    4D2E                     111 00106$:
                             112 ;src/utils/keyboard.c:58: keypressed = *keys ^ 0xFF;
@@ -204,12 +204,12 @@
    4D8A E5            [11]  204 	push	hl
    4D8B 21 00 C0      [10]  205 	ld	hl,#0xC000
    4D8E E5            [11]  206 	push	hl
-   4D8F CD 55 57      [17]  207 	call	_cpct_getScreenPtr
+   4D8F CD 14 57      [17]  207 	call	_cpct_getScreenPtr
                             208 ;src/utils/keyboard.c:88: cpct_drawSolidBox(pvideo, cpct_px2byteM0(5,5), 15 * FONT_W, FONT_H);
    4D92 E5            [11]  209 	push	hl
    4D93 21 05 05      [10]  210 	ld	hl,#0x0505
    4D96 E5            [11]  211 	push	hl
-   4D97 CD 22 56      [17]  212 	call	_cpct_px2byteM0
+   4D97 CD E1 55      [17]  212 	call	_cpct_px2byteM0
    4D9A 55            [ 4]  213 	ld	d,l
    4D9B C1            [10]  214 	pop	bc
    4D9C 21 2D 0B      [10]  215 	ld	hl,#0x0B2D
@@ -217,7 +217,7 @@
    4DA0 D5            [11]  217 	push	de
    4DA1 33            [ 6]  218 	inc	sp
    4DA2 C5            [11]  219 	push	bc
-   4DA3 CD 6B 56      [17]  220 	call	_cpct_drawSolidBox
+   4DA3 CD 2A 56      [17]  220 	call	_cpct_drawSolidBox
    4DA6 F1            [10]  221 	pop	af
    4DA7 F1            [10]  222 	pop	af
    4DA8 33            [ 6]  223 	inc	sp
@@ -227,7 +227,7 @@
    4DAB E5            [11]  227 	push	hl
    4DAC C5            [11]  228 	push	bc
    4DAD E5            [11]  229 	push	hl
-   4DAE CD 4C 56      [17]  230 	call	_strlen
+   4DAE CD 0B 56      [17]  230 	call	_strlen
    4DB1 F1            [10]  231 	pop	af
                             232 ;src/utils/keyboard.c:92: drawText(text, 39 - ((x / 2) * FONT_W), 144,1);
    4DB2 CB 3D         [ 8]  233 	srl	l

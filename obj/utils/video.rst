@@ -58,13 +58,13 @@
                              58 ; ---------------------------------
    52A9                      59 _setUpVideo::
                              60 ;src/utils/video.c:41: cpct_disableFirmware();
-   52A9 CD 5B 56      [17]   61 	call	_cpct_disableFirmware
+   52A9 CD 1A 56      [17]   61 	call	_cpct_disableFirmware
                              62 ;src/utils/video.c:43: cpct_fw2hw(hc_graphics_palette, 16);
    52AC 21 10 00      [10]   63 	ld	hl,#0x0010
    52AF E5            [11]   64 	push	hl
    52B0 21 D8 52      [10]   65 	ld	hl,#_hc_graphics_palette
    52B3 E5            [11]   66 	push	hl
-   52B4 CD EE 54      [17]   67 	call	_cpct_fw2hw
+   52B4 CD AD 54      [17]   67 	call	_cpct_fw2hw
                              68 ;src/utils/video.c:44: cpct_setPalette  (hc_graphics_palette, 16);
    52B7 21 10 00      [10]   69 	ld	hl,#0x0010
    52BA E5            [11]   70 	push	hl
@@ -82,7 +82,7 @@
    52CC CD FC 53      [17]   82 	call	_cpct_setPALColour
                              83 ;src/utils/video.c:46: cpct_setVideoMode(0);
    52CF 2E 00         [ 7]   84 	ld	l,#0x00
-   52D1 CD 14 56      [17]   85 	call	_cpct_setVideoMode
+   52D1 CD D3 55      [17]   85 	call	_cpct_setVideoMode
                              86 ;src/utils/video.c:47: clearScreen();
    52D4 CD E8 52      [17]   87 	call	_clearScreen
    52D7 C9            [10]   88 	ret
@@ -111,7 +111,7 @@
                             111 ;src/utils/video.c:61: cpct_memset(CPCT_VMEM_START, cpct_px2byteM0(0,0), 0x4000);
    52E8 21 00 00      [10]  112 	ld	hl,#0x0000
    52EB E5            [11]  113 	push	hl
-   52EC CD 22 56      [17]  114 	call	_cpct_px2byteM0
+   52EC CD E1 55      [17]  114 	call	_cpct_px2byteM0
    52EF 45            [ 4]  115 	ld	b,l
    52F0 21 00 40      [10]  116 	ld	hl,#0x4000
    52F3 E5            [11]  117 	push	hl
@@ -119,7 +119,7 @@
    52F5 33            [ 6]  119 	inc	sp
    52F6 26 C0         [ 7]  120 	ld	h, #0xC0
    52F8 E5            [11]  121 	push	hl
-   52F9 CD 3E 56      [17]  122 	call	_cpct_memset
+   52F9 CD FD 55      [17]  122 	call	_cpct_memset
    52FC C9            [10]  123 	ret
                             124 ;src/utils/video.c:72: void clearWindow(u8 xPos, u8 yPos, u8 width, u8 height) {
                             125 ;	---------------------------------
@@ -139,12 +139,12 @@
    530A 33            [ 6]  139 	inc	sp
    530B 21 00 C0      [10]  140 	ld	hl,#0xC000
    530E E5            [11]  141 	push	hl
-   530F CD 55 57      [17]  142 	call	_cpct_getScreenPtr
+   530F CD 14 57      [17]  142 	call	_cpct_getScreenPtr
                             143 ;src/utils/video.c:75: cpct_drawSolidBox(pvideo, cpct_px2byteM0(0,0), width, height);
    5312 E5            [11]  144 	push	hl
    5313 21 00 00      [10]  145 	ld	hl,#0x0000
    5316 E5            [11]  146 	push	hl
-   5317 CD 22 56      [17]  147 	call	_cpct_px2byteM0
+   5317 CD E1 55      [17]  147 	call	_cpct_px2byteM0
    531A 55            [ 4]  148 	ld	d,l
    531B C1            [10]  149 	pop	bc
    531C 21 05 00      [10]  150 	ld	hl, #5+0
@@ -160,7 +160,7 @@
    532A D5            [11]  160 	push	de
    532B 33            [ 6]  161 	inc	sp
    532C C5            [11]  162 	push	bc
-   532D CD 6B 56      [17]  163 	call	_cpct_drawSolidBox
+   532D CD 2A 56      [17]  163 	call	_cpct_drawSolidBox
    5330 F1            [10]  164 	pop	af
    5331 F1            [10]  165 	pop	af
    5332 33            [ 6]  166 	inc	sp

@@ -179,7 +179,7 @@
    4E79 33            [ 6]  179 	inc	sp
    4E7A 21 00 C0      [10]  180 	ld	hl,#0xC000
    4E7D E5            [11]  181 	push	hl
-   4E7E CD 55 57      [17]  182 	call	_cpct_getScreenPtr
+   4E7E CD 14 57      [17]  182 	call	_cpct_getScreenPtr
    4E81 D1            [10]  183 	pop	de
    4E82 C1            [10]  184 	pop	bc
                             185 ;src/utils/text.c:62: cpct_drawSprite(G_numbers_big[number - 48], pvideo, FONT_W, FONT_H);
@@ -275,7 +275,7 @@
    4F08 33            [ 6]  275 	inc	sp
    4F09 21 00 C0      [10]  276 	ld	hl,#0xC000
    4F0C E5            [11]  277 	push	hl
-   4F0D CD 55 57      [17]  278 	call	_cpct_getScreenPtr
+   4F0D CD 14 57      [17]  278 	call	_cpct_getScreenPtr
    4F10 C1            [10]  279 	pop	bc
                             280 ;src/utils/text.c:91: cpct_drawSprite(G_numbers_big[character - 48], pvideo, FONT_W, FONT_H);
    4F11 DD 75 FD      [19]  281 	ld	-3 (ix),l
@@ -503,7 +503,7 @@
    506F 16 00         [ 7]  503 	ld	d,#0x00
    5071 D5            [11]  504 	push	de
    5072 C5            [11]  505 	push	bc
-   5073 CD B0 57      [17]  506 	call	__divsint
+   5073 CD 6F 57      [17]  506 	call	__divsint
    5076 F1            [10]  507 	pop	af
    5077 F1            [10]  508 	pop	af
    5078 DD 7E F7      [19]  509 	ld	a, -9 (ix)
@@ -864,7 +864,7 @@
                             864 ;src/utils/text.c:192: return;
    529D 20 05         [12]  865 	jr	NZ,00111$
                             866 ;src/utils/text.c:196: cpct_waitVSYNC();
-   529F CD F1 55      [17]  867 	call	_cpct_waitVSYNC
+   529F CD B0 55      [17]  867 	call	_cpct_waitVSYNC
    52A2 18 C9         [12]  868 	jr	00105$
    52A4                     869 00111$:
    52A4 DD F9         [10]  870 	ld	sp, ix

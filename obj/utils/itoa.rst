@@ -95,7 +95,7 @@
    4C20 DD 6E FC      [19]   95 	ld	l,-4 (ix)
    4C23 DD 66 FD      [19]   96 	ld	h,-3 (ix)
    4C26 E5            [11]   97 	push	hl
-   4C27 CD B0 57      [17]   98 	call	__divsint
+   4C27 CD 6F 57      [17]   98 	call	__divsint
    4C2A F1            [10]   99 	pop	af
    4C2B F1            [10]  100 	pop	af
    4C2C DD 75 04      [19]  101 	ld	4 (ix),l
