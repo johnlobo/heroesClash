@@ -43,3 +43,15 @@ background tiles should be 10x10 pixels (5x10 bytes)
 2 gmae modes
   campaign
   puzzle
+  
+combos!!!
+
+two fire buttons... one to add a card, and the other to remove a card
+
+gravity
+  for removed cards
+  attacking formations
+  walls
+  
+attacking formations and walls always go to the first line... walls first.
+  
