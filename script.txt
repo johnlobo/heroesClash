@@ -15,11 +15,31 @@ print card
   print card (transparent sprite)
   store animation buffer
   print animation (transparent sprite)
-  strore marker buffer--------> idea make marker around card, not inside.
+    two states of animation
+  erase marker --------> idea make marker around card, not inside. In that way avoid storing background.
+    cards 10x10
+    marker 12x12
+    marker eraser 12x12
   print marker (trasnparent sprite) (buffered)
   
   
 background tiles should be 10x10 pixels (5x10 bytes)
 
 3 different backgrounds
+  white
+  red
+  blue
+
+4 different figures 
+  archer
+  bear
+  dear
+  soldier
+3 different heroes
+  knight
+  druid
+  dragon
   
+2 gmae modes
+  campaign
+  puzzle
