@@ -1,0 +1,25 @@
+main loop
+
+while (not dead) and (spaces left)
+  attack
+    decrease attack turn
+    execute inmediate attacks
+  check user input
+  erase moved things (cards, marker, animation) 
+  
+  
+  
+print card
+  restore background (tile)
+  print card background (regular sprite)
+  print card (transparent sprite)
+  store animation buffer
+  print animation (transparent sprite)
+  strore marker buffer--------> idea make marker around card, not inside.
+  print marker (trasnparent sprite) (buffered)
+  
+  
+background tiles should be 10x10 pixels (5x10 bytes)
+
+3 different backgrounds
+  
