@@ -54,4 +54,9 @@ gravity
   walls
   
 attacking formations and walls always go to the first line... walls first.
+
+the marker shpuld be printed around the cards
+  maker should be 14x14
+  maker should be printed xor, so that it can be erased printing in the previous coordinates
+  
   
