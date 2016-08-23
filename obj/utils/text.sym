@@ -13,13 +13,13 @@ Symbol Table
     _cpct_drawSprite                                               **** GX
     _cpct_getScreenPtr                                             **** GX
     _cpct_waitVSYNC                                                **** GX
-  0 _drawFallingText                                               03C9 GR
+  0 _drawFallingText                                               03CB GR
   0 _drawNumber                                                    0042 GR
-  0 _drawText                                                      00DF GR
+  0 _drawText                                                      00E1 GR
     _g_font_big                                                    **** GX
     _itoa                                                          **** GX
-  0 _moveCharacter                                                 01C2 GR
-  0 _moveFallingText                                               032D GR
+  0 _moveCharacter                                                 01C4 GR
+  0 _moveFallingText                                               032F GR
   0 _strCopy                                                       0016 GR
   0 _strLength                                                     0000 GR
 
@@ -29,7 +29,7 @@ Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE                                      size  4CE   flags    0
+   0 _CODE                                      size  4D0   flags    0
    1 _DATA                                      size    0   flags    0
    2 _INITIALIZED                               size    0   flags    0
    3 _DABS                                      size    0   flags    8

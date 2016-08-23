@@ -26,15 +26,16 @@
 #define TILE_W 5
 #define TILE_H 10
 #define ENEMY_TABLE_X 2
-#define ENEMY_TABLE_Y 2
+#define ENEMY_TABLE_Y 20
 #define USER_TABLE_X 2
-#define USER_TABLE_Y 92
+#define USER_TABLE_Y 108
 
 typedef u8 TTable[8][6];
 typedef struct {
 	u8 x,y;
 	u8 px, py;
 	u8 moved;
+	u8 cardTaken;
 	u8* buffer; 
 } TUser;
 

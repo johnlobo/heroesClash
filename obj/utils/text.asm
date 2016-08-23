@@ -118,10 +118,10 @@ _drawNumber::
 	add	ix,sp
 	ld	hl,#-8
 	add	hl,sp
+	ld	sp,hl
 ;src/utils/text.c:53: itoa(aNumber, str, 10);
-	ld	sp, hl
-	inc	hl
-	inc	hl
+	ld	hl,#0x0000
+	add	hl,sp
 	ld	c,l
 	ld	b,h
 	ld	e, c
@@ -148,19 +148,19 @@ _drawNumber::
 	pop	bc
 	ld	a,6 (ix)
 	sub	a, l
-	ld	-7 (ix),a
+	ld	-2 (ix),a
 ;src/utils/text.c:57: number = str[x];
 	ld	a,(bc)
 	ld	e,a
 ;src/utils/text.c:59: while (number != '\0') {
-	ld	-8 (ix),#0x00
+	ld	-1 (ix),#0x00
 00101$:
 	ld	a,e
 	or	a, a
 	jr	Z,00104$
 ;src/utils/text.c:61: pvideo = cpct_getScreenPtr(CPCT_VMEM_START, (zeros + x) * FONT_W + xPos, yPos);
-	ld	a,-7 (ix)
-	add	a, -8 (ix)
+	ld	a,-2 (ix)
+	add	a, -1 (ix)
 	ld	l,a
 	push	de
 	ld	e,l
@@ -211,8 +211,8 @@ _drawNumber::
 	call	_cpct_drawSprite
 	pop	bc
 ;src/utils/text.c:64: number = str[++x];
-	inc	-8 (ix)
-	ld	l,-8 (ix)
+	inc	-1 (ix)
+	ld	l,-1 (ix)
 	ld	h,#0x00
 	add	hl,bc
 	ld	e,(hl)

@@ -3,8 +3,8 @@
 #define _ASSETS_MARKER_H_
 
 #include <types.h>
-#define HC_MARKER_W 5
-#define HC_MARKER_H 10
-extern const u8 hc_marker[5 * 10];
+#define HC_MARKER_W 7
+#define HC_MARKER_H 14
+extern const u8 hc_marker[7 * 14];
 
 #endif

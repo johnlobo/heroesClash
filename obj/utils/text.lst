@@ -118,758 +118,758 @@
    0048 DD 39         [15]  118 	add	ix,sp
    004A 21 F8 FF      [10]  119 	ld	hl,#-8
    004D 39            [11]  120 	add	hl,sp
-                            121 ;src/utils/text.c:53: itoa(aNumber, str, 10);
-   004E F9            [ 6]  122 	ld	sp, hl
-   004F 23            [ 6]  123 	inc	hl
-   0050 23            [ 6]  124 	inc	hl
-   0051 4D            [ 4]  125 	ld	c,l
-   0052 44            [ 4]  126 	ld	b,h
-   0053 59            [ 4]  127 	ld	e, c
-   0054 50            [ 4]  128 	ld	d, b
-   0055 C5            [11]  129 	push	bc
-   0056 21 0A 00      [10]  130 	ld	hl,#0x000A
-   0059 E5            [11]  131 	push	hl
-   005A D5            [11]  132 	push	de
-   005B DD 6E 04      [19]  133 	ld	l,4 (ix)
-   005E DD 66 05      [19]  134 	ld	h,5 (ix)
-   0061 E5            [11]  135 	push	hl
-   0062 CDr00r00      [17]  136 	call	_itoa
-   0065 21 06 00      [10]  137 	ld	hl,#6
-   0068 39            [11]  138 	add	hl,sp
-   0069 F9            [ 6]  139 	ld	sp,hl
-   006A C1            [10]  140 	pop	bc
+   004E F9            [ 6]  121 	ld	sp,hl
+                            122 ;src/utils/text.c:53: itoa(aNumber, str, 10);
+   004F 21 00 00      [10]  123 	ld	hl,#0x0000
+   0052 39            [11]  124 	add	hl,sp
+   0053 4D            [ 4]  125 	ld	c,l
+   0054 44            [ 4]  126 	ld	b,h
+   0055 59            [ 4]  127 	ld	e, c
+   0056 50            [ 4]  128 	ld	d, b
+   0057 C5            [11]  129 	push	bc
+   0058 21 0A 00      [10]  130 	ld	hl,#0x000A
+   005B E5            [11]  131 	push	hl
+   005C D5            [11]  132 	push	de
+   005D DD 6E 04      [19]  133 	ld	l,4 (ix)
+   0060 DD 66 05      [19]  134 	ld	h,5 (ix)
+   0063 E5            [11]  135 	push	hl
+   0064 CDr00r00      [17]  136 	call	_itoa
+   0067 21 06 00      [10]  137 	ld	hl,#6
+   006A 39            [11]  138 	add	hl,sp
+   006B F9            [ 6]  139 	ld	sp,hl
+   006C C1            [10]  140 	pop	bc
                             141 ;src/utils/text.c:55: zeros = length - strLength(str);
-   006B 59            [ 4]  142 	ld	e, c
-   006C 50            [ 4]  143 	ld	d, b
-   006D C5            [11]  144 	push	bc
-   006E D5            [11]  145 	push	de
-   006F CDr00r00      [17]  146 	call	_strLength
-   0072 F1            [10]  147 	pop	af
-   0073 C1            [10]  148 	pop	bc
-   0074 DD 7E 06      [19]  149 	ld	a,6 (ix)
-   0077 95            [ 4]  150 	sub	a, l
-   0078 DD 77 F9      [19]  151 	ld	-7 (ix),a
+   006D 59            [ 4]  142 	ld	e, c
+   006E 50            [ 4]  143 	ld	d, b
+   006F C5            [11]  144 	push	bc
+   0070 D5            [11]  145 	push	de
+   0071 CDr00r00      [17]  146 	call	_strLength
+   0074 F1            [10]  147 	pop	af
+   0075 C1            [10]  148 	pop	bc
+   0076 DD 7E 06      [19]  149 	ld	a,6 (ix)
+   0079 95            [ 4]  150 	sub	a, l
+   007A DD 77 FE      [19]  151 	ld	-2 (ix),a
                             152 ;src/utils/text.c:57: number = str[x];
-   007B 0A            [ 7]  153 	ld	a,(bc)
-   007C 5F            [ 4]  154 	ld	e,a
+   007D 0A            [ 7]  153 	ld	a,(bc)
+   007E 5F            [ 4]  154 	ld	e,a
                             155 ;src/utils/text.c:59: while (number != '\0') {
-   007D DD 36 F8 00   [19]  156 	ld	-8 (ix),#0x00
-   0081                     157 00101$:
-   0081 7B            [ 4]  158 	ld	a,e
-   0082 B7            [ 4]  159 	or	a, a
-   0083 28 55         [12]  160 	jr	Z,00104$
+   007F DD 36 FF 00   [19]  156 	ld	-1 (ix),#0x00
+   0083                     157 00101$:
+   0083 7B            [ 4]  158 	ld	a,e
+   0084 B7            [ 4]  159 	or	a, a
+   0085 28 55         [12]  160 	jr	Z,00104$
                             161 ;src/utils/text.c:61: pvideo = cpct_getScreenPtr(CPCT_VMEM_START, (zeros + x) * FONT_W + xPos, yPos);
-   0085 DD 7E F9      [19]  162 	ld	a,-7 (ix)
-   0088 DD 86 F8      [19]  163 	add	a, -8 (ix)
-   008B 6F            [ 4]  164 	ld	l,a
-   008C D5            [11]  165 	push	de
-   008D 5D            [ 4]  166 	ld	e,l
-   008E 29            [11]  167 	add	hl, hl
-   008F 19            [11]  168 	add	hl, de
-   0090 D1            [10]  169 	pop	de
-   0091 7D            [ 4]  170 	ld	a,l
-   0092 DD 86 07      [19]  171 	add	a, 7 (ix)
-   0095 57            [ 4]  172 	ld	d,a
-   0096 C5            [11]  173 	push	bc
-   0097 D5            [11]  174 	push	de
-   0098 DD 7E 08      [19]  175 	ld	a,8 (ix)
-   009B F5            [11]  176 	push	af
-   009C 33            [ 6]  177 	inc	sp
-   009D D5            [11]  178 	push	de
-   009E 33            [ 6]  179 	inc	sp
-   009F 21 00 C0      [10]  180 	ld	hl,#0xC000
-   00A2 E5            [11]  181 	push	hl
-   00A3 CDr00r00      [17]  182 	call	_cpct_getScreenPtr
-   00A6 D1            [10]  183 	pop	de
-   00A7 C1            [10]  184 	pop	bc
+   0087 DD 7E FE      [19]  162 	ld	a,-2 (ix)
+   008A DD 86 FF      [19]  163 	add	a, -1 (ix)
+   008D 6F            [ 4]  164 	ld	l,a
+   008E D5            [11]  165 	push	de
+   008F 5D            [ 4]  166 	ld	e,l
+   0090 29            [11]  167 	add	hl, hl
+   0091 19            [11]  168 	add	hl, de
+   0092 D1            [10]  169 	pop	de
+   0093 7D            [ 4]  170 	ld	a,l
+   0094 DD 86 07      [19]  171 	add	a, 7 (ix)
+   0097 57            [ 4]  172 	ld	d,a
+   0098 C5            [11]  173 	push	bc
+   0099 D5            [11]  174 	push	de
+   009A DD 7E 08      [19]  175 	ld	a,8 (ix)
+   009D F5            [11]  176 	push	af
+   009E 33            [ 6]  177 	inc	sp
+   009F D5            [11]  178 	push	de
+   00A0 33            [ 6]  179 	inc	sp
+   00A1 21 00 C0      [10]  180 	ld	hl,#0xC000
+   00A4 E5            [11]  181 	push	hl
+   00A5 CDr00r00      [17]  182 	call	_cpct_getScreenPtr
+   00A8 D1            [10]  183 	pop	de
+   00A9 C1            [10]  184 	pop	bc
                             185 ;src/utils/text.c:62: cpct_drawSprite(G_numbers_big[number - 48], pvideo, FONT_W, FONT_H);
-   00A8 E5            [11]  186 	push	hl
-   00A9 FD E1         [14]  187 	pop	iy
-   00AB 16 00         [ 7]  188 	ld	d,#0x00
-   00AD 7B            [ 4]  189 	ld	a,e
-   00AE C6 D0         [ 7]  190 	add	a,#0xD0
-   00B0 5F            [ 4]  191 	ld	e,a
-   00B1 7A            [ 4]  192 	ld	a,d
-   00B2 CE FF         [ 7]  193 	adc	a,#0xFF
-   00B4 57            [ 4]  194 	ld	d,a
-   00B5 6B            [ 4]  195 	ld	l, e
-   00B6 62            [ 4]  196 	ld	h, d
-   00B7 29            [11]  197 	add	hl, hl
-   00B8 29            [11]  198 	add	hl, hl
-   00B9 29            [11]  199 	add	hl, hl
-   00BA 29            [11]  200 	add	hl, hl
-   00BB 29            [11]  201 	add	hl, hl
-   00BC 19            [11]  202 	add	hl, de
-   00BD 11r00r00      [10]  203 	ld	de,#_G_numbers_big
-   00C0 19            [11]  204 	add	hl,de
-   00C1 EB            [ 4]  205 	ex	de,hl
-   00C2 C5            [11]  206 	push	bc
-   00C3 21 03 0B      [10]  207 	ld	hl,#0x0B03
-   00C6 E5            [11]  208 	push	hl
-   00C7 FD E5         [15]  209 	push	iy
-   00C9 D5            [11]  210 	push	de
-   00CA CDr00r00      [17]  211 	call	_cpct_drawSprite
-   00CD C1            [10]  212 	pop	bc
+   00AA E5            [11]  186 	push	hl
+   00AB FD E1         [14]  187 	pop	iy
+   00AD 16 00         [ 7]  188 	ld	d,#0x00
+   00AF 7B            [ 4]  189 	ld	a,e
+   00B0 C6 D0         [ 7]  190 	add	a,#0xD0
+   00B2 5F            [ 4]  191 	ld	e,a
+   00B3 7A            [ 4]  192 	ld	a,d
+   00B4 CE FF         [ 7]  193 	adc	a,#0xFF
+   00B6 57            [ 4]  194 	ld	d,a
+   00B7 6B            [ 4]  195 	ld	l, e
+   00B8 62            [ 4]  196 	ld	h, d
+   00B9 29            [11]  197 	add	hl, hl
+   00BA 29            [11]  198 	add	hl, hl
+   00BB 29            [11]  199 	add	hl, hl
+   00BC 29            [11]  200 	add	hl, hl
+   00BD 29            [11]  201 	add	hl, hl
+   00BE 19            [11]  202 	add	hl, de
+   00BF 11r00r00      [10]  203 	ld	de,#_G_numbers_big
+   00C2 19            [11]  204 	add	hl,de
+   00C3 EB            [ 4]  205 	ex	de,hl
+   00C4 C5            [11]  206 	push	bc
+   00C5 21 03 0B      [10]  207 	ld	hl,#0x0B03
+   00C8 E5            [11]  208 	push	hl
+   00C9 FD E5         [15]  209 	push	iy
+   00CB D5            [11]  210 	push	de
+   00CC CDr00r00      [17]  211 	call	_cpct_drawSprite
+   00CF C1            [10]  212 	pop	bc
                             213 ;src/utils/text.c:64: number = str[++x];
-   00CE DD 34 F8      [23]  214 	inc	-8 (ix)
-   00D1 DD 6E F8      [19]  215 	ld	l,-8 (ix)
-   00D4 26 00         [ 7]  216 	ld	h,#0x00
-   00D6 09            [11]  217 	add	hl,bc
-   00D7 5E            [ 7]  218 	ld	e,(hl)
-   00D8 18 A7         [12]  219 	jr	00101$
-   00DA                     220 00104$:
-   00DA DD F9         [10]  221 	ld	sp, ix
-   00DC DD E1         [14]  222 	pop	ix
-   00DE C9            [10]  223 	ret
+   00D0 DD 34 FF      [23]  214 	inc	-1 (ix)
+   00D3 DD 6E FF      [19]  215 	ld	l,-1 (ix)
+   00D6 26 00         [ 7]  216 	ld	h,#0x00
+   00D8 09            [11]  217 	add	hl,bc
+   00D9 5E            [ 7]  218 	ld	e,(hl)
+   00DA 18 A7         [12]  219 	jr	00101$
+   00DC                     220 00104$:
+   00DC DD F9         [10]  221 	ld	sp, ix
+   00DE DD E1         [14]  222 	pop	ix
+   00E0 C9            [10]  223 	ret
                             224 ;src/utils/text.c:70: void drawText(u8 text[], u8 xPos, u8 yPos, u8 centered) {
                             225 ;	---------------------------------
                             226 ; Function drawText
                             227 ; ---------------------------------
-   00DF                     228 _drawText::
-   00DF DD E5         [15]  229 	push	ix
-   00E1 DD 21 00 00   [14]  230 	ld	ix,#0
-   00E5 DD 39         [15]  231 	add	ix,sp
-   00E7 F5            [11]  232 	push	af
-   00E8 F5            [11]  233 	push	af
-   00E9 3B            [ 6]  234 	dec	sp
+   00E1                     228 _drawText::
+   00E1 DD E5         [15]  229 	push	ix
+   00E3 DD 21 00 00   [14]  230 	ld	ix,#0
+   00E7 DD 39         [15]  231 	add	ix,sp
+   00E9 F5            [11]  232 	push	af
+   00EA F5            [11]  233 	push	af
+   00EB 3B            [ 6]  234 	dec	sp
                             235 ;src/utils/text.c:76: if (centered) {
-   00EA DD 7E 08      [19]  236 	ld	a,8 (ix)
-   00ED B7            [ 4]  237 	or	a, a
-   00EE 28 16         [12]  238 	jr	Z,00102$
+   00EC DD 7E 08      [19]  236 	ld	a,8 (ix)
+   00EF B7            [ 4]  237 	or	a, a
+   00F0 28 16         [12]  238 	jr	Z,00102$
                             239 ;src/utils/text.c:77: x = strLength(text);
-   00F0 DD 6E 04      [19]  240 	ld	l,4 (ix)
-   00F3 DD 66 05      [19]  241 	ld	h,5 (ix)
-   00F6 E5            [11]  242 	push	hl
-   00F7 CDr00r00      [17]  243 	call	_strLength
-   00FA F1            [10]  244 	pop	af
+   00F2 DD 6E 04      [19]  240 	ld	l,4 (ix)
+   00F5 DD 66 05      [19]  241 	ld	h,5 (ix)
+   00F8 E5            [11]  242 	push	hl
+   00F9 CDr00r00      [17]  243 	call	_strLength
+   00FC F1            [10]  244 	pop	af
                             245 ;src/utils/text.c:78: xPos = 39 - (x / 2) * FONT_W;
-   00FB CB 3D         [ 8]  246 	srl	l
-   00FD 4D            [ 4]  247 	ld	c,l
-   00FE 29            [11]  248 	add	hl, hl
-   00FF 09            [11]  249 	add	hl, bc
-   0100 3E 27         [ 7]  250 	ld	a,#0x27
-   0102 95            [ 4]  251 	sub	a, l
-   0103 DD 77 06      [19]  252 	ld	6 (ix),a
-   0106                     253 00102$:
+   00FD CB 3D         [ 8]  246 	srl	l
+   00FF 4D            [ 4]  247 	ld	c,l
+   0100 29            [11]  248 	add	hl, hl
+   0101 09            [11]  249 	add	hl, bc
+   0102 3E 27         [ 7]  250 	ld	a,#0x27
+   0104 95            [ 4]  251 	sub	a, l
+   0105 DD 77 06      [19]  252 	ld	6 (ix),a
+   0108                     253 00102$:
                             254 ;src/utils/text.c:82: character = text[x];
-   0106 DD 4E 04      [19]  255 	ld	c,4 (ix)
-   0109 DD 46 05      [19]  256 	ld	b,5 (ix)
-   010C 0A            [ 7]  257 	ld	a,(bc)
-   010D DD 77 FB      [19]  258 	ld	-5 (ix),a
+   0108 DD 4E 04      [19]  255 	ld	c,4 (ix)
+   010B DD 46 05      [19]  256 	ld	b,5 (ix)
+   010E 0A            [ 7]  257 	ld	a,(bc)
+   010F DD 77 FB      [19]  258 	ld	-5 (ix),a
                             259 ;src/utils/text.c:84: while (character != '\0') {
-   0110 DD 36 FC 00   [19]  260 	ld	-4 (ix),#0x00
-   0114 DD 36 FF 00   [19]  261 	ld	-1 (ix),#0x00
-   0118                     262 00109$:
-   0118 DD 7E FB      [19]  263 	ld	a,-5 (ix)
-   011B B7            [ 4]  264 	or	a, a
-   011C CArBDr01      [10]  265 	jp	Z,00112$
+   0112 DD 36 FC 00   [19]  260 	ld	-4 (ix),#0x00
+   0116 DD 36 FF 00   [19]  261 	ld	-1 (ix),#0x00
+   011A                     262 00109$:
+   011A DD 7E FB      [19]  263 	ld	a,-5 (ix)
+   011D B7            [ 4]  264 	or	a, a
+   011E CArBFr01      [10]  265 	jp	Z,00112$
                             266 ;src/utils/text.c:86: pvideo = cpct_getScreenPtr(CPCT_VMEM_START, (x * FONT_W) + xPos, yPos);
-   011F DD 7E FF      [19]  267 	ld	a,-1 (ix)
-   0122 DD 86 06      [19]  268 	add	a, 6 (ix)
-   0125 57            [ 4]  269 	ld	d,a
-   0126 C5            [11]  270 	push	bc
-   0127 DD 7E 07      [19]  271 	ld	a,7 (ix)
-   012A F5            [11]  272 	push	af
-   012B 33            [ 6]  273 	inc	sp
-   012C D5            [11]  274 	push	de
-   012D 33            [ 6]  275 	inc	sp
-   012E 21 00 C0      [10]  276 	ld	hl,#0xC000
-   0131 E5            [11]  277 	push	hl
-   0132 CDr00r00      [17]  278 	call	_cpct_getScreenPtr
-   0135 C1            [10]  279 	pop	bc
+   0121 DD 7E FF      [19]  267 	ld	a,-1 (ix)
+   0124 DD 86 06      [19]  268 	add	a, 6 (ix)
+   0127 57            [ 4]  269 	ld	d,a
+   0128 C5            [11]  270 	push	bc
+   0129 DD 7E 07      [19]  271 	ld	a,7 (ix)
+   012C F5            [11]  272 	push	af
+   012D 33            [ 6]  273 	inc	sp
+   012E D5            [11]  274 	push	de
+   012F 33            [ 6]  275 	inc	sp
+   0130 21 00 C0      [10]  276 	ld	hl,#0xC000
+   0133 E5            [11]  277 	push	hl
+   0134 CDr00r00      [17]  278 	call	_cpct_getScreenPtr
+   0137 C1            [10]  279 	pop	bc
                             280 ;src/utils/text.c:91: cpct_drawSprite(G_numbers_big[character - 48], pvideo, FONT_W, FONT_H);
-   0136 DD 75 FD      [19]  281 	ld	-3 (ix),l
-   0139 DD 74 FE      [19]  282 	ld	-2 (ix),h
-   013C DD 5E FB      [19]  283 	ld	e,-5 (ix)
-   013F 16 00         [ 7]  284 	ld	d,#0x00
+   0138 DD 75 FD      [19]  281 	ld	-3 (ix),l
+   013B DD 74 FE      [19]  282 	ld	-2 (ix),h
+   013E DD 5E FB      [19]  283 	ld	e,-5 (ix)
+   0141 16 00         [ 7]  284 	ld	d,#0x00
                             285 ;src/utils/text.c:89: if (character >= 48 && character <= 57) {
-   0141 DD 7E FB      [19]  286 	ld	a,-5 (ix)
-   0144 D6 30         [ 7]  287 	sub	a, #0x30
-   0146 38 2F         [12]  288 	jr	C,00106$
-   0148 3E 39         [ 7]  289 	ld	a,#0x39
-   014A DD 96 FB      [19]  290 	sub	a, -5 (ix)
-   014D 38 28         [12]  291 	jr	C,00106$
+   0143 DD 7E FB      [19]  286 	ld	a,-5 (ix)
+   0146 D6 30         [ 7]  287 	sub	a, #0x30
+   0148 38 2F         [12]  288 	jr	C,00106$
+   014A 3E 39         [ 7]  289 	ld	a,#0x39
+   014C DD 96 FB      [19]  290 	sub	a, -5 (ix)
+   014F 38 28         [12]  291 	jr	C,00106$
                             292 ;src/utils/text.c:91: cpct_drawSprite(G_numbers_big[character - 48], pvideo, FONT_W, FONT_H);
-   014F 7B            [ 4]  293 	ld	a,e
-   0150 C6 D0         [ 7]  294 	add	a,#0xD0
-   0152 5F            [ 4]  295 	ld	e,a
-   0153 7A            [ 4]  296 	ld	a,d
-   0154 CE FF         [ 7]  297 	adc	a,#0xFF
-   0156 57            [ 4]  298 	ld	d,a
-   0157 6B            [ 4]  299 	ld	l, e
-   0158 62            [ 4]  300 	ld	h, d
-   0159 29            [11]  301 	add	hl, hl
-   015A 29            [11]  302 	add	hl, hl
-   015B 29            [11]  303 	add	hl, hl
-   015C 29            [11]  304 	add	hl, hl
-   015D 29            [11]  305 	add	hl, hl
-   015E 19            [11]  306 	add	hl, de
-   015F 11r00r00      [10]  307 	ld	de,#_G_numbers_big
-   0162 19            [11]  308 	add	hl,de
-   0163 EB            [ 4]  309 	ex	de,hl
-   0164 C5            [11]  310 	push	bc
-   0165 21 03 0B      [10]  311 	ld	hl,#0x0B03
-   0168 E5            [11]  312 	push	hl
-   0169 DD 6E FD      [19]  313 	ld	l,-3 (ix)
-   016C DD 66 FE      [19]  314 	ld	h,-2 (ix)
-   016F E5            [11]  315 	push	hl
-   0170 D5            [11]  316 	push	de
-   0171 CDr00r00      [17]  317 	call	_cpct_drawSprite
-   0174 C1            [10]  318 	pop	bc
-   0175 18 2D         [12]  319 	jr	00107$
-   0177                     320 00106$:
+   0151 7B            [ 4]  293 	ld	a,e
+   0152 C6 D0         [ 7]  294 	add	a,#0xD0
+   0154 5F            [ 4]  295 	ld	e,a
+   0155 7A            [ 4]  296 	ld	a,d
+   0156 CE FF         [ 7]  297 	adc	a,#0xFF
+   0158 57            [ 4]  298 	ld	d,a
+   0159 6B            [ 4]  299 	ld	l, e
+   015A 62            [ 4]  300 	ld	h, d
+   015B 29            [11]  301 	add	hl, hl
+   015C 29            [11]  302 	add	hl, hl
+   015D 29            [11]  303 	add	hl, hl
+   015E 29            [11]  304 	add	hl, hl
+   015F 29            [11]  305 	add	hl, hl
+   0160 19            [11]  306 	add	hl, de
+   0161 11r00r00      [10]  307 	ld	de,#_G_numbers_big
+   0164 19            [11]  308 	add	hl,de
+   0165 EB            [ 4]  309 	ex	de,hl
+   0166 C5            [11]  310 	push	bc
+   0167 21 03 0B      [10]  311 	ld	hl,#0x0B03
+   016A E5            [11]  312 	push	hl
+   016B DD 6E FD      [19]  313 	ld	l,-3 (ix)
+   016E DD 66 FE      [19]  314 	ld	h,-2 (ix)
+   0171 E5            [11]  315 	push	hl
+   0172 D5            [11]  316 	push	de
+   0173 CDr00r00      [17]  317 	call	_cpct_drawSprite
+   0176 C1            [10]  318 	pop	bc
+   0177 18 2D         [12]  319 	jr	00107$
+   0179                     320 00106$:
                             321 ;src/utils/text.c:94: else if (character != 32) { //32 = SPACE
-   0177 DD 7E FB      [19]  322 	ld	a,-5 (ix)
-   017A D6 20         [ 7]  323 	sub	a, #0x20
-   017C 28 26         [12]  324 	jr	Z,00107$
+   0179 DD 7E FB      [19]  322 	ld	a,-5 (ix)
+   017C D6 20         [ 7]  323 	sub	a, #0x20
+   017E 28 26         [12]  324 	jr	Z,00107$
                             325 ;src/utils/text.c:96: cpct_drawSprite(g_font_big[character - 64], pvideo, FONT_W, FONT_H);
-   017E 7B            [ 4]  326 	ld	a,e
-   017F C6 C0         [ 7]  327 	add	a,#0xC0
-   0181 5F            [ 4]  328 	ld	e,a
-   0182 7A            [ 4]  329 	ld	a,d
-   0183 CE FF         [ 7]  330 	adc	a,#0xFF
-   0185 57            [ 4]  331 	ld	d,a
-   0186 6B            [ 4]  332 	ld	l, e
-   0187 62            [ 4]  333 	ld	h, d
-   0188 29            [11]  334 	add	hl, hl
-   0189 29            [11]  335 	add	hl, hl
-   018A 29            [11]  336 	add	hl, hl
-   018B 29            [11]  337 	add	hl, hl
-   018C 29            [11]  338 	add	hl, hl
-   018D 19            [11]  339 	add	hl, de
-   018E 11r00r00      [10]  340 	ld	de,#_g_font_big
-   0191 19            [11]  341 	add	hl,de
-   0192 EB            [ 4]  342 	ex	de,hl
-   0193 C5            [11]  343 	push	bc
-   0194 21 03 0B      [10]  344 	ld	hl,#0x0B03
-   0197 E5            [11]  345 	push	hl
-   0198 DD 6E FD      [19]  346 	ld	l,-3 (ix)
-   019B DD 66 FE      [19]  347 	ld	h,-2 (ix)
-   019E E5            [11]  348 	push	hl
-   019F D5            [11]  349 	push	de
-   01A0 CDr00r00      [17]  350 	call	_cpct_drawSprite
-   01A3 C1            [10]  351 	pop	bc
-   01A4                     352 00107$:
+   0180 7B            [ 4]  326 	ld	a,e
+   0181 C6 C0         [ 7]  327 	add	a,#0xC0
+   0183 5F            [ 4]  328 	ld	e,a
+   0184 7A            [ 4]  329 	ld	a,d
+   0185 CE FF         [ 7]  330 	adc	a,#0xFF
+   0187 57            [ 4]  331 	ld	d,a
+   0188 6B            [ 4]  332 	ld	l, e
+   0189 62            [ 4]  333 	ld	h, d
+   018A 29            [11]  334 	add	hl, hl
+   018B 29            [11]  335 	add	hl, hl
+   018C 29            [11]  336 	add	hl, hl
+   018D 29            [11]  337 	add	hl, hl
+   018E 29            [11]  338 	add	hl, hl
+   018F 19            [11]  339 	add	hl, de
+   0190 11r00r00      [10]  340 	ld	de,#_g_font_big
+   0193 19            [11]  341 	add	hl,de
+   0194 EB            [ 4]  342 	ex	de,hl
+   0195 C5            [11]  343 	push	bc
+   0196 21 03 0B      [10]  344 	ld	hl,#0x0B03
+   0199 E5            [11]  345 	push	hl
+   019A DD 6E FD      [19]  346 	ld	l,-3 (ix)
+   019D DD 66 FE      [19]  347 	ld	h,-2 (ix)
+   01A0 E5            [11]  348 	push	hl
+   01A1 D5            [11]  349 	push	de
+   01A2 CDr00r00      [17]  350 	call	_cpct_drawSprite
+   01A5 C1            [10]  351 	pop	bc
+   01A6                     352 00107$:
                             353 ;src/utils/text.c:99: character = text[++x];
-   01A4 DD 34 FF      [23]  354 	inc	-1 (ix)
-   01A7 DD 34 FF      [23]  355 	inc	-1 (ix)
-   01AA DD 34 FF      [23]  356 	inc	-1 (ix)
-   01AD DD 34 FC      [23]  357 	inc	-4 (ix)
-   01B0 DD 6E FC      [19]  358 	ld	l,-4 (ix)
-   01B3 26 00         [ 7]  359 	ld	h,#0x00
-   01B5 09            [11]  360 	add	hl,bc
-   01B6 7E            [ 7]  361 	ld	a,(hl)
-   01B7 DD 77 FB      [19]  362 	ld	-5 (ix),a
-   01BA C3r18r01      [10]  363 	jp	00109$
-   01BD                     364 00112$:
-   01BD DD F9         [10]  365 	ld	sp, ix
-   01BF DD E1         [14]  366 	pop	ix
-   01C1 C9            [10]  367 	ret
+   01A6 DD 34 FF      [23]  354 	inc	-1 (ix)
+   01A9 DD 34 FF      [23]  355 	inc	-1 (ix)
+   01AC DD 34 FF      [23]  356 	inc	-1 (ix)
+   01AF DD 34 FC      [23]  357 	inc	-4 (ix)
+   01B2 DD 6E FC      [19]  358 	ld	l,-4 (ix)
+   01B5 26 00         [ 7]  359 	ld	h,#0x00
+   01B7 09            [11]  360 	add	hl,bc
+   01B8 7E            [ 7]  361 	ld	a,(hl)
+   01B9 DD 77 FB      [19]  362 	ld	-5 (ix),a
+   01BC C3r1Ar01      [10]  363 	jp	00109$
+   01BF                     364 00112$:
+   01BF DD F9         [10]  365 	ld	sp, ix
+   01C1 DD E1         [14]  366 	pop	ix
+   01C3 C9            [10]  367 	ret
                             368 ;src/utils/text.c:103: void moveCharacter(FChar *character) {
                             369 ;	---------------------------------
                             370 ; Function moveCharacter
                             371 ; ---------------------------------
-   01C2                     372 _moveCharacter::
-   01C2 DD E5         [15]  373 	push	ix
-   01C4 DD 21 00 00   [14]  374 	ld	ix,#0
-   01C8 DD 39         [15]  375 	add	ix,sp
-   01CA 21 F3 FF      [10]  376 	ld	hl,#-13
-   01CD 39            [11]  377 	add	hl,sp
-   01CE F9            [ 6]  378 	ld	sp,hl
+   01C4                     372 _moveCharacter::
+   01C4 DD E5         [15]  373 	push	ix
+   01C6 DD 21 00 00   [14]  374 	ld	ix,#0
+   01CA DD 39         [15]  375 	add	ix,sp
+   01CC 21 F3 FF      [10]  376 	ld	hl,#-13
+   01CF 39            [11]  377 	add	hl,sp
+   01D0 F9            [ 6]  378 	ld	sp,hl
                             379 ;src/utils/text.c:105: if (character->phase != FALLING_TEXT_MAX_BOUNCES) {
-   01CF DD 4E 04      [19]  380 	ld	c,4 (ix)
-   01D2 DD 46 05      [19]  381 	ld	b,5 (ix)
-   01D5 0A            [ 7]  382 	ld	a,(bc)
-   01D6 57            [ 4]  383 	ld	d,a
+   01D1 DD 4E 04      [19]  380 	ld	c,4 (ix)
+   01D4 DD 46 05      [19]  381 	ld	b,5 (ix)
+   01D7 0A            [ 7]  382 	ld	a,(bc)
+   01D8 57            [ 4]  383 	ld	d,a
                             384 ;src/utils/text.c:110: if (character->yPos != character->startyPos) {
-   01D7 21 02 00      [10]  385 	ld	hl,#0x0002
-   01DA 09            [11]  386 	add	hl,bc
-   01DB DD 75 FE      [19]  387 	ld	-2 (ix),l
-   01DE DD 74 FF      [19]  388 	ld	-1 (ix),h
-   01E1 DD 6E FE      [19]  389 	ld	l,-2 (ix)
-   01E4 DD 66 FF      [19]  390 	ld	h,-1 (ix)
-   01E7 5E            [ 7]  391 	ld	e,(hl)
+   01D9 21 02 00      [10]  385 	ld	hl,#0x0002
+   01DC 09            [11]  386 	add	hl,bc
+   01DD DD 75 FE      [19]  387 	ld	-2 (ix),l
+   01E0 DD 74 FF      [19]  388 	ld	-1 (ix),h
+   01E3 DD 6E FE      [19]  389 	ld	l,-2 (ix)
+   01E6 DD 66 FF      [19]  390 	ld	h,-1 (ix)
+   01E9 5E            [ 7]  391 	ld	e,(hl)
                             392 ;src/utils/text.c:112: clearWindow(character->xPos, character->yPos + (character->phase % 2 != 0 ? - FALLING_TEXT_SPEED : FALLING_TEXT_SPEED), FONT_W, FONT_H);
-   01E8 21 01 00      [10]  393 	ld	hl,#0x0001
-   01EB 09            [11]  394 	add	hl,bc
-   01EC DD 75 FC      [19]  395 	ld	-4 (ix),l
-   01EF DD 74 FD      [19]  396 	ld	-3 (ix),h
+   01EA 21 01 00      [10]  393 	ld	hl,#0x0001
+   01ED 09            [11]  394 	add	hl,bc
+   01EE DD 75 FC      [19]  395 	ld	-4 (ix),l
+   01F1 DD 74 FD      [19]  396 	ld	-3 (ix),h
                             397 ;src/utils/text.c:144: drawText(character->character, character->xPos, character->yPos, 0);
-   01F2 21 06 00      [10]  398 	ld	hl,#0x0006
-   01F5 09            [11]  399 	add	hl,bc
-   01F6 DD 75 FA      [19]  400 	ld	-6 (ix),l
-   01F9 DD 74 FB      [19]  401 	ld	-5 (ix),h
+   01F4 21 06 00      [10]  398 	ld	hl,#0x0006
+   01F7 09            [11]  399 	add	hl,bc
+   01F8 DD 75 FA      [19]  400 	ld	-6 (ix),l
+   01FB DD 74 FB      [19]  401 	ld	-5 (ix),h
                             402 ;src/utils/text.c:105: if (character->phase != FALLING_TEXT_MAX_BOUNCES) {
-   01FC 7A            [ 4]  403 	ld	a,d
-   01FD D6 06         [ 7]  404 	sub	a, #0x06
-   01FF CArEEr02      [10]  405 	jp	Z,00111$
+   01FE 7A            [ 4]  403 	ld	a,d
+   01FF D6 06         [ 7]  404 	sub	a, #0x06
+   0201 CArF0r02      [10]  405 	jp	Z,00111$
                             406 ;src/utils/text.c:110: if (character->yPos != character->startyPos) {
-   0202 21 03 00      [10]  407 	ld	hl,#0x0003
-   0205 09            [11]  408 	add	hl,bc
-   0206 DD 75 F8      [19]  409 	ld	-8 (ix),l
-   0209 DD 74 F9      [19]  410 	ld	-7 (ix),h
-   020C DD 6E F8      [19]  411 	ld	l,-8 (ix)
-   020F DD 66 F9      [19]  412 	ld	h,-7 (ix)
-   0212 7E            [ 7]  413 	ld	a,(hl)
-   0213 DD 77 F7      [19]  414 	ld	-9 (ix),a
-   0216 7B            [ 4]  415 	ld	a,e
-   0217 DD 96 F7      [19]  416 	sub	a, -9 (ix)
-   021A 28 24         [12]  417 	jr	Z,00102$
+   0204 21 03 00      [10]  407 	ld	hl,#0x0003
+   0207 09            [11]  408 	add	hl,bc
+   0208 DD 75 F8      [19]  409 	ld	-8 (ix),l
+   020B DD 74 F9      [19]  410 	ld	-7 (ix),h
+   020E DD 6E F8      [19]  411 	ld	l,-8 (ix)
+   0211 DD 66 F9      [19]  412 	ld	h,-7 (ix)
+   0214 7E            [ 7]  413 	ld	a,(hl)
+   0215 DD 77 F7      [19]  414 	ld	-9 (ix),a
+   0218 7B            [ 4]  415 	ld	a,e
+   0219 DD 96 F7      [19]  416 	sub	a, -9 (ix)
+   021C 28 24         [12]  417 	jr	Z,00102$
                             418 ;src/utils/text.c:112: clearWindow(character->xPos, character->yPos + (character->phase % 2 != 0 ? - FALLING_TEXT_SPEED : FALLING_TEXT_SPEED), FONT_W, FONT_H);
-   021C CB 42         [ 8]  419 	bit	0, d
-   021E 28 04         [12]  420 	jr	Z,00115$
-   0220 2E FD         [ 7]  421 	ld	l,#0xFD
-   0222 18 02         [12]  422 	jr	00116$
-   0224                     423 00115$:
-   0224 2E 03         [ 7]  424 	ld	l,#0x03
-   0226                     425 00116$:
-   0226 7B            [ 4]  426 	ld	a,e
-   0227 85            [ 4]  427 	add	a, l
-   0228 5F            [ 4]  428 	ld	e,a
-   0229 DD 6E FC      [19]  429 	ld	l,-4 (ix)
-   022C DD 66 FD      [19]  430 	ld	h,-3 (ix)
-   022F 56            [ 7]  431 	ld	d,(hl)
-   0230 C5            [11]  432 	push	bc
-   0231 21 03 0B      [10]  433 	ld	hl,#0x0B03
-   0234 E5            [11]  434 	push	hl
-   0235 7B            [ 4]  435 	ld	a,e
-   0236 F5            [11]  436 	push	af
-   0237 33            [ 6]  437 	inc	sp
-   0238 D5            [11]  438 	push	de
-   0239 33            [ 6]  439 	inc	sp
-   023A CDr00r00      [17]  440 	call	_clearWindow
-   023D F1            [10]  441 	pop	af
-   023E F1            [10]  442 	pop	af
-   023F C1            [10]  443 	pop	bc
-   0240                     444 00102$:
+   021E CB 42         [ 8]  419 	bit	0, d
+   0220 28 04         [12]  420 	jr	Z,00115$
+   0222 2E FD         [ 7]  421 	ld	l,#0xFD
+   0224 18 02         [12]  422 	jr	00116$
+   0226                     423 00115$:
+   0226 2E 03         [ 7]  424 	ld	l,#0x03
+   0228                     425 00116$:
+   0228 7B            [ 4]  426 	ld	a,e
+   0229 85            [ 4]  427 	add	a, l
+   022A 5F            [ 4]  428 	ld	e,a
+   022B DD 6E FC      [19]  429 	ld	l,-4 (ix)
+   022E DD 66 FD      [19]  430 	ld	h,-3 (ix)
+   0231 56            [ 7]  431 	ld	d,(hl)
+   0232 C5            [11]  432 	push	bc
+   0233 21 03 0B      [10]  433 	ld	hl,#0x0B03
+   0236 E5            [11]  434 	push	hl
+   0237 7B            [ 4]  435 	ld	a,e
+   0238 F5            [11]  436 	push	af
+   0239 33            [ 6]  437 	inc	sp
+   023A D5            [11]  438 	push	de
+   023B 33            [ 6]  439 	inc	sp
+   023C CDr00r00      [17]  440 	call	_clearWindow
+   023F F1            [10]  441 	pop	af
+   0240 F1            [10]  442 	pop	af
+   0241 C1            [10]  443 	pop	bc
+   0242                     444 00102$:
                             445 ;src/utils/text.c:117: if (character->phase % 2 != 0) {
-   0240 0A            [ 7]  446 	ld	a,(bc)
-   0241 E6 01         [ 7]  447 	and	a, #0x01
-   0243 DD 77 F7      [19]  448 	ld	-9 (ix),a
+   0242 0A            [ 7]  446 	ld	a,(bc)
+   0243 E6 01         [ 7]  447 	and	a, #0x01
+   0245 DD 77 F7      [19]  448 	ld	-9 (ix),a
                             449 ;src/utils/text.c:110: if (character->yPos != character->startyPos) {
-   0246 DD 6E FE      [19]  450 	ld	l,-2 (ix)
-   0249 DD 66 FF      [19]  451 	ld	h,-1 (ix)
-   024C 5E            [ 7]  452 	ld	e,(hl)
+   0248 DD 6E FE      [19]  450 	ld	l,-2 (ix)
+   024B DD 66 FF      [19]  451 	ld	h,-1 (ix)
+   024E 5E            [ 7]  452 	ld	e,(hl)
                             453 ;src/utils/text.c:121: if (character->yPos >= character->destinationyPos) {
-   024D 21 05 00      [10]  454 	ld	hl,#0x0005
-   0250 09            [11]  455 	add	hl,bc
-   0251 DD 75 F5      [19]  456 	ld	-11 (ix),l
-   0254 DD 74 F6      [19]  457 	ld	-10 (ix),h
+   024F 21 05 00      [10]  454 	ld	hl,#0x0005
+   0252 09            [11]  455 	add	hl,bc
+   0253 DD 75 F5      [19]  456 	ld	-11 (ix),l
+   0256 DD 74 F6      [19]  457 	ld	-10 (ix),h
                             458 ;src/utils/text.c:125: character->destinationyPos = character->endyPos - ((character->endyPos - character->startyPos) / character->phase);
-   0257 21 04 00      [10]  459 	ld	hl,#0x0004
-   025A 09            [11]  460 	add	hl,bc
-   025B E3            [19]  461 	ex	(sp), hl
+   0259 21 04 00      [10]  459 	ld	hl,#0x0004
+   025C 09            [11]  460 	add	hl,bc
+   025D E3            [19]  461 	ex	(sp), hl
                             462 ;src/utils/text.c:117: if (character->phase % 2 != 0) {
-   025C DD 7E F7      [19]  463 	ld	a,-9 (ix)
-   025F B7            [ 4]  464 	or	a, a
-   0260 28 48         [12]  465 	jr	Z,00108$
+   025E DD 7E F7      [19]  463 	ld	a,-9 (ix)
+   0261 B7            [ 4]  464 	or	a, a
+   0262 28 48         [12]  465 	jr	Z,00108$
                             466 ;src/utils/text.c:119: character->yPos += FALLING_TEXT_SPEED;
-   0262 1C            [ 4]  467 	inc	e
-   0263 1C            [ 4]  468 	inc	e
-   0264 1C            [ 4]  469 	inc	e
-   0265 DD 6E FE      [19]  470 	ld	l,-2 (ix)
-   0268 DD 66 FF      [19]  471 	ld	h,-1 (ix)
-   026B 73            [ 7]  472 	ld	(hl),e
+   0264 1C            [ 4]  467 	inc	e
+   0265 1C            [ 4]  468 	inc	e
+   0266 1C            [ 4]  469 	inc	e
+   0267 DD 6E FE      [19]  470 	ld	l,-2 (ix)
+   026A DD 66 FF      [19]  471 	ld	h,-1 (ix)
+   026D 73            [ 7]  472 	ld	(hl),e
                             473 ;src/utils/text.c:121: if (character->yPos >= character->destinationyPos) {
-   026C DD 6E F5      [19]  474 	ld	l,-11 (ix)
-   026F DD 66 F6      [19]  475 	ld	h,-10 (ix)
-   0272 56            [ 7]  476 	ld	d,(hl)
-   0273 7B            [ 4]  477 	ld	a,e
-   0274 92            [ 4]  478 	sub	a, d
-   0275 38 55         [12]  479 	jr	C,00109$
+   026E DD 6E F5      [19]  474 	ld	l,-11 (ix)
+   0271 DD 66 F6      [19]  475 	ld	h,-10 (ix)
+   0274 56            [ 7]  476 	ld	d,(hl)
+   0275 7B            [ 4]  477 	ld	a,e
+   0276 92            [ 4]  478 	sub	a, d
+   0277 38 55         [12]  479 	jr	C,00109$
                             480 ;src/utils/text.c:123: character->phase++;
-   0277 0A            [ 7]  481 	ld	a,(bc)
-   0278 5F            [ 4]  482 	ld	e,a
-   0279 1C            [ 4]  483 	inc	e
-   027A 7B            [ 4]  484 	ld	a,e
-   027B 02            [ 7]  485 	ld	(bc),a
+   0279 0A            [ 7]  481 	ld	a,(bc)
+   027A 5F            [ 4]  482 	ld	e,a
+   027B 1C            [ 4]  483 	inc	e
+   027C 7B            [ 4]  484 	ld	a,e
+   027D 02            [ 7]  485 	ld	(bc),a
                             486 ;src/utils/text.c:125: character->destinationyPos = character->endyPos - ((character->endyPos - character->startyPos) / character->phase);
-   027C E1            [10]  487 	pop	hl
-   027D E5            [11]  488 	push	hl
-   027E 7E            [ 7]  489 	ld	a,(hl)
-   027F DD 77 F7      [19]  490 	ld	-9 (ix), a
-   0282 4F            [ 4]  491 	ld	c, a
-   0283 06 00         [ 7]  492 	ld	b,#0x00
-   0285 DD 6E F8      [19]  493 	ld	l,-8 (ix)
-   0288 DD 66 F9      [19]  494 	ld	h,-7 (ix)
-   028B 6E            [ 7]  495 	ld	l,(hl)
-   028C 16 00         [ 7]  496 	ld	d,#0x00
-   028E 79            [ 4]  497 	ld	a,c
-   028F 95            [ 4]  498 	sub	a, l
-   0290 4F            [ 4]  499 	ld	c,a
-   0291 78            [ 4]  500 	ld	a,b
-   0292 9A            [ 4]  501 	sbc	a, d
-   0293 47            [ 4]  502 	ld	b,a
-   0294 16 00         [ 7]  503 	ld	d,#0x00
-   0296 D5            [11]  504 	push	de
-   0297 C5            [11]  505 	push	bc
-   0298 CDr00r00      [17]  506 	call	__divsint
-   029B F1            [10]  507 	pop	af
-   029C F1            [10]  508 	pop	af
-   029D DD 7E F7      [19]  509 	ld	a, -9 (ix)
-   02A0 95            [ 4]  510 	sub	a, l
-   02A1 DD 6E F5      [19]  511 	ld	l,-11 (ix)
-   02A4 DD 66 F6      [19]  512 	ld	h,-10 (ix)
-   02A7 77            [ 7]  513 	ld	(hl),a
-   02A8 18 22         [12]  514 	jr	00109$
-   02AA                     515 00108$:
+   027E E1            [10]  487 	pop	hl
+   027F E5            [11]  488 	push	hl
+   0280 7E            [ 7]  489 	ld	a,(hl)
+   0281 DD 77 F7      [19]  490 	ld	-9 (ix), a
+   0284 4F            [ 4]  491 	ld	c, a
+   0285 06 00         [ 7]  492 	ld	b,#0x00
+   0287 DD 6E F8      [19]  493 	ld	l,-8 (ix)
+   028A DD 66 F9      [19]  494 	ld	h,-7 (ix)
+   028D 6E            [ 7]  495 	ld	l,(hl)
+   028E 16 00         [ 7]  496 	ld	d,#0x00
+   0290 79            [ 4]  497 	ld	a,c
+   0291 95            [ 4]  498 	sub	a, l
+   0292 4F            [ 4]  499 	ld	c,a
+   0293 78            [ 4]  500 	ld	a,b
+   0294 9A            [ 4]  501 	sbc	a, d
+   0295 47            [ 4]  502 	ld	b,a
+   0296 16 00         [ 7]  503 	ld	d,#0x00
+   0298 D5            [11]  504 	push	de
+   0299 C5            [11]  505 	push	bc
+   029A CDr00r00      [17]  506 	call	__divsint
+   029D F1            [10]  507 	pop	af
+   029E F1            [10]  508 	pop	af
+   029F DD 7E F7      [19]  509 	ld	a, -9 (ix)
+   02A2 95            [ 4]  510 	sub	a, l
+   02A3 DD 6E F5      [19]  511 	ld	l,-11 (ix)
+   02A6 DD 66 F6      [19]  512 	ld	h,-10 (ix)
+   02A9 77            [ 7]  513 	ld	(hl),a
+   02AA 18 22         [12]  514 	jr	00109$
+   02AC                     515 00108$:
                             516 ;src/utils/text.c:132: character->yPos -= FALLING_TEXT_SPEED;
-   02AA 7B            [ 4]  517 	ld	a,e
-   02AB C6 FD         [ 7]  518 	add	a,#0xFD
-   02AD 5F            [ 4]  519 	ld	e,a
-   02AE DD 6E FE      [19]  520 	ld	l,-2 (ix)
-   02B1 DD 66 FF      [19]  521 	ld	h,-1 (ix)
-   02B4 73            [ 7]  522 	ld	(hl),e
+   02AC 7B            [ 4]  517 	ld	a,e
+   02AD C6 FD         [ 7]  518 	add	a,#0xFD
+   02AF 5F            [ 4]  519 	ld	e,a
+   02B0 DD 6E FE      [19]  520 	ld	l,-2 (ix)
+   02B3 DD 66 FF      [19]  521 	ld	h,-1 (ix)
+   02B6 73            [ 7]  522 	ld	(hl),e
                             523 ;src/utils/text.c:134: if (character->yPos <= character->destinationyPos) {
-   02B5 DD 6E F5      [19]  524 	ld	l,-11 (ix)
-   02B8 DD 66 F6      [19]  525 	ld	h,-10 (ix)
-   02BB 7E            [ 7]  526 	ld	a, (hl)
-   02BC 93            [ 4]  527 	sub	a, e
-   02BD 38 0D         [12]  528 	jr	C,00109$
+   02B7 DD 6E F5      [19]  524 	ld	l,-11 (ix)
+   02BA DD 66 F6      [19]  525 	ld	h,-10 (ix)
+   02BD 7E            [ 7]  526 	ld	a, (hl)
+   02BE 93            [ 4]  527 	sub	a, e
+   02BF 38 0D         [12]  528 	jr	C,00109$
                             529 ;src/utils/text.c:136: character->phase++;
-   02BF 0A            [ 7]  530 	ld	a,(bc)
-   02C0 3C            [ 4]  531 	inc	a
-   02C1 02            [ 7]  532 	ld	(bc),a
+   02C1 0A            [ 7]  530 	ld	a,(bc)
+   02C2 3C            [ 4]  531 	inc	a
+   02C3 02            [ 7]  532 	ld	(bc),a
                             533 ;src/utils/text.c:138: character->destinationyPos = character->endyPos;
-   02C2 E1            [10]  534 	pop	hl
-   02C3 E5            [11]  535 	push	hl
-   02C4 4E            [ 7]  536 	ld	c,(hl)
-   02C5 DD 6E F5      [19]  537 	ld	l,-11 (ix)
-   02C8 DD 66 F6      [19]  538 	ld	h,-10 (ix)
-   02CB 71            [ 7]  539 	ld	(hl),c
-   02CC                     540 00109$:
+   02C4 E1            [10]  534 	pop	hl
+   02C5 E5            [11]  535 	push	hl
+   02C6 4E            [ 7]  536 	ld	c,(hl)
+   02C7 DD 6E F5      [19]  537 	ld	l,-11 (ix)
+   02CA DD 66 F6      [19]  538 	ld	h,-10 (ix)
+   02CD 71            [ 7]  539 	ld	(hl),c
+   02CE                     540 00109$:
                             541 ;src/utils/text.c:144: drawText(character->character, character->xPos, character->yPos, 0);
-   02CC DD 6E FE      [19]  542 	ld	l,-2 (ix)
-   02CF DD 66 FF      [19]  543 	ld	h,-1 (ix)
-   02D2 46            [ 7]  544 	ld	b,(hl)
-   02D3 DD 6E FC      [19]  545 	ld	l,-4 (ix)
-   02D6 DD 66 FD      [19]  546 	ld	h,-3 (ix)
-   02D9 56            [ 7]  547 	ld	d,(hl)
-   02DA AF            [ 4]  548 	xor	a, a
-   02DB F5            [11]  549 	push	af
-   02DC 33            [ 6]  550 	inc	sp
-   02DD 4A            [ 4]  551 	ld	c, d
-   02DE C5            [11]  552 	push	bc
-   02DF DD 6E FA      [19]  553 	ld	l,-6 (ix)
-   02E2 DD 66 FB      [19]  554 	ld	h,-5 (ix)
-   02E5 E5            [11]  555 	push	hl
-   02E6 CDrDFr00      [17]  556 	call	_drawText
-   02E9 F1            [10]  557 	pop	af
-   02EA F1            [10]  558 	pop	af
-   02EB 33            [ 6]  559 	inc	sp
-   02EC 18 3A         [12]  560 	jr	00113$
-   02EE                     561 00111$:
+   02CE DD 6E FE      [19]  542 	ld	l,-2 (ix)
+   02D1 DD 66 FF      [19]  543 	ld	h,-1 (ix)
+   02D4 46            [ 7]  544 	ld	b,(hl)
+   02D5 DD 6E FC      [19]  545 	ld	l,-4 (ix)
+   02D8 DD 66 FD      [19]  546 	ld	h,-3 (ix)
+   02DB 56            [ 7]  547 	ld	d,(hl)
+   02DC AF            [ 4]  548 	xor	a, a
+   02DD F5            [11]  549 	push	af
+   02DE 33            [ 6]  550 	inc	sp
+   02DF 4A            [ 4]  551 	ld	c, d
+   02E0 C5            [11]  552 	push	bc
+   02E1 DD 6E FA      [19]  553 	ld	l,-6 (ix)
+   02E4 DD 66 FB      [19]  554 	ld	h,-5 (ix)
+   02E7 E5            [11]  555 	push	hl
+   02E8 CDrE1r00      [17]  556 	call	_drawText
+   02EB F1            [10]  557 	pop	af
+   02EC F1            [10]  558 	pop	af
+   02ED 33            [ 6]  559 	inc	sp
+   02EE 18 3A         [12]  560 	jr	00113$
+   02F0                     561 00111$:
                             562 ;src/utils/text.c:148: clearWindow(character->xPos, character->yPos - FALLING_TEXT_SPEED, FONT_W, FONT_H);
-   02EE 7B            [ 4]  563 	ld	a,e
-   02EF C6 FD         [ 7]  564 	add	a,#0xFD
-   02F1 57            [ 4]  565 	ld	d,a
-   02F2 DD 6E FC      [19]  566 	ld	l,-4 (ix)
-   02F5 DD 66 FD      [19]  567 	ld	h,-3 (ix)
-   02F8 46            [ 7]  568 	ld	b,(hl)
-   02F9 21 03 0B      [10]  569 	ld	hl,#0x0B03
-   02FC E5            [11]  570 	push	hl
-   02FD D5            [11]  571 	push	de
-   02FE 33            [ 6]  572 	inc	sp
-   02FF C5            [11]  573 	push	bc
-   0300 33            [ 6]  574 	inc	sp
-   0301 CDr00r00      [17]  575 	call	_clearWindow
-   0304 F1            [10]  576 	pop	af
-   0305 F1            [10]  577 	pop	af
+   02F0 7B            [ 4]  563 	ld	a,e
+   02F1 C6 FD         [ 7]  564 	add	a,#0xFD
+   02F3 57            [ 4]  565 	ld	d,a
+   02F4 DD 6E FC      [19]  566 	ld	l,-4 (ix)
+   02F7 DD 66 FD      [19]  567 	ld	h,-3 (ix)
+   02FA 46            [ 7]  568 	ld	b,(hl)
+   02FB 21 03 0B      [10]  569 	ld	hl,#0x0B03
+   02FE E5            [11]  570 	push	hl
+   02FF D5            [11]  571 	push	de
+   0300 33            [ 6]  572 	inc	sp
+   0301 C5            [11]  573 	push	bc
+   0302 33            [ 6]  574 	inc	sp
+   0303 CDr00r00      [17]  575 	call	_clearWindow
+   0306 F1            [10]  576 	pop	af
+   0307 F1            [10]  577 	pop	af
                             578 ;src/utils/text.c:149: drawText(character->character, character->xPos, character->yPos, 0);
-   0306 DD 6E FE      [19]  579 	ld	l,-2 (ix)
-   0309 DD 66 FF      [19]  580 	ld	h,-1 (ix)
-   030C 56            [ 7]  581 	ld	d,(hl)
-   030D DD 6E FC      [19]  582 	ld	l,-4 (ix)
-   0310 DD 66 FD      [19]  583 	ld	h,-3 (ix)
-   0313 46            [ 7]  584 	ld	b,(hl)
-   0314 AF            [ 4]  585 	xor	a, a
-   0315 F5            [11]  586 	push	af
-   0316 33            [ 6]  587 	inc	sp
-   0317 D5            [11]  588 	push	de
-   0318 33            [ 6]  589 	inc	sp
-   0319 C5            [11]  590 	push	bc
-   031A 33            [ 6]  591 	inc	sp
-   031B DD 6E FA      [19]  592 	ld	l,-6 (ix)
-   031E DD 66 FB      [19]  593 	ld	h,-5 (ix)
-   0321 E5            [11]  594 	push	hl
-   0322 CDrDFr00      [17]  595 	call	_drawText
-   0325 F1            [10]  596 	pop	af
-   0326 F1            [10]  597 	pop	af
-   0327 33            [ 6]  598 	inc	sp
-   0328                     599 00113$:
-   0328 DD F9         [10]  600 	ld	sp, ix
-   032A DD E1         [14]  601 	pop	ix
-   032C C9            [10]  602 	ret
+   0308 DD 6E FE      [19]  579 	ld	l,-2 (ix)
+   030B DD 66 FF      [19]  580 	ld	h,-1 (ix)
+   030E 56            [ 7]  581 	ld	d,(hl)
+   030F DD 6E FC      [19]  582 	ld	l,-4 (ix)
+   0312 DD 66 FD      [19]  583 	ld	h,-3 (ix)
+   0315 46            [ 7]  584 	ld	b,(hl)
+   0316 AF            [ 4]  585 	xor	a, a
+   0317 F5            [11]  586 	push	af
+   0318 33            [ 6]  587 	inc	sp
+   0319 D5            [11]  588 	push	de
+   031A 33            [ 6]  589 	inc	sp
+   031B C5            [11]  590 	push	bc
+   031C 33            [ 6]  591 	inc	sp
+   031D DD 6E FA      [19]  592 	ld	l,-6 (ix)
+   0320 DD 66 FB      [19]  593 	ld	h,-5 (ix)
+   0323 E5            [11]  594 	push	hl
+   0324 CDrE1r00      [17]  595 	call	_drawText
+   0327 F1            [10]  596 	pop	af
+   0328 F1            [10]  597 	pop	af
+   0329 33            [ 6]  598 	inc	sp
+   032A                     599 00113$:
+   032A DD F9         [10]  600 	ld	sp, ix
+   032C DD E1         [14]  601 	pop	ix
+   032E C9            [10]  602 	ret
                             603 ;src/utils/text.c:154: u8 moveFallingText(FChar *text, u8 lenght) {
                             604 ;	---------------------------------
                             605 ; Function moveFallingText
                             606 ; ---------------------------------
-   032D                     607 _moveFallingText::
-   032D DD E5         [15]  608 	push	ix
-   032F DD 21 00 00   [14]  609 	ld	ix,#0
-   0333 DD 39         [15]  610 	add	ix,sp
-   0335 F5            [11]  611 	push	af
+   032F                     607 _moveFallingText::
+   032F DD E5         [15]  608 	push	ix
+   0331 DD 21 00 00   [14]  609 	ld	ix,#0
+   0335 DD 39         [15]  610 	add	ix,sp
+   0337 F5            [11]  611 	push	af
                             612 ;src/utils/text.c:158: for (x = 0; x < lenght; x++) {
-   0336 0E 00         [ 7]  613 	ld	c,#0x00
-   0338                     614 00109$:
-   0338 79            [ 4]  615 	ld	a,c
-   0339 DD 96 06      [19]  616 	sub	a, 6 (ix)
-   033C 30 69         [12]  617 	jr	NC,00107$
+   0338 0E 00         [ 7]  613 	ld	c,#0x00
+   033A                     614 00109$:
+   033A 79            [ 4]  615 	ld	a,c
+   033B DD 96 06      [19]  616 	sub	a, 6 (ix)
+   033E 30 69         [12]  617 	jr	NC,00107$
                             618 ;src/utils/text.c:160: if (x == 0 || (x > 0 && text[x - 1].phase == 1 && text[x - 1].yPos >= text[x].yPos + 15) || text[x - 1].phase > 1) moveCharacter(&text[x]);
-   033E 69            [ 4]  619 	ld	l,c
-   033F 26 00         [ 7]  620 	ld	h,#0x00
-   0341 5D            [ 4]  621 	ld	e, l
-   0342 54            [ 4]  622 	ld	d, h
-   0343 CB 23         [ 8]  623 	sla	e
-   0345 CB 12         [ 8]  624 	rl	d
-   0347 CB 23         [ 8]  625 	sla	e
-   0349 CB 12         [ 8]  626 	rl	d
-   034B CB 23         [ 8]  627 	sla	e
-   034D CB 12         [ 8]  628 	rl	d
-   034F DD 7E 04      [19]  629 	ld	a,4 (ix)
-   0352 83            [ 4]  630 	add	a, e
-   0353 DD 77 FE      [19]  631 	ld	-2 (ix),a
-   0356 DD 7E 05      [19]  632 	ld	a,5 (ix)
-   0359 8A            [ 4]  633 	adc	a, d
-   035A DD 77 FF      [19]  634 	ld	-1 (ix),a
-   035D 79            [ 4]  635 	ld	a,c
-   035E B7            [ 4]  636 	or	a, a
-   035F 28 38         [12]  637 	jr	Z,00101$
-   0361 2B            [ 6]  638 	dec	hl
-   0362 29            [11]  639 	add	hl, hl
-   0363 29            [11]  640 	add	hl, hl
-   0364 29            [11]  641 	add	hl, hl
-   0365 EB            [ 4]  642 	ex	de,hl
-   0366 DD 6E 04      [19]  643 	ld	l,4 (ix)
-   0369 DD 66 05      [19]  644 	ld	h,5 (ix)
-   036C 19            [11]  645 	add	hl,de
-   036D 46            [ 7]  646 	ld	b,(hl)
-   036E 79            [ 4]  647 	ld	a,c
-   036F B7            [ 4]  648 	or	a, a
-   0370 28 22         [12]  649 	jr	Z,00106$
-   0372 78            [ 4]  650 	ld	a,b
-   0373 3D            [ 4]  651 	dec	a
-   0374 20 1E         [12]  652 	jr	NZ,00106$
-   0376 23            [ 6]  653 	inc	hl
-   0377 23            [ 6]  654 	inc	hl
-   0378 5E            [ 7]  655 	ld	e,(hl)
-   0379 E1            [10]  656 	pop	hl
-   037A E5            [11]  657 	push	hl
-   037B 23            [ 6]  658 	inc	hl
-   037C 23            [ 6]  659 	inc	hl
-   037D 6E            [ 7]  660 	ld	l,(hl)
-   037E 26 00         [ 7]  661 	ld	h,#0x00
-   0380 D5            [11]  662 	push	de
-   0381 11 0F 00      [10]  663 	ld	de,#0x000F
-   0384 19            [11]  664 	add	hl, de
-   0385 D1            [10]  665 	pop	de
-   0386 16 00         [ 7]  666 	ld	d,#0x00
-   0388 7B            [ 4]  667 	ld	a,e
-   0389 95            [ 4]  668 	sub	a, l
-   038A 7A            [ 4]  669 	ld	a,d
-   038B 9C            [ 4]  670 	sbc	a, h
-   038C E2r91r03      [10]  671 	jp	PO, 00138$
-   038F EE 80         [ 7]  672 	xor	a, #0x80
-   0391                     673 00138$:
-   0391 F2r99r03      [10]  674 	jp	P,00101$
-   0394                     675 00106$:
-   0394 3E 01         [ 7]  676 	ld	a,#0x01
-   0396 90            [ 4]  677 	sub	a, b
-   0397 30 0B         [12]  678 	jr	NC,00110$
-   0399                     679 00101$:
-   0399 C5            [11]  680 	push	bc
-   039A D1            [10]  681 	pop	de
-   039B E1            [10]  682 	pop	hl
-   039C E5            [11]  683 	push	hl
-   039D D5            [11]  684 	push	de
-   039E E5            [11]  685 	push	hl
-   039F CDrC2r01      [17]  686 	call	_moveCharacter
-   03A2 F1            [10]  687 	pop	af
-   03A3 C1            [10]  688 	pop	bc
-   03A4                     689 00110$:
+   0340 69            [ 4]  619 	ld	l,c
+   0341 26 00         [ 7]  620 	ld	h,#0x00
+   0343 5D            [ 4]  621 	ld	e, l
+   0344 54            [ 4]  622 	ld	d, h
+   0345 CB 23         [ 8]  623 	sla	e
+   0347 CB 12         [ 8]  624 	rl	d
+   0349 CB 23         [ 8]  625 	sla	e
+   034B CB 12         [ 8]  626 	rl	d
+   034D CB 23         [ 8]  627 	sla	e
+   034F CB 12         [ 8]  628 	rl	d
+   0351 DD 7E 04      [19]  629 	ld	a,4 (ix)
+   0354 83            [ 4]  630 	add	a, e
+   0355 DD 77 FE      [19]  631 	ld	-2 (ix),a
+   0358 DD 7E 05      [19]  632 	ld	a,5 (ix)
+   035B 8A            [ 4]  633 	adc	a, d
+   035C DD 77 FF      [19]  634 	ld	-1 (ix),a
+   035F 79            [ 4]  635 	ld	a,c
+   0360 B7            [ 4]  636 	or	a, a
+   0361 28 38         [12]  637 	jr	Z,00101$
+   0363 2B            [ 6]  638 	dec	hl
+   0364 29            [11]  639 	add	hl, hl
+   0365 29            [11]  640 	add	hl, hl
+   0366 29            [11]  641 	add	hl, hl
+   0367 EB            [ 4]  642 	ex	de,hl
+   0368 DD 6E 04      [19]  643 	ld	l,4 (ix)
+   036B DD 66 05      [19]  644 	ld	h,5 (ix)
+   036E 19            [11]  645 	add	hl,de
+   036F 46            [ 7]  646 	ld	b,(hl)
+   0370 79            [ 4]  647 	ld	a,c
+   0371 B7            [ 4]  648 	or	a, a
+   0372 28 22         [12]  649 	jr	Z,00106$
+   0374 78            [ 4]  650 	ld	a,b
+   0375 3D            [ 4]  651 	dec	a
+   0376 20 1E         [12]  652 	jr	NZ,00106$
+   0378 23            [ 6]  653 	inc	hl
+   0379 23            [ 6]  654 	inc	hl
+   037A 5E            [ 7]  655 	ld	e,(hl)
+   037B E1            [10]  656 	pop	hl
+   037C E5            [11]  657 	push	hl
+   037D 23            [ 6]  658 	inc	hl
+   037E 23            [ 6]  659 	inc	hl
+   037F 6E            [ 7]  660 	ld	l,(hl)
+   0380 26 00         [ 7]  661 	ld	h,#0x00
+   0382 D5            [11]  662 	push	de
+   0383 11 0F 00      [10]  663 	ld	de,#0x000F
+   0386 19            [11]  664 	add	hl, de
+   0387 D1            [10]  665 	pop	de
+   0388 16 00         [ 7]  666 	ld	d,#0x00
+   038A 7B            [ 4]  667 	ld	a,e
+   038B 95            [ 4]  668 	sub	a, l
+   038C 7A            [ 4]  669 	ld	a,d
+   038D 9C            [ 4]  670 	sbc	a, h
+   038E E2r93r03      [10]  671 	jp	PO, 00138$
+   0391 EE 80         [ 7]  672 	xor	a, #0x80
+   0393                     673 00138$:
+   0393 F2r9Br03      [10]  674 	jp	P,00101$
+   0396                     675 00106$:
+   0396 3E 01         [ 7]  676 	ld	a,#0x01
+   0398 90            [ 4]  677 	sub	a, b
+   0399 30 0B         [12]  678 	jr	NC,00110$
+   039B                     679 00101$:
+   039B C5            [11]  680 	push	bc
+   039C D1            [10]  681 	pop	de
+   039D E1            [10]  682 	pop	hl
+   039E E5            [11]  683 	push	hl
+   039F D5            [11]  684 	push	de
+   03A0 E5            [11]  685 	push	hl
+   03A1 CDrC4r01      [17]  686 	call	_moveCharacter
+   03A4 F1            [10]  687 	pop	af
+   03A5 C1            [10]  688 	pop	bc
+   03A6                     689 00110$:
                             690 ;src/utils/text.c:158: for (x = 0; x < lenght; x++) {
-   03A4 0C            [ 4]  691 	inc	c
-   03A5 18 91         [12]  692 	jr	00109$
-   03A7                     693 00107$:
+   03A6 0C            [ 4]  691 	inc	c
+   03A7 18 91         [12]  692 	jr	00109$
+   03A9                     693 00107$:
                             694 ;src/utils/text.c:163: return text[lenght - 1].phase == FALLING_TEXT_MAX_BOUNCES;
-   03A7 DD 6E 06      [19]  695 	ld	l,6 (ix)
-   03AA 26 00         [ 7]  696 	ld	h,#0x00
-   03AC 2B            [ 6]  697 	dec	hl
-   03AD 29            [11]  698 	add	hl, hl
-   03AE 29            [11]  699 	add	hl, hl
-   03AF 29            [11]  700 	add	hl, hl
-   03B0 4D            [ 4]  701 	ld	c, l
-   03B1 44            [ 4]  702 	ld	b, h
-   03B2 DD 6E 04      [19]  703 	ld	l,4 (ix)
-   03B5 DD 66 05      [19]  704 	ld	h,5 (ix)
-   03B8 09            [11]  705 	add	hl,bc
-   03B9 7E            [ 7]  706 	ld	a,(hl)
-   03BA D6 06         [ 7]  707 	sub	a, #0x06
-   03BC 20 04         [12]  708 	jr	NZ,00139$
-   03BE 3E 01         [ 7]  709 	ld	a,#0x01
-   03C0 18 01         [12]  710 	jr	00140$
-   03C2                     711 00139$:
-   03C2 AF            [ 4]  712 	xor	a,a
-   03C3                     713 00140$:
-   03C3 6F            [ 4]  714 	ld	l,a
-   03C4 DD F9         [10]  715 	ld	sp, ix
-   03C6 DD E1         [14]  716 	pop	ix
-   03C8 C9            [10]  717 	ret
+   03A9 DD 6E 06      [19]  695 	ld	l,6 (ix)
+   03AC 26 00         [ 7]  696 	ld	h,#0x00
+   03AE 2B            [ 6]  697 	dec	hl
+   03AF 29            [11]  698 	add	hl, hl
+   03B0 29            [11]  699 	add	hl, hl
+   03B1 29            [11]  700 	add	hl, hl
+   03B2 4D            [ 4]  701 	ld	c, l
+   03B3 44            [ 4]  702 	ld	b, h
+   03B4 DD 6E 04      [19]  703 	ld	l,4 (ix)
+   03B7 DD 66 05      [19]  704 	ld	h,5 (ix)
+   03BA 09            [11]  705 	add	hl,bc
+   03BB 7E            [ 7]  706 	ld	a,(hl)
+   03BC D6 06         [ 7]  707 	sub	a, #0x06
+   03BE 20 04         [12]  708 	jr	NZ,00139$
+   03C0 3E 01         [ 7]  709 	ld	a,#0x01
+   03C2 18 01         [12]  710 	jr	00140$
+   03C4                     711 00139$:
+   03C4 AF            [ 4]  712 	xor	a,a
+   03C5                     713 00140$:
+   03C5 6F            [ 4]  714 	ld	l,a
+   03C6 DD F9         [10]  715 	ld	sp, ix
+   03C8 DD E1         [14]  716 	pop	ix
+   03CA C9            [10]  717 	ret
                             718 ;src/utils/text.c:169: void drawFallingText(u8 text[], u8 xPos, u8 yPos, u8 destinationyPos) {
                             719 ;	---------------------------------
                             720 ; Function drawFallingText
                             721 ; ---------------------------------
-   03C9                     722 _drawFallingText::
-   03C9 DD E5         [15]  723 	push	ix
-   03CB DD 21 00 00   [14]  724 	ld	ix,#0
-   03CF DD 39         [15]  725 	add	ix,sp
-   03D1 21 5A FF      [10]  726 	ld	hl,#-166
-   03D4 39            [11]  727 	add	hl,sp
-   03D5 F9            [ 6]  728 	ld	sp,hl
+   03CB                     722 _drawFallingText::
+   03CB DD E5         [15]  723 	push	ix
+   03CD DD 21 00 00   [14]  724 	ld	ix,#0
+   03D1 DD 39         [15]  725 	add	ix,sp
+   03D3 21 5A FF      [10]  726 	ld	hl,#-166
+   03D6 39            [11]  727 	add	hl,sp
+   03D7 F9            [ 6]  728 	ld	sp,hl
                             729 ;src/utils/text.c:175: for (x = 0; x < strLength(text) && x < FALLING_TEXT_MAX_LENGHT; x++) {
-   03D6 21 01 00      [10]  730 	ld	hl,#0x0001
-   03D9 39            [11]  731 	add	hl,sp
-   03DA DD 75 FE      [19]  732 	ld	-2 (ix),l
-   03DD DD 74 FF      [19]  733 	ld	-1 (ix),h
-   03E0 FD 21 00 00   [14]  734 	ld	iy,#0
-   03E4 FD 39         [15]  735 	add	iy,sp
-   03E6 FD 36 00 00   [19]  736 	ld	0 (iy),#0x00
-   03EA DD 36 FD 00   [19]  737 	ld	-3 (ix),#0x00
-   03EE                     738 00109$:
-   03EE DD 6E 04      [19]  739 	ld	l,4 (ix)
-   03F1 DD 66 05      [19]  740 	ld	h,5 (ix)
-   03F4 E5            [11]  741 	push	hl
-   03F5 CDr00r00      [17]  742 	call	_strLength
-   03F8 F1            [10]  743 	pop	af
-   03F9 4D            [ 4]  744 	ld	c,l
-   03FA FD 21 00 00   [14]  745 	ld	iy,#0
-   03FE FD 39         [15]  746 	add	iy,sp
-   0400 FD 7E 00      [19]  747 	ld	a,0 (iy)
-   0403 91            [ 4]  748 	sub	a, c
-   0404 D2r86r04      [10]  749 	jp	NC,00120$
-   0407 FD 7E 00      [19]  750 	ld	a,0 (iy)
-   040A D6 14         [ 7]  751 	sub	a, #0x14
-   040C 30 78         [12]  752 	jr	NC,00120$
+   03D8 21 01 00      [10]  730 	ld	hl,#0x0001
+   03DB 39            [11]  731 	add	hl,sp
+   03DC DD 75 FE      [19]  732 	ld	-2 (ix),l
+   03DF DD 74 FF      [19]  733 	ld	-1 (ix),h
+   03E2 FD 21 00 00   [14]  734 	ld	iy,#0
+   03E6 FD 39         [15]  735 	add	iy,sp
+   03E8 FD 36 00 00   [19]  736 	ld	0 (iy),#0x00
+   03EC DD 36 FD 00   [19]  737 	ld	-3 (ix),#0x00
+   03F0                     738 00109$:
+   03F0 DD 6E 04      [19]  739 	ld	l,4 (ix)
+   03F3 DD 66 05      [19]  740 	ld	h,5 (ix)
+   03F6 E5            [11]  741 	push	hl
+   03F7 CDr00r00      [17]  742 	call	_strLength
+   03FA F1            [10]  743 	pop	af
+   03FB 4D            [ 4]  744 	ld	c,l
+   03FC FD 21 00 00   [14]  745 	ld	iy,#0
+   0400 FD 39         [15]  746 	add	iy,sp
+   0402 FD 7E 00      [19]  747 	ld	a,0 (iy)
+   0405 91            [ 4]  748 	sub	a, c
+   0406 D2r88r04      [10]  749 	jp	NC,00120$
+   0409 FD 7E 00      [19]  750 	ld	a,0 (iy)
+   040C D6 14         [ 7]  751 	sub	a, #0x14
+   040E 30 78         [12]  752 	jr	NC,00120$
                             753 ;src/utils/text.c:177: ftext[x].phase = 1;
-   040E FD 6E 00      [19]  754 	ld	l,0 (iy)
-   0411 26 00         [ 7]  755 	ld	h,#0x00
-   0413 29            [11]  756 	add	hl, hl
-   0414 29            [11]  757 	add	hl, hl
-   0415 29            [11]  758 	add	hl, hl
-   0416 4D            [ 4]  759 	ld	c, l
-   0417 44            [ 4]  760 	ld	b, h
-   0418 DD 7E FE      [19]  761 	ld	a,-2 (ix)
-   041B 81            [ 4]  762 	add	a, c
-   041C 4F            [ 4]  763 	ld	c,a
-   041D DD 7E FF      [19]  764 	ld	a,-1 (ix)
-   0420 88            [ 4]  765 	adc	a, b
-   0421 47            [ 4]  766 	ld	b,a
-   0422 3E 01         [ 7]  767 	ld	a,#0x01
-   0424 02            [ 7]  768 	ld	(bc),a
+   0410 FD 6E 00      [19]  754 	ld	l,0 (iy)
+   0413 26 00         [ 7]  755 	ld	h,#0x00
+   0415 29            [11]  756 	add	hl, hl
+   0416 29            [11]  757 	add	hl, hl
+   0417 29            [11]  758 	add	hl, hl
+   0418 4D            [ 4]  759 	ld	c, l
+   0419 44            [ 4]  760 	ld	b, h
+   041A DD 7E FE      [19]  761 	ld	a,-2 (ix)
+   041D 81            [ 4]  762 	add	a, c
+   041E 4F            [ 4]  763 	ld	c,a
+   041F DD 7E FF      [19]  764 	ld	a,-1 (ix)
+   0422 88            [ 4]  765 	adc	a, b
+   0423 47            [ 4]  766 	ld	b,a
+   0424 3E 01         [ 7]  767 	ld	a,#0x01
+   0426 02            [ 7]  768 	ld	(bc),a
                             769 ;src/utils/text.c:178: ftext[x].xPos = xPos + (x * FONT_W);
-   0425 59            [ 4]  770 	ld	e, c
-   0426 50            [ 4]  771 	ld	d, b
-   0427 13            [ 6]  772 	inc	de
-   0428 DD 7E 06      [19]  773 	ld	a,6 (ix)
-   042B DD 86 FD      [19]  774 	add	a, -3 (ix)
-   042E 12            [ 7]  775 	ld	(de),a
+   0427 59            [ 4]  770 	ld	e, c
+   0428 50            [ 4]  771 	ld	d, b
+   0429 13            [ 6]  772 	inc	de
+   042A DD 7E 06      [19]  773 	ld	a,6 (ix)
+   042D DD 86 FD      [19]  774 	add	a, -3 (ix)
+   0430 12            [ 7]  775 	ld	(de),a
                             776 ;src/utils/text.c:179: ftext[x].yPos = yPos;
-   042F 59            [ 4]  777 	ld	e, c
-   0430 50            [ 4]  778 	ld	d, b
-   0431 13            [ 6]  779 	inc	de
-   0432 13            [ 6]  780 	inc	de
-   0433 DD 7E 07      [19]  781 	ld	a,7 (ix)
-   0436 12            [ 7]  782 	ld	(de),a
+   0431 59            [ 4]  777 	ld	e, c
+   0432 50            [ 4]  778 	ld	d, b
+   0433 13            [ 6]  779 	inc	de
+   0434 13            [ 6]  780 	inc	de
+   0435 DD 7E 07      [19]  781 	ld	a,7 (ix)
+   0438 12            [ 7]  782 	ld	(de),a
                             783 ;src/utils/text.c:180: ftext[x].startyPos = yPos;
-   0437 59            [ 4]  784 	ld	e, c
-   0438 50            [ 4]  785 	ld	d, b
-   0439 13            [ 6]  786 	inc	de
-   043A 13            [ 6]  787 	inc	de
-   043B 13            [ 6]  788 	inc	de
-   043C DD 7E 07      [19]  789 	ld	a,7 (ix)
-   043F 12            [ 7]  790 	ld	(de),a
+   0439 59            [ 4]  784 	ld	e, c
+   043A 50            [ 4]  785 	ld	d, b
+   043B 13            [ 6]  786 	inc	de
+   043C 13            [ 6]  787 	inc	de
+   043D 13            [ 6]  788 	inc	de
+   043E DD 7E 07      [19]  789 	ld	a,7 (ix)
+   0441 12            [ 7]  790 	ld	(de),a
                             791 ;src/utils/text.c:181: ftext[x].endyPos = destinationyPos;
-   0440 21 04 00      [10]  792 	ld	hl,#0x0004
-   0443 09            [11]  793 	add	hl,bc
-   0444 DD 7E 08      [19]  794 	ld	a,8 (ix)
-   0447 77            [ 7]  795 	ld	(hl),a
+   0442 21 04 00      [10]  792 	ld	hl,#0x0004
+   0445 09            [11]  793 	add	hl,bc
+   0446 DD 7E 08      [19]  794 	ld	a,8 (ix)
+   0449 77            [ 7]  795 	ld	(hl),a
                             796 ;src/utils/text.c:182: ftext[x].destinationyPos = destinationyPos;
-   0448 21 05 00      [10]  797 	ld	hl,#0x0005
-   044B 09            [11]  798 	add	hl,bc
-   044C DD 7E 08      [19]  799 	ld	a,8 (ix)
-   044F 77            [ 7]  800 	ld	(hl),a
+   044A 21 05 00      [10]  797 	ld	hl,#0x0005
+   044D 09            [11]  798 	add	hl,bc
+   044E DD 7E 08      [19]  799 	ld	a,8 (ix)
+   0451 77            [ 7]  800 	ld	(hl),a
                             801 ;src/utils/text.c:183: ftext[x].character[0] = text[x];
-   0450 21 06 00      [10]  802 	ld	hl,#0x0006
-   0453 09            [11]  803 	add	hl,bc
-   0454 DD 75 FB      [19]  804 	ld	-5 (ix),l
-   0457 DD 74 FC      [19]  805 	ld	-4 (ix),h
-   045A DD 7E 04      [19]  806 	ld	a,4 (ix)
-   045D 21 00 00      [10]  807 	ld	hl,#0
-   0460 39            [11]  808 	add	hl,sp
-   0461 86            [ 7]  809 	add	a, (hl)
-   0462 5F            [ 4]  810 	ld	e,a
-   0463 DD 7E 05      [19]  811 	ld	a,5 (ix)
-   0466 CE 00         [ 7]  812 	adc	a, #0x00
-   0468 57            [ 4]  813 	ld	d,a
-   0469 1A            [ 7]  814 	ld	a,(de)
-   046A DD 6E FB      [19]  815 	ld	l,-5 (ix)
-   046D DD 66 FC      [19]  816 	ld	h,-4 (ix)
-   0470 77            [ 7]  817 	ld	(hl),a
+   0452 21 06 00      [10]  802 	ld	hl,#0x0006
+   0455 09            [11]  803 	add	hl,bc
+   0456 DD 75 FB      [19]  804 	ld	-5 (ix),l
+   0459 DD 74 FC      [19]  805 	ld	-4 (ix),h
+   045C DD 7E 04      [19]  806 	ld	a,4 (ix)
+   045F 21 00 00      [10]  807 	ld	hl,#0
+   0462 39            [11]  808 	add	hl,sp
+   0463 86            [ 7]  809 	add	a, (hl)
+   0464 5F            [ 4]  810 	ld	e,a
+   0465 DD 7E 05      [19]  811 	ld	a,5 (ix)
+   0468 CE 00         [ 7]  812 	adc	a, #0x00
+   046A 57            [ 4]  813 	ld	d,a
+   046B 1A            [ 7]  814 	ld	a,(de)
+   046C DD 6E FB      [19]  815 	ld	l,-5 (ix)
+   046F DD 66 FC      [19]  816 	ld	h,-4 (ix)
+   0472 77            [ 7]  817 	ld	(hl),a
                             818 ;src/utils/text.c:184: ftext[x].character[1] = '\0';
-   0471 21 07 00      [10]  819 	ld	hl,#0x0007
-   0474 09            [11]  820 	add	hl,bc
-   0475 36 00         [10]  821 	ld	(hl),#0x00
+   0473 21 07 00      [10]  819 	ld	hl,#0x0007
+   0476 09            [11]  820 	add	hl,bc
+   0477 36 00         [10]  821 	ld	(hl),#0x00
                             822 ;src/utils/text.c:175: for (x = 0; x < strLength(text) && x < FALLING_TEXT_MAX_LENGHT; x++) {
-   0477 DD 34 FD      [23]  823 	inc	-3 (ix)
-   047A DD 34 FD      [23]  824 	inc	-3 (ix)
-   047D DD 34 FD      [23]  825 	inc	-3 (ix)
-   0480 FD 34 00      [23]  826 	inc	0 (iy)
-   0483 C3rEEr03      [10]  827 	jp	00109$
+   0479 DD 34 FD      [23]  823 	inc	-3 (ix)
+   047C DD 34 FD      [23]  824 	inc	-3 (ix)
+   047F DD 34 FD      [23]  825 	inc	-3 (ix)
+   0482 FD 34 00      [23]  826 	inc	0 (iy)
+   0485 C3rF0r03      [10]  827 	jp	00109$
                             828 ;src/utils/text.c:187: while (1) {
-   0486                     829 00120$:
-   0486 DD 7E FE      [19]  830 	ld	a,-2 (ix)
-   0489 DD 77 FB      [19]  831 	ld	-5 (ix),a
-   048C DD 7E FF      [19]  832 	ld	a,-1 (ix)
-   048F DD 77 FC      [19]  833 	ld	-4 (ix),a
-   0492                     834 00105$:
+   0488                     829 00120$:
+   0488 DD 7E FE      [19]  830 	ld	a,-2 (ix)
+   048B DD 77 FB      [19]  831 	ld	-5 (ix),a
+   048E DD 7E FF      [19]  832 	ld	a,-1 (ix)
+   0491 DD 77 FC      [19]  833 	ld	-4 (ix),a
+   0494                     834 00105$:
                             835 ;src/utils/text.c:190: if (moveFallingText(ftext, strLength(text) <= FALLING_TEXT_MAX_LENGHT ? strLength(text) : FALLING_TEXT_MAX_LENGHT)) {
-   0492 DD 6E 04      [19]  836 	ld	l,4 (ix)
-   0495 DD 66 05      [19]  837 	ld	h,5 (ix)
-   0498 E5            [11]  838 	push	hl
-   0499 CDr00r00      [17]  839 	call	_strLength
-   049C F1            [10]  840 	pop	af
-   049D 3E 14         [ 7]  841 	ld	a,#0x14
-   049F 95            [ 4]  842 	sub	a, l
-   04A0 38 0E         [12]  843 	jr	C,00113$
-   04A2 DD 6E 04      [19]  844 	ld	l,4 (ix)
-   04A5 DD 66 05      [19]  845 	ld	h,5 (ix)
-   04A8 E5            [11]  846 	push	hl
-   04A9 CDr00r00      [17]  847 	call	_strLength
-   04AC F1            [10]  848 	pop	af
-   04AD 45            [ 4]  849 	ld	b,l
-   04AE 18 02         [12]  850 	jr	00114$
-   04B0                     851 00113$:
-   04B0 06 14         [ 7]  852 	ld	b,#0x14
-   04B2                     853 00114$:
-   04B2 DD 5E FB      [19]  854 	ld	e,-5 (ix)
-   04B5 DD 56 FC      [19]  855 	ld	d,-4 (ix)
-   04B8 C5            [11]  856 	push	bc
-   04B9 33            [ 6]  857 	inc	sp
-   04BA D5            [11]  858 	push	de
-   04BB CDr2Dr03      [17]  859 	call	_moveFallingText
-   04BE F1            [10]  860 	pop	af
-   04BF 33            [ 6]  861 	inc	sp
-   04C0 7D            [ 4]  862 	ld	a,l
-   04C1 B7            [ 4]  863 	or	a, a
+   0494 DD 6E 04      [19]  836 	ld	l,4 (ix)
+   0497 DD 66 05      [19]  837 	ld	h,5 (ix)
+   049A E5            [11]  838 	push	hl
+   049B CDr00r00      [17]  839 	call	_strLength
+   049E F1            [10]  840 	pop	af
+   049F 3E 14         [ 7]  841 	ld	a,#0x14
+   04A1 95            [ 4]  842 	sub	a, l
+   04A2 38 0E         [12]  843 	jr	C,00113$
+   04A4 DD 6E 04      [19]  844 	ld	l,4 (ix)
+   04A7 DD 66 05      [19]  845 	ld	h,5 (ix)
+   04AA E5            [11]  846 	push	hl
+   04AB CDr00r00      [17]  847 	call	_strLength
+   04AE F1            [10]  848 	pop	af
+   04AF 45            [ 4]  849 	ld	b,l
+   04B0 18 02         [12]  850 	jr	00114$
+   04B2                     851 00113$:
+   04B2 06 14         [ 7]  852 	ld	b,#0x14
+   04B4                     853 00114$:
+   04B4 DD 5E FB      [19]  854 	ld	e,-5 (ix)
+   04B7 DD 56 FC      [19]  855 	ld	d,-4 (ix)
+   04BA C5            [11]  856 	push	bc
+   04BB 33            [ 6]  857 	inc	sp
+   04BC D5            [11]  858 	push	de
+   04BD CDr2Fr03      [17]  859 	call	_moveFallingText
+   04C0 F1            [10]  860 	pop	af
+   04C1 33            [ 6]  861 	inc	sp
+   04C2 7D            [ 4]  862 	ld	a,l
+   04C3 B7            [ 4]  863 	or	a, a
                             864 ;src/utils/text.c:192: return;
-   04C2 20 05         [12]  865 	jr	NZ,00111$
+   04C4 20 05         [12]  865 	jr	NZ,00111$
                             866 ;src/utils/text.c:196: cpct_waitVSYNC();
-   04C4 CDr00r00      [17]  867 	call	_cpct_waitVSYNC
-   04C7 18 C9         [12]  868 	jr	00105$
-   04C9                     869 00111$:
-   04C9 DD F9         [10]  870 	ld	sp, ix
-   04CB DD E1         [14]  871 	pop	ix
-   04CD C9            [10]  872 	ret
+   04C6 CDr00r00      [17]  867 	call	_cpct_waitVSYNC
+   04C9 18 C9         [12]  868 	jr	00105$
+   04CB                     869 00111$:
+   04CB DD F9         [10]  870 	ld	sp, ix
+   04CD DD E1         [14]  871 	pop	ix
+   04CF C9            [10]  872 	ret
                             873 	.area _CODE
                             874 	.area _INITIALIZER
                             875 	.area _CABS (ABS)
