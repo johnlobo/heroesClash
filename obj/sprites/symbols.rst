@@ -44,141 +44,141 @@
                              44 ;--------------------------------------------------------
                              45 	.area _CODE
                              46 	.area _CODE
-   4B43                      47 _g_tile_symbols_1:
-   4B43 F0                   48 	.db #0xF0	; 240
-   4B44 78                   49 	.db #0x78	; 120	'x'
-   4B45 F0                   50 	.db #0xF0	; 240
-   4B46 F0                   51 	.db #0xF0	; 240
-   4B47 78                   52 	.db #0x78	; 120	'x'
-   4B48 F0                   53 	.db #0xF0	; 240
-   4B49 F0                   54 	.db #0xF0	; 240
-   4B4A 78                   55 	.db #0x78	; 120	'x'
-   4B4B F0                   56 	.db #0xF0	; 240
-   4B4C B4                   57 	.db #0xB4	; 180
-   4B4D 3C                   58 	.db #0x3C	; 60
-   4B4E F0                   59 	.db #0xF0	; 240
-   4B4F B4                   60 	.db #0xB4	; 180
-   4B50 3C                   61 	.db #0x3C	; 60
-   4B51 F0                   62 	.db #0xF0	; 240
-   4B52 3C                   63 	.db #0x3C	; 60
-   4B53 3C                   64 	.db #0x3C	; 60
-   4B54 78                   65 	.db #0x78	; 120	'x'
-   4B55 0C                   66 	.db #0x0C	; 12
-   4B56 0C                   67 	.db #0x0C	; 12
-   4B57 58                   68 	.db #0x58	; 88	'X'
-   4B58 F0                   69 	.db #0xF0	; 240
-   4B59 58                   70 	.db #0x58	; 88	'X'
-   4B5A F0                   71 	.db #0xF0	; 240
-   4B5B F0                   72 	.db #0xF0	; 240
-   4B5C 58                   73 	.db #0x58	; 88	'X'
-   4B5D F0                   74 	.db #0xF0	; 240
-   4B5E F0                   75 	.db #0xF0	; 240
-   4B5F 58                   76 	.db #0x58	; 88	'X'
-   4B60 F0                   77 	.db #0xF0	; 240
-   4B61 F0                   78 	.db #0xF0	; 240
-   4B62 58                   79 	.db #0x58	; 88	'X'
-   4B63 F0                   80 	.db #0xF0	; 240
-   4B64                      81 _g_tile_symbols_2:
-   4B64 F0                   82 	.db #0xF0	; 240
-   4B65 58                   83 	.db #0x58	; 88	'X'
-   4B66 F0                   84 	.db #0xF0	; 240
-   4B67 F0                   85 	.db #0xF0	; 240
-   4B68 58                   86 	.db #0x58	; 88	'X'
-   4B69 F0                   87 	.db #0xF0	; 240
-   4B6A F0                   88 	.db #0xF0	; 240
-   4B6B 58                   89 	.db #0x58	; 88	'X'
-   4B6C F0                   90 	.db #0xF0	; 240
-   4B6D F0                   91 	.db #0xF0	; 240
-   4B6E 58                   92 	.db #0x58	; 88	'X'
-   4B6F F0                   93 	.db #0xF0	; 240
-   4B70 0C                   94 	.db #0x0C	; 12
-   4B71 0C                   95 	.db #0x0C	; 12
-   4B72 58                   96 	.db #0x58	; 88	'X'
-   4B73 3C                   97 	.db #0x3C	; 60
-   4B74 3C                   98 	.db #0x3C	; 60
-   4B75 78                   99 	.db #0x78	; 120	'x'
-   4B76 B4                  100 	.db #0xB4	; 180
-   4B77 3C                  101 	.db #0x3C	; 60
-   4B78 F0                  102 	.db #0xF0	; 240
-   4B79 B4                  103 	.db #0xB4	; 180
-   4B7A 3C                  104 	.db #0x3C	; 60
-   4B7B F0                  105 	.db #0xF0	; 240
-   4B7C F0                  106 	.db #0xF0	; 240
-   4B7D 78                  107 	.db #0x78	; 120	'x'
-   4B7E F0                  108 	.db #0xF0	; 240
-   4B7F F0                  109 	.db #0xF0	; 240
-   4B80 78                  110 	.db #0x78	; 120	'x'
-   4B81 F0                  111 	.db #0xF0	; 240
-   4B82 F0                  112 	.db #0xF0	; 240
-   4B83 78                  113 	.db #0x78	; 120	'x'
-   4B84 F0                  114 	.db #0xF0	; 240
-   4B85                     115 _g_tile_symbols_3:
-   4B85 F0                  116 	.db #0xF0	; 240
-   4B86 F0                  117 	.db #0xF0	; 240
-   4B87 F0                  118 	.db #0xF0	; 240
-   4B88 F0                  119 	.db #0xF0	; 240
-   4B89 F0                  120 	.db #0xF0	; 240
-   4B8A F0                  121 	.db #0xF0	; 240
-   4B8B F0                  122 	.db #0xF0	; 240
-   4B8C 78                  123 	.db #0x78	; 120	'x'
-   4B8D F0                  124 	.db #0xF0	; 240
-   4B8E F0                  125 	.db #0xF0	; 240
-   4B8F 3C                  126 	.db #0x3C	; 60
-   4B90 F0                  127 	.db #0xF0	; 240
-   4B91 F0                  128 	.db #0xF0	; 240
-   4B92 3C                  129 	.db #0x3C	; 60
-   4B93 78                  130 	.db #0x78	; 120	'x'
-   4B94 3C                  131 	.db #0x3C	; 60
-   4B95 3C                  132 	.db #0x3C	; 60
-   4B96 3C                  133 	.db #0x3C	; 60
-   4B97 F0                  134 	.db #0xF0	; 240
-   4B98 0C                  135 	.db #0x0C	; 12
-   4B99 58                  136 	.db #0x58	; 88	'X'
-   4B9A F0                  137 	.db #0xF0	; 240
-   4B9B 0C                  138 	.db #0x0C	; 12
-   4B9C F0                  139 	.db #0xF0	; 240
-   4B9D F0                  140 	.db #0xF0	; 240
-   4B9E 58                  141 	.db #0x58	; 88	'X'
-   4B9F F0                  142 	.db #0xF0	; 240
-   4BA0 F0                  143 	.db #0xF0	; 240
-   4BA1 F0                  144 	.db #0xF0	; 240
-   4BA2 F0                  145 	.db #0xF0	; 240
-   4BA3 F0                  146 	.db #0xF0	; 240
-   4BA4 F0                  147 	.db #0xF0	; 240
-   4BA5 F0                  148 	.db #0xF0	; 240
-   4BA6                     149 _g_tile_symbols_4:
-   4BA6 F0                  150 	.db #0xF0	; 240
-   4BA7 F0                  151 	.db #0xF0	; 240
-   4BA8 F0                  152 	.db #0xF0	; 240
-   4BA9 F0                  153 	.db #0xF0	; 240
-   4BAA F0                  154 	.db #0xF0	; 240
-   4BAB F0                  155 	.db #0xF0	; 240
-   4BAC F0                  156 	.db #0xF0	; 240
-   4BAD B4                  157 	.db #0xB4	; 180
-   4BAE F0                  158 	.db #0xF0	; 240
-   4BAF F0                  159 	.db #0xF0	; 240
-   4BB0 3C                  160 	.db #0x3C	; 60
-   4BB1 F0                  161 	.db #0xF0	; 240
-   4BB2 B4                  162 	.db #0xB4	; 180
-   4BB3 3C                  163 	.db #0x3C	; 60
-   4BB4 F0                  164 	.db #0xF0	; 240
-   4BB5 3C                  165 	.db #0x3C	; 60
-   4BB6 3C                  166 	.db #0x3C	; 60
-   4BB7 3C                  167 	.db #0x3C	; 60
-   4BB8 A4                  168 	.db #0xA4	; 164
-   4BB9 0C                  169 	.db #0x0C	; 12
-   4BBA F0                  170 	.db #0xF0	; 240
-   4BBB F0                  171 	.db #0xF0	; 240
-   4BBC 0C                  172 	.db #0x0C	; 12
-   4BBD F0                  173 	.db #0xF0	; 240
-   4BBE F0                  174 	.db #0xF0	; 240
-   4BBF A4                  175 	.db #0xA4	; 164
-   4BC0 F0                  176 	.db #0xF0	; 240
-   4BC1 F0                  177 	.db #0xF0	; 240
-   4BC2 F0                  178 	.db #0xF0	; 240
-   4BC3 F0                  179 	.db #0xF0	; 240
-   4BC4 F0                  180 	.db #0xF0	; 240
-   4BC5 F0                  181 	.db #0xF0	; 240
-   4BC6 F0                  182 	.db #0xF0	; 240
+   4B73                      47 _g_tile_symbols_1:
+   4B73 F0                   48 	.db #0xF0	; 240
+   4B74 78                   49 	.db #0x78	; 120	'x'
+   4B75 F0                   50 	.db #0xF0	; 240
+   4B76 F0                   51 	.db #0xF0	; 240
+   4B77 78                   52 	.db #0x78	; 120	'x'
+   4B78 F0                   53 	.db #0xF0	; 240
+   4B79 F0                   54 	.db #0xF0	; 240
+   4B7A 78                   55 	.db #0x78	; 120	'x'
+   4B7B F0                   56 	.db #0xF0	; 240
+   4B7C B4                   57 	.db #0xB4	; 180
+   4B7D 3C                   58 	.db #0x3C	; 60
+   4B7E F0                   59 	.db #0xF0	; 240
+   4B7F B4                   60 	.db #0xB4	; 180
+   4B80 3C                   61 	.db #0x3C	; 60
+   4B81 F0                   62 	.db #0xF0	; 240
+   4B82 3C                   63 	.db #0x3C	; 60
+   4B83 3C                   64 	.db #0x3C	; 60
+   4B84 78                   65 	.db #0x78	; 120	'x'
+   4B85 0C                   66 	.db #0x0C	; 12
+   4B86 0C                   67 	.db #0x0C	; 12
+   4B87 58                   68 	.db #0x58	; 88	'X'
+   4B88 F0                   69 	.db #0xF0	; 240
+   4B89 58                   70 	.db #0x58	; 88	'X'
+   4B8A F0                   71 	.db #0xF0	; 240
+   4B8B F0                   72 	.db #0xF0	; 240
+   4B8C 58                   73 	.db #0x58	; 88	'X'
+   4B8D F0                   74 	.db #0xF0	; 240
+   4B8E F0                   75 	.db #0xF0	; 240
+   4B8F 58                   76 	.db #0x58	; 88	'X'
+   4B90 F0                   77 	.db #0xF0	; 240
+   4B91 F0                   78 	.db #0xF0	; 240
+   4B92 58                   79 	.db #0x58	; 88	'X'
+   4B93 F0                   80 	.db #0xF0	; 240
+   4B94                      81 _g_tile_symbols_2:
+   4B94 F0                   82 	.db #0xF0	; 240
+   4B95 58                   83 	.db #0x58	; 88	'X'
+   4B96 F0                   84 	.db #0xF0	; 240
+   4B97 F0                   85 	.db #0xF0	; 240
+   4B98 58                   86 	.db #0x58	; 88	'X'
+   4B99 F0                   87 	.db #0xF0	; 240
+   4B9A F0                   88 	.db #0xF0	; 240
+   4B9B 58                   89 	.db #0x58	; 88	'X'
+   4B9C F0                   90 	.db #0xF0	; 240
+   4B9D F0                   91 	.db #0xF0	; 240
+   4B9E 58                   92 	.db #0x58	; 88	'X'
+   4B9F F0                   93 	.db #0xF0	; 240
+   4BA0 0C                   94 	.db #0x0C	; 12
+   4BA1 0C                   95 	.db #0x0C	; 12
+   4BA2 58                   96 	.db #0x58	; 88	'X'
+   4BA3 3C                   97 	.db #0x3C	; 60
+   4BA4 3C                   98 	.db #0x3C	; 60
+   4BA5 78                   99 	.db #0x78	; 120	'x'
+   4BA6 B4                  100 	.db #0xB4	; 180
+   4BA7 3C                  101 	.db #0x3C	; 60
+   4BA8 F0                  102 	.db #0xF0	; 240
+   4BA9 B4                  103 	.db #0xB4	; 180
+   4BAA 3C                  104 	.db #0x3C	; 60
+   4BAB F0                  105 	.db #0xF0	; 240
+   4BAC F0                  106 	.db #0xF0	; 240
+   4BAD 78                  107 	.db #0x78	; 120	'x'
+   4BAE F0                  108 	.db #0xF0	; 240
+   4BAF F0                  109 	.db #0xF0	; 240
+   4BB0 78                  110 	.db #0x78	; 120	'x'
+   4BB1 F0                  111 	.db #0xF0	; 240
+   4BB2 F0                  112 	.db #0xF0	; 240
+   4BB3 78                  113 	.db #0x78	; 120	'x'
+   4BB4 F0                  114 	.db #0xF0	; 240
+   4BB5                     115 _g_tile_symbols_3:
+   4BB5 F0                  116 	.db #0xF0	; 240
+   4BB6 F0                  117 	.db #0xF0	; 240
+   4BB7 F0                  118 	.db #0xF0	; 240
+   4BB8 F0                  119 	.db #0xF0	; 240
+   4BB9 F0                  120 	.db #0xF0	; 240
+   4BBA F0                  121 	.db #0xF0	; 240
+   4BBB F0                  122 	.db #0xF0	; 240
+   4BBC 78                  123 	.db #0x78	; 120	'x'
+   4BBD F0                  124 	.db #0xF0	; 240
+   4BBE F0                  125 	.db #0xF0	; 240
+   4BBF 3C                  126 	.db #0x3C	; 60
+   4BC0 F0                  127 	.db #0xF0	; 240
+   4BC1 F0                  128 	.db #0xF0	; 240
+   4BC2 3C                  129 	.db #0x3C	; 60
+   4BC3 78                  130 	.db #0x78	; 120	'x'
+   4BC4 3C                  131 	.db #0x3C	; 60
+   4BC5 3C                  132 	.db #0x3C	; 60
+   4BC6 3C                  133 	.db #0x3C	; 60
+   4BC7 F0                  134 	.db #0xF0	; 240
+   4BC8 0C                  135 	.db #0x0C	; 12
+   4BC9 58                  136 	.db #0x58	; 88	'X'
+   4BCA F0                  137 	.db #0xF0	; 240
+   4BCB 0C                  138 	.db #0x0C	; 12
+   4BCC F0                  139 	.db #0xF0	; 240
+   4BCD F0                  140 	.db #0xF0	; 240
+   4BCE 58                  141 	.db #0x58	; 88	'X'
+   4BCF F0                  142 	.db #0xF0	; 240
+   4BD0 F0                  143 	.db #0xF0	; 240
+   4BD1 F0                  144 	.db #0xF0	; 240
+   4BD2 F0                  145 	.db #0xF0	; 240
+   4BD3 F0                  146 	.db #0xF0	; 240
+   4BD4 F0                  147 	.db #0xF0	; 240
+   4BD5 F0                  148 	.db #0xF0	; 240
+   4BD6                     149 _g_tile_symbols_4:
+   4BD6 F0                  150 	.db #0xF0	; 240
+   4BD7 F0                  151 	.db #0xF0	; 240
+   4BD8 F0                  152 	.db #0xF0	; 240
+   4BD9 F0                  153 	.db #0xF0	; 240
+   4BDA F0                  154 	.db #0xF0	; 240
+   4BDB F0                  155 	.db #0xF0	; 240
+   4BDC F0                  156 	.db #0xF0	; 240
+   4BDD B4                  157 	.db #0xB4	; 180
+   4BDE F0                  158 	.db #0xF0	; 240
+   4BDF F0                  159 	.db #0xF0	; 240
+   4BE0 3C                  160 	.db #0x3C	; 60
+   4BE1 F0                  161 	.db #0xF0	; 240
+   4BE2 B4                  162 	.db #0xB4	; 180
+   4BE3 3C                  163 	.db #0x3C	; 60
+   4BE4 F0                  164 	.db #0xF0	; 240
+   4BE5 3C                  165 	.db #0x3C	; 60
+   4BE6 3C                  166 	.db #0x3C	; 60
+   4BE7 3C                  167 	.db #0x3C	; 60
+   4BE8 A4                  168 	.db #0xA4	; 164
+   4BE9 0C                  169 	.db #0x0C	; 12
+   4BEA F0                  170 	.db #0xF0	; 240
+   4BEB F0                  171 	.db #0xF0	; 240
+   4BEC 0C                  172 	.db #0x0C	; 12
+   4BED F0                  173 	.db #0xF0	; 240
+   4BEE F0                  174 	.db #0xF0	; 240
+   4BEF A4                  175 	.db #0xA4	; 164
+   4BF0 F0                  176 	.db #0xF0	; 240
+   4BF1 F0                  177 	.db #0xF0	; 240
+   4BF2 F0                  178 	.db #0xF0	; 240
+   4BF3 F0                  179 	.db #0xF0	; 240
+   4BF4 F0                  180 	.db #0xF0	; 240
+   4BF5 F0                  181 	.db #0xF0	; 240
+   4BF6 F0                  182 	.db #0xF0	; 240
                             183 	.area _INITIALIZER
                             184 	.area _CABS (ABS)

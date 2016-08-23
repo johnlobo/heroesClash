@@ -13,6 +13,7 @@ obj/sprites/figures.rel
 obj/sprites/marker.rel
 obj/game.rel
 obj/main.rel
+obj/music/song.rel
 obj/sprites/font.rel
 obj/sprites/fonts-big.rel
 obj/sprites/numbers-big.rel

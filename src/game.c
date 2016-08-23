@@ -204,7 +204,7 @@ void drawUser() {
 }
 
 void checkUserMovement() {
-    cpct_scanKeyboard_f();
+    //cpct_scanKeyboard_f();
 
     if ((user.x < (TABLE_WIDTH - 1)) && (cpct_isKeyPressed(keys.right))) {
         user.px = user.x;

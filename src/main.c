@@ -18,35 +18,42 @@
 #include "defines.h"
 #include "utils/video.h"
 #include "utils/keyboard.h"
+#include "music/song.h"
 
 
-//__at(0x200) const unsigned char G_song[2342];
+void playmusic() {
+   __asm
+      exx
+      .db #0x08
+      push af
+      push bc
+      push de
+      push hl
+      call _cpct_akp_musicPlay
+      pop hl
+      pop de
+      pop bc
+      pop af
+      .db #0x08
+      exx
+   __endasm;
+}
 
-//void playmusic() {
-//   __asm
-//      exx
-//      .db #0x08
-//      push af
-//      push bc
-//      push de
-//      push hl
-//      call _cpct_akp_musicPlay
-//      pop hl
-//      pop de
-//      pop bc
-//      pop af
-//      .db #0x08
-//      exx
-//   __endasm;
-//}
 
-void interrupcion() {
-   static u8 kk;
+void interruptHandler() {
+   static u8 i;
 
-   if (++kk == 5) {
-      //playmusic();
-      cpct_scanKeyboard_if();
-      kk = 0;
+   i++;
+   switch(i) {
+      case 5: 
+         cpct_scanKeyboard_if();
+         break;
+      case 6:
+         // Play music
+         playmusic();
+         break;
+      case 9:
+         i=0;
    }
 }
 
@@ -57,13 +64,13 @@ void init() {
    cpct_fw2hw(hc_graphics_palette, 16);
    cpct_setPalette(hc_graphics_palette, 16);
    cpct_setBorder(HW_BLACK);
-//   cpct_akp_musicInit(G_song);
-   //cpct_setInterruptHandler(interrupcion);
+   cpct_akp_musicInit(hc_smoke);
+   cpct_setInterruptHandler(interruptHandler);
 
 
     //cpct_akp_musicInit(G_Smoke);
     //cpct_akp_musicInit(G_Menu);
-    //cpct_akp_musicPlay();
+    cpct_akp_musicPlay();
 
     drawText("HERO QUEST IS READY", 31, 76, 1);
     drawText("PRESS ANY KEY", 20, 90, 1);
@@ -79,7 +86,6 @@ void init() {
 }
 
 void main(void) {
-   u8* pvmem;  // Pointer to video memory
 
    // Clear Screen
    cpct_memset(CPCT_VMEM_START, 0, 0x4000);

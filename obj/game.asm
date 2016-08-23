@@ -23,7 +23,6 @@
 	.globl _cpct_drawSpriteMaskedAlignedTable
 	.globl _cpct_drawSprite
 	.globl _cpct_isKeyPressed
-	.globl _cpct_scanKeyboard_f
 	.globl _tile_buffer_1
 	.globl _tile_buffer_0
 	.globl _abort
@@ -455,7 +454,7 @@ _insertCardEnemy::
 	add	hl,sp
 	ld	sp,hl
 ;src/game.c:139: u8 stopped = 0;
-	ld	-9 (ix),#0x00
+	ld	-10 (ix),#0x00
 ;src/game.c:142: row = 0;
 	ld	-8 (ix),#0x00
 ;src/game.c:143: card = (cpct_rand() / 64) + 1;
@@ -465,7 +464,7 @@ _insertCardEnemy::
 	rlca
 	and	a,#0x03
 	inc	a
-	ld	-10 (ix),a
+	ld	-9 (ix),a
 ;src/game.c:145: pvmem = cpct_getScreenPtr(CPCT_VMEM_START, ENEMY_TABLE_X + (col * (TILE_W + 1)), ENEMY_TABLE_Y + (row * (TILE_H + 2)));
 	ld	a,4 (ix)
 	ld	c,a
@@ -473,11 +472,11 @@ _insertCardEnemy::
 	add	a, c
 	add	a, a
 	add	a, #0x02
-	ld	-1 (ix),a
+	ld	-7 (ix),a
 	ld	a,#0x02
 	push	af
 	inc	sp
-	ld	a,-1 (ix)
+	ld	a,-7 (ix)
 	push	af
 	inc	sp
 	ld	hl,#0xC000
@@ -497,14 +496,14 @@ _insertCardEnemy::
 	pop	de
 ;src/game.c:147: cpct_drawSpriteMaskedAlignedTable(cards[card], pvmem, TILE_W, TILE_H, hc_tablatrans);
 	ld	bc,#_cards+0
-	ld	l,-10 (ix)
+	ld	l,-9 (ix)
 	ld	h,#0x00
 	add	hl, hl
 	add	hl,bc
-	ld	-3 (ix),l
-	ld	-2 (ix),h
-	ld	l,-3 (ix)
-	ld	h,-2 (ix)
+	ld	-2 (ix),l
+	ld	-1 (ix),h
+	ld	l,-2 (ix)
+	ld	h,-1 (ix)
 	ld	c,(hl)
 	inc	hl
 	ld	b,(hl)
@@ -525,14 +524,14 @@ _insertCardEnemy::
 	add	hl, de
 	add	hl, hl
 	add	hl,bc
-	ld	-5 (ix),l
-	ld	-4 (ix),h
-	ld	a,-5 (ix)
-	ld	-7 (ix),a
+	ld	-4 (ix),l
+	ld	-3 (ix),h
 	ld	a,-4 (ix)
 	ld	-6 (ix),a
+	ld	a,-3 (ix)
+	ld	-5 (ix),a
 00107$:
-	ld	a,-9 (ix)
+	ld	a,-10 (ix)
 	or	a, a
 	jp	NZ,00109$
 ;src/game.c:150: delay(10);
@@ -549,8 +548,8 @@ _insertCardEnemy::
 	jp	NC,00104$
 	ld	c,-8 (ix)
 	inc	c
-	ld	l,-7 (ix)
-	ld	h,-6 (ix)
+	ld	l,-6 (ix)
+	ld	h,-5 (ix)
 	ld	b,#0x00
 	add	hl, bc
 	ld	a,(hl)
@@ -569,7 +568,7 @@ _insertCardEnemy::
 	push	bc
 	push	bc
 	inc	sp
-	ld	a,-1 (ix)
+	ld	a,-7 (ix)
 	push	af
 	inc	sp
 	ld	hl,#0xC000
@@ -596,7 +595,7 @@ _insertCardEnemy::
 	inc	b
 	push	bc
 	inc	sp
-	ld	a,-1 (ix)
+	ld	a,-7 (ix)
 	push	af
 	inc	sp
 	ld	hl,#0xC000
@@ -616,8 +615,8 @@ _insertCardEnemy::
 	call	_cpc_GetSp
 	pop	bc
 ;src/game.c:157: cpct_drawSpriteMaskedAlignedTable(cards[card], pvmem, TILE_W, TILE_H, hc_tablatrans);
-	ld	l,-3 (ix)
-	ld	h,-2 (ix)
+	ld	l,-2 (ix)
+	ld	h,-1 (ix)
 	ld	e,(hl)
 	inc	hl
 	ld	d,(hl)
@@ -633,21 +632,21 @@ _insertCardEnemy::
 	sub	a, #0x05
 	jp	NZ,00107$
 ;src/game.c:159: stopped = 1;
-	ld	-9 (ix),#0x01
+	ld	-10 (ix),#0x01
 	jp	00107$
 00104$:
 ;src/game.c:161: stopped = 1;
-	ld	-9 (ix),#0x01
+	ld	-10 (ix),#0x01
 	jp	00107$
 00109$:
 ;src/game.c:164: enemyTable[col][row] = card;
-	ld	a,-5 (ix)
+	ld	a,-4 (ix)
 	add	a, -8 (ix)
 	ld	c,a
-	ld	a,-4 (ix)
+	ld	a,-3 (ix)
 	adc	a, #0x00
 	ld	b,a
-	ld	a,-10 (ix)
+	ld	a,-9 (ix)
 	ld	(bc),a
 	ld	sp, ix
 	pop	ix
@@ -851,8 +850,6 @@ _drawUser::
 ; Function checkUserMovement
 ; ---------------------------------
 _checkUserMovement::
-;src/game.c:207: cpct_scanKeyboard_f();
-	call	_cpct_scanKeyboard_f
 ;src/game.c:209: if ((user.x < (TABLE_WIDTH - 1)) && (cpct_isKeyPressed(keys.right))) {
 	ld	a,(#_user + 0)
 	sub	a, #0x07
